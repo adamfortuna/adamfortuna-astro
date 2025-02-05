@@ -1,0 +1,40 @@
+---
+import { Icon } from "astro-icon/components"
+---
+
+<div>
+  <p class="font-handwriting text-4xl text-ablue-700 mb-4 underline underline-offset-4 decoration-yellow-300">
+    Featuring
+  </p>
+
+  <div class="space-y-1">
+    <a
+      href="/blog/tags/highlights"
+      class="flex flex-row items-center hover:bg-ablue-300/20 rounded space-x-4 p-2"
+    >
+      <Icon name="star-duotone-regular" class="text-ablue-700 w-[32px] md:w-[48px]" />
+      <div class="flex flex-col">
+        <span class="font-bold text-xl text-ablue-700">Highlights</span>
+        <span class="text-ablue-200 font-semibold">My favorites</span>
+      </div>
+    </a>
+
+    <a href="/blog/popular" class="flex flex-row items-center hover:bg-ablue-300/20 rounded space-x-4 p-2">
+      <Icon name="fire-duotone-regular" class="text-ablue-700 w-[32px] md:w-[48px]" />
+      <div class="flex flex-col">
+        <span class="font-bold text-xl text-ablue-700">
+          <span class="hidden md:inline">Most </span>Popular
+        </span>
+        <span class="text-ablue-200 font-semibold">Most comments</span>
+      </div>
+    </a>
+
+    <a href="/blog/all" class="flex flex-row items-center hover:bg-ablue-300/20 rounded space-x-4 p-2">
+      <Icon name="typewriter-duotone-regular" class="text-ablue-700 w-[32px] md:w-[48px]" />
+      <div class="flex flex-col">
+        <span class="font-bold text-xl text-ablue-700">Everything</span>
+        <span class="text-ablue-200 font-semibold">Some of it good</span>
+      </div>
+    </a>
+  </div>
+</div>

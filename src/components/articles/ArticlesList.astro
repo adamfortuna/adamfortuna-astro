@@ -1,0 +1,33 @@
+---
+import type { Article } from '../../types'
+interface Props {
+  articles: Article[]
+  page?: number
+  totalPages?: number
+  url: string
+  showSeparator?: boolean
+}
+
+const { articles, page, totalPages, url, showSeparator } = Astro.props;
+
+import Pagination from '../layout/Pagination.astro'
+import ArticleLink from './ArticleLink.astro'
+import ArticleTimelineSeparator from './ArticleTimelineSeparator.astro'
+---
+
+<div>
+  {articles.map((article, index) => (
+    <div>
+      {showSeparator && (
+        <ArticleTimelineSeparator
+          articles={articles}
+          currentArticle={article}
+          previousArticle={index > 0 ? articles[index - 1] : null}
+        />
+      )}
+      <ArticleLink article={article} />
+    </div>
+  ))}
+
+  {page && totalPages && <Pagination page={page} totalPages={totalPages} url={url} />}
+</div>

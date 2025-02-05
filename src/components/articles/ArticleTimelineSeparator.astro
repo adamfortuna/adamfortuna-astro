@@ -1,0 +1,28 @@
+---
+
+import type { Article } from '../../types'
+import ArticlesCount from './ArticlesCount.astro'
+interface Props {
+  articles: Article[]
+  currentArticle: Article
+  previousArticle: Article | null
+}
+
+const { articles, currentArticle, previousArticle } = Astro.props;
+
+const currentArticleDate = new Date(currentArticle.date)
+const currentArticleYear = currentArticleDate.getFullYear()
+
+const previousArticleDate = previousArticle ? new Date(previousArticle.date) : null
+const previousProjectYear = previousArticleDate ? previousArticleDate.getFullYear() : null
+
+const valid = !Number.isNaN(currentArticleYear) && currentArticleYear !== previousProjectYear
+---
+{valid && (
+  <div class="mt-8 md:mt-12 flex justify-between items-baseline border-yellow-300 border-b-4">
+    <span class="text-blue-700 dark:text-gray-100 font-bold text-4xl font-handwriting">
+      {currentArticleYear}
+    </span>
+    <ArticlesCount articles={articles} year={currentArticleYear} />
+  </div>
+)}

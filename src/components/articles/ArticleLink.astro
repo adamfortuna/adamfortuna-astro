@@ -1,0 +1,57 @@
+---
+import type { Article } from '../../types'
+interface Props {
+  article: Article
+}
+
+const { article } = Astro.props;
+import { dateFormatLong } from '../../lib/dateService'
+import clsx from 'clsx'
+import ArticleProjectIcon from './ArticleProjectIcon.astro'
+import { Icon } from "astro-icon/components";
+
+export interface ArticleLinkProps {
+  article: Article
+}
+
+const publishDate = dateFormatLong(article.date)
+const isHighlighted = article.tags?.length && article.tags.length > 0
+    ? article.tags.map((t) => t.slug).indexOf('highlights') !== -1
+    : false
+---
+<div class={clsx('my-2 flex justify-between p-1', isHighlighted ? 'rounded bg-yellow-100' : '')}>
+  <div class="flex flex-col">
+    <div class="flex flex-row items-center space-x-4">
+      <ArticleProjectIcon project={article.project} />
+      {article.external ? (
+        <a
+          href={article.url}
+          class="text-lg link--blue font-semibold flex-grow"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>{article.title}</span>
+          <Icon name="square-up-right-regular" class="inline ml-2 max-w-[24px]" />
+          {isHighlighted && <Icon name="star-solid" class="inline ml-2 max-w-[24px]" /> }
+        </a>
+      ) : (
+        <a href={`/${article.slug}`} class="text-lg link--blue font-semibold flex-grow">
+          <span>{article.title}</span>
+          {isHighlighted && <Icon name="star-solid" class="inline ml-2 max-w-[18px]" />}
+        </a>
+      )}
+    </div>
+    {isHighlighted && (article.excerpt?.length || 0) > 0 && (
+      <p class="text-gray-600 ml-[48px]">{article.excerpt}</p>
+    )}
+  </div>
+  <p class="hidden md:block text-ablue-500 text-sm text-right whitespace-nowrap space-x-2">
+    {article.commentCount > 0 && (
+      <span class={`${isHighlighted ? 'border-yellow-200' : 'bg-sky-100'} py-0.5 px-1 rounded`}>
+        <Icon name="comment-regular" class="inline ml-2 max-w-[24px] mr-1" />
+        <span>{article.commentCount}</span>
+      </span>
+    )}
+    <span>{publishDate}</span>
+  </p>
+</div>

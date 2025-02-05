@@ -1,0 +1,80 @@
+---
+import Af from '../../assets/af.svg'
+import Minafi from '../../assets/minafi.svg'
+import Hardcover from '../../assets/hardcover.svg'
+import BlogAboutCalloutWrapper from './BlogAboutCalloutWrapper.astro'
+import BlogPostsCount from './BlogPostsCount.astro'
+import { Icon } from "astro-icon/components"
+---
+<BlogAboutCalloutWrapper>
+  <>
+    <Icon name="rss-duotone-regular" class="hidden md:block text-ablue-700 w-[48px]" />
+    <div class="text-ablue-500">
+      <p class="mb-4">
+        Welcome to my blog! Since 2001 I've written
+        <a
+          href="/blog/all"
+          class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800 space-x-2"
+        >
+          <Icon name="typewriter-duotone-regular" class="text-blue-800 w-4 h-4 inline" />
+          <span>
+            <BlogPostsCount />
+            posts
+          </span>
+        </a>
+        about software/personal development, technology, minimalism, FIRE, movies, startups and my life. These span{' '}
+        <b>three separate blogs</b>, with all articles linked from here.
+      </p>
+      <p class="mb-4">
+        <a
+          href="/blog/projects/adamfortuna"
+          class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800"
+        >
+          <Af class="w-4 h-4 text-ablue-700 inline mb-0.5" /> <span>This blog</span>
+        </a>{' '}
+        Focuses on exploring the intersection of minimalism, mindfulness and technology + my journal.
+      </p>
+      <p class="mb-4">
+        <a
+          href="/blog/projects/minafi"
+          class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800"
+        >
+          <Minafi class="w-4 h-4 inline mb-0.5" /> <span>Minafi</span>
+        </a>{' '}
+        Financial indepenence, investing and my journy to retire early (36 ✔️).
+      </p>
+      <p class="mb-4">
+        <a
+          href="/blog/projects/hardcover"
+          class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800"
+        >
+          <Hardcover class="w-5 h-5 inline mb-0.5" /> <span>Hardcover</span>
+        </a>{' '}
+        Building Hardcover in public.
+      </p>
+      <p>
+        Check out some
+        <a
+          href="/blog/tags/highlights"
+          class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800 space-x-2"
+        >
+          <Icon name="star-duotone-regular" class="text-blue-800 w-4 h-4 inline" />
+          <span>highlights</span>
+        </a>
+        and stay in touch by following me on{' '}
+        <a href="https://ruby.social/@adam" class="link--blue" target="_blank" rel="noreferrer">
+          Mastodon
+        </a>
+        , subscribing to my{' '}
+        <a href="/newsletter" class="link--blue">
+          newsletter
+        </a>{' '}
+        or{' '}
+        <a href="/feed" target="_blank" class="link--blue">
+          RSS feed
+        </a>
+        .
+      </p>
+    </div>
+  </>
+</BlogAboutCalloutWrapper>

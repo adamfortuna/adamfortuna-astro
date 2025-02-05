@@ -1,0 +1,21 @@
+---
+import type { WordpressClientIdentifier } from '../../types'
+interface Props {
+  project: WordpressClientIdentifier
+}
+
+const { project } = Astro.props;
+import Af from '../../assets/af.svg'
+import Minafi from '../../assets/minafi.svg'
+import Hardcover from '../../assets/hardcover.svg'
+---
+
+{project === 'hardcover' &&
+  <Hardcover class="w-8 h-8 min-w-[32px]" />
+}
+{project === 'minafi' &&
+  <Minafi class="w-6 h-6 text-blue-700 min-w-[32px]" />
+}
+{project === 'adamfortuna' &&
+  <Af class="w-6 h-6 text-blue-700 min-w-[32px]" />
+}

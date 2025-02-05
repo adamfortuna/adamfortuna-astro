@@ -2,19 +2,11 @@
 
 @config '../../tailwind.config.js';
 
-/* @theme {
+@theme {
   --font-sans: 'Inter Variable', 'sans-serif';
   --font-serif: 'EB Garamond Variable', 'sans-serif';
   --font-handwriting: 'Pacifico', cursive;
-
-  --color-ablue-200: '#5F94C2';
-  --color-ablue-300: '#0088FF';
-  --color-ablue-400: '#B6E0EF';
-  --color-ablue-500: '#5585AF';
-  --color-ablue-600: '#0059A7';
-  --color-ablue-700: '#0068C3';
-  --color-bluesky: '#1285fe';
-} */
+}
 
 .list-comma, .list-bullet, .list-bar {
   display: inline;
@@ -36,33 +28,6 @@
 }
 .list-bar li:after {
   content: " | ";
-}
-
-.unblur {
-  /* animation: unblur 0.1s ease-in-out; */
-}
-
-@keyframes wave {
-  0% { transform: 'rotate(0.0deg)' }
-  10% { transform: 'rotate(14deg)' }
-  20% { transform: 'rotate(-8deg)' }
-  30% { transform: 'rotate(14deg)' }
-  40% { transform: 'rotate(-4deg)' }
-  50% { transform: 'rotate(10.0deg)' }
-  60% { transform: 'rotate(0.0deg)' }
-  100% { transform: 'rotate(0.0deg)' }
-}
-.animate-waving-hand {
-  animation: wave 2s linear infinite;
-}
-
-@keyframes unblur {
-  from {
-    filter: blur(10px);
-  }
-  to {
-    filter: blur(0);
-  }
 }
 
 .link {

@@ -1,1 +1,121 @@
-<p>Footer Here</p>
+---
+import Ground from '../assets/ground.svg'
+import { Icon } from "astro-icon/components"
+
+const navigation = {
+  social: [
+    {
+      name: 'Hardcover',
+      href: 'https://hardcover.app/@adam',
+      icon: "brands/hardcover",
+    },
+    {
+      name: 'BlueSky',
+      href: 'https://bsky.app/profile/adamfortuna.com',
+      icon: "brands/bluesky",
+    },
+    {
+      name: 'GitHub',
+      href: 'https://github.com/adamfortuna',
+      icon: "brands/github",
+    },
+    {
+      name: 'Minafi',
+      href: 'https://minafi.com',
+      icon: "brands/minafi",
+    },
+  ],
+}
+---
+
+<footer class="pt-4 bg-sky-200" aria-labelledby="footer-heading">
+  <h2 id="footer-heading" class="sr-only">
+    Footer
+  </h2>
+
+  <Ground class="w-full" />
+
+  <div class="relative z-10 bg-[#78ab5e]" style={{ marginTop: '-1px' }}>
+    <div class="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
+      <div class="md:flex md:items-center md:justify-between">
+        <div>
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold leading-6 text-gray-900">Subscribe to new posts</h3>
+            <p class="text-sm leading-6 text-gray-800">Twice a month on average. Seriously, that's it.</p>
+          </div>
+          <form
+            class="mt-6 sm:flex sm:max-w-md lg:mt-0"
+            action="https://sendy.minafi.com/subscribe"
+            method="POST"
+            accept-charset="utf-8"
+          >
+            <input type="hidden" name="list" value="892UVTIMgB51H8qkY76305YU2A" />
+            <input type="hidden" name="subform" value="yes" />
+            <div class="hidden">
+              <label html-for="hp">
+                HP <input type="text" name="hp" id="hp" />
+              </label>
+            </div>
+            <label html-for="email" class="sr-only">
+              Email address
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              auto-complete="email"
+              required
+              class="w-full min-w-0 appearance-none rounded-md border-transparent bg-[#9fca75] px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] text-base leading-7 text-gray-900 placeholder-[#274928] shadow-xs  sm:w-56 sm:text-sm sm:leading-6"
+              placeholder="Enter your email"
+            />
+            <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
+              <button
+                type="submit"
+                class="flex w-full items-center justify-center rounded-md bg-[#f3ce84] py-1.5 px-3 text-base font-semibold leading-7 text-yellow-800 shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:text-sm sm:leading-6"
+              >
+                Subscribe
+              </button>
+            </div>
+          </form>
+
+          <a
+            class="mt-8 flex w-full items-center justify-center rounded-md bg-[#f3ce84] py-1.5 px-3 text-base font-semibold leading-7 text-yellow-800 shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:text-sm sm:leading-6 space-x-4"
+            href="/feed"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Icon name="rss-duotone-regular" class="w-4 h-4" />
+            <span>Subscribe to RSS</span>
+          </a>
+        </div>
+        <div class="text-right text-xl font-semibold flex flex-row md:flex-col mt-4 md:mt-0 justify-center md:justify-end space-x-4 md:space-x-0">
+          <a href="/about" class="link--footer">
+            About
+          </a>
+          <a href="/projects" class="link--footer">
+            Projects
+          </a>
+          <a href="/blog" class="link--footer">
+            Blog
+          </a>
+          <a href="/now" class="link--footer">
+            Now
+          </a>
+        </div>
+      </div>
+      <div class="mt-8 border-t border-gray-900 pt-8 md:flex md:items-center md:justify-between">
+        <div class="flex space-x-6 md:order-2 justify-center md:justify-end">
+          {navigation.social.map((item) => (
+            <a href={item.href} class="text-green-50 hover:text-green-200">
+              <span class="sr-only">{item.name}</span>
+              <Icon name={item.icon} class="h-6 w-6  fill-gray-900 hover:fill-green-800" aria-hidden="true" />
+            </a>
+          ))}
+        </div>
+        <p class="mt-8 text-xs leading-5 md:order-1 md:mt-0 text-center md:text-left">
+          &copy; 2001-{new Date().getFullYear()} Adam Fortuna
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

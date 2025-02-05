@@ -1,0 +1,22 @@
+---
+import { Icon } from "astro-icon/components"
+import clsx from 'clsx'
+
+// const ExpandedKey = 'blog-about-expanded'
+const expanded = true
+---
+
+---
+<div class="bg-yellow-200 rounded leading-5">
+  <button
+    type="button"
+    class={clsx(
+      'p-2 w-full rounded text-ablue-700 font-bold text-xl flex items-center justify-between space-x-2 hover:bg-yellow-400 bg-yellow-300',
+      expanded ? 'border-b border-yellow-400 rounded-b-none' : '',
+    )}
+  >
+    <span>About this blog</span>
+    <Icon name={expanded ? "chevron-down-solid" : "chevron-right-solid"} class="max-w-[23px]" />
+  </button>
+  <div class={clsx('p-4 flex flex-row md:space-x-4 items-center', expanded ? '' : 'hidden')}><slot></slot></div>
+</div>

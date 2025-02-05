@@ -1,0 +1,60 @@
+---
+interface Props {
+  page: number
+  totalPages: number
+  url: string
+}
+const { page, totalPages, url } = Astro.props;
+
+const pages: Number[] =
+    totalPages < 6
+      ? Array.from({ length: totalPages }, (_, i) => i + 1)
+      : uniq(compact([1, 2, 3, page, totalPages - 2, totalPages - 1, totalPages])).sort((a, b) => (a > b ? 1 : -1))
+
+if (totalPages === 1) {
+  return false
+}
+import { Icon } from "astro-icon/components";
+import clsx from 'clsx'
+import compact from 'lodash/compact'
+import uniq from 'lodash/uniq'
+---
+<nav class="mt-8 flex items-center justify-between border-t border-yellow-200 px-4 sm:px-0">
+  <div class="-mt-px flex w-0 flex-1">
+    {page > 1 && (
+      <a
+        href={page - 1 <= 1 ? url : `${url}/${page - 1}`}
+        class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+      >
+        <Icon name="chevron-left-solid" class="w-3 h-3 max-w-[24px] mr-1" />
+        Previous
+      </a>
+    )}
+  </div>
+  <div class="hidden md:-mt-px md:flex">
+    {pages.map((pageNumber) => (
+      <a
+        href={`${url}/${pageNumber}`}
+        class={clsx(
+          'inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700',
+          pageNumber === page
+            ? 'border-indigo-500 text-indigo-600'
+            : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+        )}
+      >
+        {String(pageNumber)}
+      </a>
+    ))}
+  </div>
+  <div class="-mt-px flex w-0 flex-1 justify-end">
+    {totalPages > page && (
+      <a
+        href={`${url}/${page + 1}`}
+        class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+      >
+        Next
+        <Icon name="chevron-right-solid" class="w-3 h-3 max-w-[24px] ml-1" />
+      </a>
+    )}
+  </div>
+</nav>

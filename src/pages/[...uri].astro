@@ -5,7 +5,7 @@ import Article from "../components/articles/Article.astro";
 import { getPostOrPageByUri } from '../lib/getPostOrPageByUri'
 import { getRecentPosts } from '../lib/getRecentPosts'
 import type { PhotoPost, Post } from "../types";
-const uri = `/${Astro.params.uri}/`;
+const uri = `/${Astro.params.uri}`;
 const article = await getPostOrPageByUri(uri)
 
 if(!article) {
@@ -20,7 +20,7 @@ if(!article) {
 
 export async function getStaticPaths() {
   const { articles } = await getRecentPosts({
-    count: 1,
+    count: 10,
     projects: ['adamfortuna'],
   })
 
