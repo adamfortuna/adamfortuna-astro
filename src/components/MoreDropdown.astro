@@ -1,0 +1,45 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const dropdownClass =
+  'block p-2 text-sky-800 font-semibold hover:bg-sky-600 dark:text-sky-400 dark:hover:bg-sky-400 dark:hover:text-sky-900 hover:text-white'
+---
+<div class="dropdown relative">
+  <input id="checkbox_toggle" type="checkbox" class="hidden dropdown-checkbox" />
+  <label class="cursor-pointer group rounded py-1 sm:py-2 px-2 sm:px-3 text-sky-800 hover:bg-sky-600 dark:text-sky-400 dark:hover:bg-sky-400 dark:hover:text-sky-900 hover:text-white flex items-center font-semibold">
+    <span class="text-sm md:text-base">/</span>
+    <Icon name="chevron-down-solid" class="ml-2 text-sky-800 group-hover:text-white dark:text-sky-400 dark:group-hover:text-sky-900 w-[16px] h-[16px]" />
+  </label>
+  <ul class="invisible opacity-0 rounded-lg shadow-lg absolute origin-top-left divide-y divide-sky-600 w-24 transisiton-all duration-300 right-0 bg-sky-200">
+    <li>
+      <a href="/beliefs" class={`${dropdownClass} rounded-t-lg`}>
+        /beliefs
+      </a>{' '}
+    </li>
+    <li>
+      <a href="/favs" class={dropdownClass}>
+        /favs
+      </a>{' '}
+    </li>
+    <li>
+      <a href="/goals" class={dropdownClass}>
+        /goals
+      </a>{' '}
+    </li>
+    <li>
+      <a href="/now" class={dropdownClass}>
+        /now
+      </a>{' '}
+    </li>
+    <li>
+      <a href="/reading" class={dropdownClass}>
+        /reading
+      </a>
+    </li>
+    <li>
+      <a href="/uses" class={`${dropdownClass} rounded-b-lg`}>
+        /uses
+      </a>
+    </li>
+  </ul>
+</div>

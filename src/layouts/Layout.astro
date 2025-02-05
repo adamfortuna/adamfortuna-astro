@@ -1,0 +1,12 @@
+---
+import Wrapper from '../layouts/Wrapper.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+const { title, description } = Astro.props;
+---
+
+<Wrapper title={title} description={description}>
+  <Header />
+  <slot></slot>
+  <Footer />
+</Wrapper>

@@ -1,0 +1,18 @@
+---
+import { Icon } from 'astro-icon/components'
+const { href, icon } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group rounded py-1 sm:py-2 px-2 sm:px-3 text-sky-800 hover:bg-sky-600 dark:text-sky-400 dark:hover:bg-sky-400 dark:hover:text-sky-900 hover:text-white flex items-center font-semibold"
+>
+  {icon && (
+    <Icon
+      name={icon}
+      size="sm"
+      class="hidden sm:inline-block sm:mr-2 text-sky-800 group-hover:text-white dark:text-sky-400 dark:group-hover:text-sky-900 w-[16px] h-[16px]"
+    />
+  )}
+  <span class="text-sm md:text-base"><slot></slot></span>
+</a>

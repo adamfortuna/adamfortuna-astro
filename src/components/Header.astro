@@ -1,0 +1,64 @@
+---
+const { isHomePage } = Astro.props;
+
+import clsx from 'clsx'
+import NavLink from './NavLink.astro'
+import Container from './Container.astro'
+import MoreDropdown from './MoreDropdown.astro'
+import Sun from '../assets/sun.svg'
+import Af from '../assets/af.svg'
+import Cloud from '../assets/cloud.svg'
+---
+
+<header class={clsx('inset-x-0', isHomePage ? 'absolute' : 'bg-sky-200')}>
+  <Container className="py-2 md:py-6 px-2 md:px-0">
+    <nav class="relative z-50 flex justify-between pr-2">
+      <div class="flex items-center md:gap-x-12 justify-between text-black dark:text-yellow-400 relative">
+        <a
+          href="/"
+          class="group rounded py-1 sm:py-2 px-2 sm:px-3 text-sky-800 hover:bg-sky-600 dark:text-sky-400 dark:hover:bg-sky-400 dark:hover:text-sky-900 hover:text-white flex items-center font-semibold h-card u-url"
+          rel="me"
+        >
+          <span class="sr-only p-name">Adam Fortuna</span>
+          <Af class="w-10 h-8 text-sky-800 dark:text-yellow-400 group-hover:text-white md:hidden" />
+          <span class="font-bold text-2xl font-handwriting hidden md:inline-block">Adam Fortuna</span>
+          <span class="hidden sm:inline-block absolute -right-8 text-2xl opacity-0 group-hover:opacity-100 duration-400 transition-opacity group-hover:animate-waving-hand">
+            👋
+          </span>
+          <span class="hidden">
+            <img
+              class="u-photo"
+              alt="Avatar for Adam Fortuna"
+              loading="lazy"
+              src="https://storage.cloud.google.com/adamfortuna/blog/adam_6761814f5.jpeg"
+            />
+            <span class="p-note">
+              Hey hey! I'm a full-stack product developer in Salt Lake City, UT. I love enlivening experiences,
+              visualizing data, and making playful websites.
+            </span>
+          </span>
+        </Link>
+      </div>
+      {!isHomePage && <Sun class="relative h-12 w-16 md:h-20 md:w-24 lg:h-24 lg:w-32 xl:h-32" />}
+      <div class="flex md:gap-x-6 items-end md:items-center">
+        <NavLink href="/about">About</NavLink>
+        <NavLink href="/projects" icon="hammer-regular">
+          Projects
+        </NavLink>
+        <NavLink href="/blog" icon="pencil-regular">
+          Blog
+        </NavLink>
+        <NavLink href="/photos" icon="camera-regular">
+          Photos
+        </NavLink>
+        <MoreDropdown />
+      </div>
+    </nav>
+  </Container>
+  {!isHomePage && (
+    <div class="h-16 md:h-24 lg:h-32 xl:h-48 overflow-hidden md:-mt-[40px] lg:-mt[60px] xl:-mt[60px] relative">
+      <Cloud class="w-full xl:bg-cover relative" />
+      <div class="md:hidden bg-white absolute bottom-0 h-8 md:h-2 w-full" />
+    </div>
+  )}
+</header>

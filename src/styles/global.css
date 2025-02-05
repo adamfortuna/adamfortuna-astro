@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter Variable', 'sans-serif';
+  --font-serif: 'EB Garamond Variable', 'sans-serif';
+  --font-handwriting: 'Pacifico', cursive;
+}
