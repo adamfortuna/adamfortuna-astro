@@ -24,8 +24,10 @@ export interface Project {
 }
 
 export interface Article {
+  __typename: "Post" | "Page"
   id: number
   slug: string
+  uri: string
   title: string
   content?: string
   date: string
@@ -144,6 +146,7 @@ export type WordpressPostType = 'photos' | 'post' | 'page'
 export interface WordpressContent {
   id: number
   slug: string
+  uri: string
   title: string
   date: string
   featuredImage?: WordpressImageNode

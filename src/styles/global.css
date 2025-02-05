@@ -4,4 +4,114 @@
   --font-sans: 'Inter Variable', 'sans-serif';
   --font-serif: 'EB Garamond Variable', 'sans-serif';
   --font-handwriting: 'Pacifico', cursive;
+
+  --color-ablue-200: '#5F94C2';
+  --color-ablue-300: '#0088FF';
+  --color-ablue-400: '#B6E0EF';
+  --color-ablue-500: '#5585AF';
+  --color-ablue-600: '#0059A7';
+  --color-ablue-700: '#0068C3';
+  --color-bluesky: '#1285fe';
+}
+
+.list-comma, .list-bullet, .list-bar {
+  display: inline;
+  list-style: none;
+}
+.list-comma li, .list-bullet li, .list-bar li {
+  display: inline;
+}
+.list-comma li:last-child:after, 
+.list-bullet li:last-child:after, 
+.list-bar li:last-child:after {
+  content: "";
+}
+.list-comma li:after {
+  content: ", ";
+}
+.list-bullet li:after {
+  content: " • ";
+}
+.list-bar li:after {
+  content: " | ";
+}
+
+.unblur {
+  /* animation: unblur 0.1s ease-in-out; */
+}
+
+@keyframes wave {
+  0% { transform: 'rotate(0.0deg)' }
+  10% { transform: 'rotate(14deg)' }
+  20% { transform: 'rotate(-8deg)' }
+  30% { transform: 'rotate(14deg)' }
+  40% { transform: 'rotate(-4deg)' }
+  50% { transform: 'rotate(10.0deg)' }
+  60% { transform: 'rotate(0.0deg)' }
+  100% { transform: 'rotate(0.0deg)' }
+}
+.animate-waving-hand {
+  animation: wave 2s linear infinite;
+}
+
+@keyframes unblur {
+  from {
+    filter: blur(10px);
+  }
+  to {
+    filter: blur(0);
+  }
+}
+
+.link {
+  @apply underline-offset-4 font-semibold underline;
+}
+.link--blue {
+  @apply underline-offset-4 font-semibold underline text-blue-600
+}
+.link--white {
+  @apply underline-offset-4 font-semibold underline text-white
+}
+.link:hover, .link--blue:hover, .link--white:hover {
+  @apply no-underline;
+}
+
+
+.card {
+  @apply md:rounded-lg leading-snug text-gray-600 text-base p-4 relative shadow-xl mt-8 mx-auto border border-gray-100;
+}
+.adam.card {
+  min-height: 100px;
+}
+.adam.card:before {
+  background: url("https://storage.googleapis.com/adamfortuna/blog/face.png") no-repeat left;
+  background-size: 64px;
+  float: left;
+  transition: 0.5s all;
+  min-height: 64px;
+  min-width: 64px;
+  margin-right: 1rem;
+  transform: rotate(-10deg);
+  content: '';
+}
+
+.adam.card:hover:before {
+  transform: rotate(5deg);
+}
+
+.twitter-tweet {
+  @apply mx-auto;
+}
+
+input.dropdown-checkbox[type=checkbox]:checked ~ ul {
+  visibility: visible;
+  opacity: 1;
+}
+
+.is-layout-constrained {
+  @apply max-w-3xl;
+}
+
+.link--footer {
+  @apply flex-shrink border-2 border-transparent rounded-lg hover:text-green-900 hover:border-green-900 p-1
 }

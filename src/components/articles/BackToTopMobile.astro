@@ -1,0 +1,20 @@
+---
+import { Icon } from "astro-icon/components"
+import clsx from 'clsx'
+const visible = false
+---
+
+<div
+  class={clsx(
+    'fixed bottom-4 right-4 z-20 duration-300 transition-opacity',
+    visible ? 'opacity-100' : 'opacity-0',
+  )}
+>
+  <a
+    href="#"
+    class="shadow-lg text-blue-600 font-semibold text-base flex-inline items-center p-2 bg-white rounded active:shadow-2xl"
+  >
+    <span class="pr-1">Top</span>
+    <Icon name="arrow-up-solid" class="w-4 h-4 inline" />
+  </a>
+</div>

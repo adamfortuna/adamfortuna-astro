@@ -1,0 +1,69 @@
+---
+import Layout from "../layouts/Layout.astro"
+import Article from "../components/articles/Article.astro";
+
+import { getPostOrPageByUri } from '../lib/getPostOrPageByUri'
+import { getRecentPosts } from '../lib/getRecentPosts'
+import type { PhotoPost, Post } from "../types";
+const uri = `/${Astro.params.uri}/`;
+const article = await getPostOrPageByUri(uri)
+
+if(!article) {
+  return {
+    status: 404,
+    headers: {
+      'Cache-Control': 's-maxage=1, stale-while-revalidate'
+    }
+  }
+}
+
+
+export async function getStaticPaths() {
+  const { articles } = await getRecentPosts({
+    count: 100,
+    projects: ['adamfortuna'],
+  })
+
+  return articles
+    .map((article) => ({
+      params: { uri: article.uri },
+    }))
+    .concat(
+      { params: { uri: '/about' } },
+      { params: { uri: 'favs' } },
+      { params: { uri: 'goals' } },
+      { params: { uri: 'now' } },
+      { params: { uri: 'beliefs' } },
+      { params: { uri: 'uses' } },
+    )
+}
+
+function resolveContentTemplate(article:Post | PhotoPost) {
+  let template;
+  switch (article.__typename) {
+    case "Post":
+      template = Article;
+      break;
+    case "Page":
+      template = Article;
+      break;
+    // case "Category":
+    //   template = Archive;
+    //   break;
+    // case "Tag":
+    //   template = Archive;
+    //   break;
+    default:
+      template = Article;
+  }
+
+  return template;
+}
+
+const Template = resolveContentTemplate(article);
+
+---
+
+<Layout title={article.title} description={article.excerpt}>
+  <Template article={article} />
+</Layout>

@@ -1,0 +1,9 @@
+---
+import type { Page, Post } from '../../types'
+interface Props {
+  article: Page | Post;
+}
+const { article } = Astro.props;
+---
+
+<article class="e-content prose dark:prose-invert mx-auto" set:html={article.content} />

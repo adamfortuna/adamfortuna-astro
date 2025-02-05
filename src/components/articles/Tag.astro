@@ -1,0 +1,13 @@
+---
+import type { Tag as TagType } from '../../types'
+
+interface Props {
+  tag: TagType;
+  className?: string;
+}
+
+const { tag, className } = Astro.props;
+---
+<a href={`/blog/tags/${tag.slug}`} class={`${className} text-sm mr-2 p-category`}>
+  #{tag.name}
+</a>

@@ -8,9 +8,10 @@
     "dist"
   ],
   "paths": {
-    "@/*": [
-      "./src/*"
-    ]
+    "@components/*": ["src/components/*"],
+    "@layouts/*": ["src/layouts/*"],
+    "@types/*": ["src/types/*"],
+    "@/*": ["src/*"]
   },
   "compilerOptions": {
     "jsx": "react-jsx",

@@ -1,0 +1,56 @@
+---
+import type { Page, Post } from '../../types'
+interface Props {
+  article: Page | Post;
+}
+const { article } = Astro.props;
+import Tags from './Tags.astro'
+import { dateFormatLong, dateFormatMicroformat } from '../../lib/dateService'
+import pluralize from '../../lib/pluralize'
+import { Icon } from "astro-icon/components";
+---
+
+<div class="mb-6 px-2">
+  <div class="max-w-5xl mx-auto mb-2">
+    <p class="sm:justify-center flex flex-row items-center">
+      <a href="/blog" class="link--blue text-sm flex items-center">
+        <Icon name="arrow-left-solid" class="w-4 h-4 inline" />
+        <span class="pl-1">Blog</span>
+      </a>
+      <a href={`${String(process.env.NEXT_PUBLIC_URL)}/${article.slug}`} class="u-url">
+        <time
+          class="text-sm ml-2 text-gray-500 font-semibold dt-published"
+          datetime={dateFormatMicroformat(article.date)}
+        >
+          {dateFormatLong(article.date)}
+        </time>
+      </a>
+      {article.commentCount > 0 && (
+        <a href="#comments" class="text-sm link--blue ml-2 font-semibold flex items-center">
+          <span>
+            {article.commentCount} {pluralize('comment', article.commentCount)}
+          </span>
+          <Icon name="arrow-down-solid" class="w-3 h-3 inline pl-1" />
+        </a>
+      )}
+    </p>
+    <h1 class="sm:text-center text-3xl md:text-5xl font-sans font-bold text-grey-800 leading-tight p-name">
+      {article.title}
+    </h1>
+    {article.excerpt && article.excerpt.length > 0 && <div class="hidden p-summary">{article.excerpt}</div>}
+
+    {article.featuredImage && article.featuredImage.sourceUrl.length > 0 && (
+      <img
+        class="u-photo hidden"
+        alt={`${article.title} poster`}
+        loading="lazy"
+        src={article.featuredImage.sourceUrl}
+      />
+    )}
+  </div>
+  {article.tags && article.tags.length > 0 && (
+    <div class="mx-auto sm:text-center max-w-4xl">
+      <Tags tags={article.tags} />
+    </div>
+  )}
+</div>

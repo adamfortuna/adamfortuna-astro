@@ -146,6 +146,7 @@ export const parsePost = (post: WordpressPost, full: boolean = false) => {
   const article = {
     id: post.id,
     title: post.title,
+    uri: post.uri,
     slug: post.slug,
     date: post.date,
     author: post.author?.node ? post.author.node.name : null,
@@ -183,6 +184,7 @@ export const parsePost = (post: WordpressPost, full: boolean = false) => {
 export const parsePage = (page: WordpressPage) => {
   const article = {
     title: page.title,
+    uri: page.uri,
     slug: page.slug,
     date: page.date,
     featuredImage: page.featuredImage?.node ? page.featuredImage?.node : null,

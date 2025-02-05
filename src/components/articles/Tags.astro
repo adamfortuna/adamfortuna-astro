@@ -1,0 +1,17 @@
+---
+import type { Tag as TagType } from '../../types'
+
+interface Props {
+  tags: TagType[];
+  className?: string;
+}
+
+const { tags, className } = Astro.props;
+import Tag from "./Tag.astro"
+---
+
+<div class="max-w-3xl flex flex-wrap mx-auto">
+  {tags.map((tag) => (
+    <Tag tag={tag} className={className} />
+  ))}
+</div>

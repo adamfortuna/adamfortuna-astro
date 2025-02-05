@@ -1,0 +1,37 @@
+---
+import { Icon } from "astro-icon/components"
+---
+
+<div class="card bg-white max-w-4xl mx-auto gap-8 leading-6">
+  <h2 class="font-semibold text-lg mb-4">Let's keep in touch 🧑‍🤝‍🧑</h2>
+  <ul class="space-y-2">
+    <li>
+      <Icon name="envelope-duotone-regular" class="pr-1 text-blue-600" />
+      Send me an email at{' '}
+      <a href="mailto:heyhey@adamfortuna.com" target="_blank" class="link--blue" rel="noreferrer">
+        heyhey@adamfortuna.com
+      </a>
+    </li>
+    <li>
+      <Icon name="brands/bluesky" class="pr-1 text-blue-600" />
+      Follow me on BlueSky at{' '}
+      <a href="https://bsky.app/profile/adamfortuna.com" target="_blank" class="link--blue" rel="noreferrer">
+        @adamfortuna.com
+      </a>
+    </li>
+    <li>
+      <Icon name="newspaper-duotone-regular" class="pr-1 text-blue-600" />
+      Subscribe to my{' '}
+      <a href="/newsletter" class="link--blue">
+        monthly newsletter
+      </a>
+    </li>
+    <li>
+      <Icon name="rss-duotone-regular" class="pr-1 text-blue-600" />
+      Subscribe to my{' '}
+      <a href="/feed" target="_blank" class="link--blue">
+        RSS feed
+      </a>
+    </li>
+  </ul>
+</div>

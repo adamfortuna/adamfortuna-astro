@@ -1,0 +1,15 @@
+---
+import BackToTopMobile from './BackToTopMobile.astro'
+import { Icon } from "astro-icon/components"
+---
+<div class="mx-auto max-w-3xl hidden md:block mt-8">
+  <p class="text-right">
+    <a href="#" class="link--blue text-sm flex-inline items-center">
+      <span class="pr-1">Back to Top</span>
+      <Icon name="arrow-up-solid" class="w-4 h-4 inline" />
+    </a>
+  </p>
+</div>
+<div class="md:hidden">
+  <BackToTopMobile />
+</div>
