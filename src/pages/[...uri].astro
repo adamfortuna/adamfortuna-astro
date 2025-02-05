@@ -20,7 +20,7 @@ if(!article) {
 
 export async function getStaticPaths() {
   const { articles } = await getRecentPosts({
-    count: 100,
+    count: 1,
     projects: ['adamfortuna'],
   })
 
@@ -30,11 +30,11 @@ export async function getStaticPaths() {
     }))
     .concat(
       { params: { uri: '/about' } },
-      { params: { uri: 'favs' } },
-      { params: { uri: 'goals' } },
-      { params: { uri: 'now' } },
-      { params: { uri: 'beliefs' } },
-      { params: { uri: 'uses' } },
+      { params: { uri: '/favs' } },
+      { params: { uri: '/goals' } },
+      { params: { uri: '/now' } },
+      { params: { uri: '/beliefs' } },
+      { params: { uri: '/uses' } },
     )
 }
 
@@ -61,7 +61,6 @@ function resolveContentTemplate(article:Post | PhotoPost) {
 }
 
 const Template = resolveContentTemplate(article);
-
 ---
 
 <Layout title={article.title} description={article.excerpt}>

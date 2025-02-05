@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@theme {
+@config '../../tailwind.config.js';
+
+/* @theme {
   --font-sans: 'Inter Variable', 'sans-serif';
   --font-serif: 'EB Garamond Variable', 'sans-serif';
   --font-handwriting: 'Pacifico', cursive;
@@ -12,7 +14,7 @@
   --color-ablue-600: '#0059A7';
   --color-ablue-700: '#0068C3';
   --color-bluesky: '#1285fe';
-}
+} */
 
 .list-comma, .list-bullet, .list-bar {
   display: inline;

@@ -13,7 +13,7 @@ const blogWidth = (theme, width = '3') => {
     paddingLeft: theme('spacing.3'),
     paddingRight: theme('spacing.3'),
 
-    '@screen md': {
+    '@media(min-width: theme(--breakpoint-md))': {
       textAlign: theme('text.left'),
       maxWidth: theme(`maxWidth.${width}xl`),
       paddingLeft: theme('spacing.0'),
@@ -22,7 +22,7 @@ const blogWidth = (theme, width = '3') => {
 }
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ['./src/**/*.{js,jsx,ts,tsx,astro}'],
   darkMode: 'class',
   plugins: [typography, forms],
   theme: {
@@ -144,7 +144,7 @@ module.exports = {
           // Base
           color: 'var(--tw-prose-body)',
           fontSize: theme('fontSize.lg')[0],
-          '@screen md': {
+          '@media(min-width: theme(--breakpoint-md))': {
             fontSize: theme('fontSize.xl')[0],
           },
           lineHeight: theme('lineHeight.7'),
@@ -170,7 +170,7 @@ module.exports = {
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.12'),
             marginBottom: theme('spacing.4'),
-            '@screen md': {
+            '@media(min-width: theme(--breakpoint-md))': {
               marginTop: theme('spacing.16'),
               marginBottom: theme('spacing.4'),
             },
@@ -180,7 +180,7 @@ module.exports = {
             lineHeight: theme('lineHeight.7'),
             marginTop: theme('spacing.10'),
             marginBottom: theme('spacing.4'),
-            '@screen md': {
+            '@media(min-width: theme(--breakpoint-md))': {
               marginTop: theme('spacing.12'),
               marginBottom: theme('spacing.4'),
             },
@@ -190,7 +190,7 @@ module.exports = {
             lineHeight: theme('lineHeight.6'),
             marginTop: theme('spacing.8'),
             marginBottom: theme('spacing.4'),
-            '@screen md': {
+            '@media(min-width: theme(--breakpoint-md))': {
               marginTop: theme('spacing.10'),
               marginBottom: theme('spacing.2'),
             },
@@ -203,7 +203,7 @@ module.exports = {
           'img:not(.pic)': {
             marginLeft: 'auto',
             marginRight: 'auto',
-            '@screen lg': {
+            '@media(min-width: theme(--breakpoint-lg))': {
               textAlign: theme('text.left'),
               maxWidth: theme('maxWidth.5xl'),
               paddingLeft: theme('spacing.0'),
@@ -262,7 +262,7 @@ module.exports = {
             borderBottomWidth: '8px',
             borderRadius: theme('borderRadius.md'),
 
-            '@screen sm': {
+            '@media(min-width: theme(--breakpoint-sm))': {
               paddingTop: theme('spacing.4'),
               paddingBottom: theme('spacing.1'),
               borderTopWidth: '0px',
@@ -284,7 +284,7 @@ module.exports = {
               lineHeight: theme('lineHeight.8'),
               width: '100%',
 
-              '@screen md': {
+              '@media(min-width: theme(--breakpoint-md))': {
                 marginTop: theme('spacing.0'),
                 maxWidth: theme('maxWidth.3xl'),
                 lineHeight: theme('lineHeight.9'),
@@ -294,7 +294,7 @@ module.exports = {
               marginLeft: 'auto',
               marginRight: 'auto',
               display: 'block',
-              '@screen md': {
+              '@media(min-width: theme(--breakpoint-md))': {
                 width: theme('maxWidth.3xl'),
                 marginBottom: theme('spacing.2'),
               },
@@ -307,13 +307,13 @@ module.exports = {
             marginRight: 'auto',
             marginTop: theme('spacing.2'),
             marginBottom: theme('spacing.2'),
-            '@screen sm': {
+            '@media(min-width: theme(--breakpoint-sm))': {
               '&.alignright': {
                 float: 'right',
                 marginLeft: '1rem',
               },
             },
-            '@screen lg': {
+            '@media(min-width: theme(--breakpoint-lg))': {
               textAlign: theme('text.left'),
               maxWidth: theme('maxWidth.5xl'),
               paddingLeft: theme('spacing.0'),
@@ -324,7 +324,7 @@ module.exports = {
               marginLeft: 'auto',
               marginRight: 'auto',
               width: '100%',
-              '@screen md': {
+              '@media(min-width: theme(--breakpoint-md))': {
                 maxWidth: theme('maxWidth.5xl'),
               },
             },
@@ -353,7 +353,7 @@ module.exports = {
             paddingLeft: theme('spacing.8'),
             paddingRight: theme('spacing.1'),
 
-            '@screen md': {
+            '@media(min-width: theme(--breakpoint-md))': {
               textAlign: theme('text.left'),
               width: theme('maxWidth.3xl'),
               paddingLeft: theme('spacing.4'),
@@ -400,7 +400,7 @@ module.exports = {
             paddingLeft: theme('spacing.3'),
             paddingRight: theme('spacing.3'),
 
-            '@screen md': {
+            '@media(min-width: theme(--breakpoint-md))': {
               textAlign: theme('text.left'),
               maxWidth: theme('maxWidth.4xl'),
               paddingLeft: theme('spacing.16'),
@@ -428,7 +428,7 @@ module.exports = {
             marginBottom: theme('spacing.20'),
             borderTopWidth: '1px',
             borderColor: 'var(--tw-prose-hr)',
-            '@screen lg': {
+            '@media(min-width: theme(--breakpoint-lg))': {
               marginLeft: `calc(${theme('spacing.12')} * -1)`,
               marginRight: `calc(${theme('spacing.12')} * -1)`,
             },
