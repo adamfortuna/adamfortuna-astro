@@ -8,7 +8,6 @@ import { Icon } from "astro-icon/components"
 ---
 <BlogAboutCalloutWrapper>
   <>
-    <Icon name="rss-duotone-regular" class="hidden md:block text-ablue-700 w-[48px]" />
     <div class="text-ablue-500">
       <p class="mb-4">
         Welcome to my blog! Since 2001 I've written
@@ -16,7 +15,7 @@ import { Icon } from "astro-icon/components"
           href="/blog/all"
           class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800 space-x-2"
         >
-          <Icon name="typewriter-duotone-regular" class="text-blue-800 w-4 h-4 inline" />
+          <Icon name="typewriter-duotone-solid" class="text-blue-800 w-4 h-4 inline" />
           <span>
             <BlogPostsCount />
             posts
@@ -58,12 +57,12 @@ import { Icon } from "astro-icon/components"
           href="/blog/tags/highlights"
           class="bg-yellow-400 hover:bg-yellow-500 rounded px-1 py-0.5 mx-1 text-blue-800 space-x-2"
         >
-          <Icon name="star-duotone-regular" class="text-blue-800 w-4 h-4 inline" />
+          <Icon name="star-duotone-solid" class="text-blue-800 w-4 h-4 inline" />
           <span>highlights</span>
         </a>
         and stay in touch by following me on{' '}
-        <a href="https://ruby.social/@adam" class="link--blue" target="_blank" rel="noreferrer">
-          Mastodon
+        <a href="https://bsky.app/profile/adamfortuna.com" class="link--blue" target="_blank" rel="noreferrer">
+          Bluesky
         </a>
         , subscribing to my{' '}
         <a href="/newsletter" class="link--blue">

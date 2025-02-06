@@ -1,6 +1,5 @@
 ---
 import { getPostsCount } from '../../lib/getPostsCount'
-const postsCount = (await getPostsCount()) || 624
+const postsCount = await getPostsCount()
 ---
-
 <span>{postsCount.toLocaleString()}</span>

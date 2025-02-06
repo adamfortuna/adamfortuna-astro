@@ -28,7 +28,7 @@ export const getPostsCountByProject = async (project: WordpressClientIdentifier)
 
 export const getPostsCount = async (
   projects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover'],
-): Promise<number | null> => {
+): Promise<number> => {
   const finders = projects.map((p) => getPostsCountByProject(p))
   const results = await Promise.all(finders)
 

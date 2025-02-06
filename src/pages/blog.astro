@@ -4,12 +4,12 @@ import ArticlesList from '../components/articles/ArticlesList.astro'
 import BlogAboutCallout from '../components/articles/BlogAboutCallout.astro'
 import { getRecentPosts } from '../lib/getRecentPosts'
 
-const PER_PAGE = Number(import.meta.env.NEXT_PUBLIC_ARTICLES_PER_PAGE)
-const { articles, totalPages } = await getRecentPosts({ count: PER_PAGE, projects: ['adamfortuna'] })
+const PER_PAGE = Number(import.meta.env.ARTICLES_PER_PAGE)
+const { articles, totalPages } = await getRecentPosts({ count: PER_PAGE })
 ---
 
 <BlogLayout title="Blog - Adam Fortuna" description="Every blog post I've written across a few different sites">
   <h1 class="font-handwriting text-6xl text-blue-700 mb-2">Blog</h1>
   <BlogAboutCallout />
-  <ArticlesList articles={articles} url="/blog/projects/adamfortuna" page={1} totalPages={totalPages} />
+  <ArticlesList articles={articles} url="/blog/all" page={1} totalPages={totalPages} showSeparator={true} />
 </BlogLayout>

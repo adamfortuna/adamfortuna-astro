@@ -34,10 +34,10 @@
   @apply underline-offset-4 font-semibold underline;
 }
 .link--blue {
-  @apply underline-offset-4 font-semibold underline text-blue-600
+  @apply underline-offset-4 font-semibold underline text-blue-600;
 }
 .link--white {
-  @apply underline-offset-4 font-semibold underline text-white
+  @apply underline-offset-4 font-semibold underline text-white;
 }
 .link:hover, .link--blue:hover, .link--white:hover {
   @apply no-underline;

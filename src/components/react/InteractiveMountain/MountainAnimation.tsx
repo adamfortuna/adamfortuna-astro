@@ -116,9 +116,7 @@ export default function MountainAnimation({ children }: {children: React.ReactEl
 
 
   useEffect(() => {
-    console.log("Running useEffect")
     setTimeout(() => {
-      console.log("Startin animation")
       startBackgroundAnimations()
     }, 1000)
   }, [])

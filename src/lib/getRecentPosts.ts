@@ -101,7 +101,7 @@ export const getRecentPosts = async ({
 }): Promise<RecentPostType> => {
   const finders = projects.map((p) => getRecentPostsByProject(p, type))
   const results = await Promise.all(finders)
-
+  
   const allArticles = results.map((wordpressArticles: WordpressPost[]) =>
     wordpressArticles.map((post: WordpressPost) => parsePost(post)),
   )

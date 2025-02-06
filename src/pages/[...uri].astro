@@ -3,8 +3,9 @@ import Layout from "../layouts/Layout.astro"
 import Article from "../components/articles/Article.astro";
 
 import { getPostOrPageByUri } from '../lib/getPostOrPageByUri'
-import { getRecentPosts } from '../lib/getRecentPosts'
 import type { PhotoPost, Post } from "../types";
+import { getAllUris } from "../lib/getAllUris";
+
 const uri = `/${Astro.params.uri}`;
 const article = await getPostOrPageByUri(uri)
 
@@ -19,23 +20,11 @@ if(!article) {
 
 
 export async function getStaticPaths() {
-  const { articles } = await getRecentPosts({
-    count: 10,
-    projects: ['adamfortuna'],
-  })
+  const uris = await getAllUris({ projects: ['adamfortuna'] })
 
-  return articles
-    .map((article) => ({
-      params: { uri: article.uri },
-    }))
-    .concat(
-      { params: { uri: '/about' } },
-      { params: { uri: '/favs' } },
-      { params: { uri: '/goals' } },
-      { params: { uri: '/now' } },
-      { params: { uri: '/beliefs' } },
-      { params: { uri: '/uses' } },
-    )
+  return uris.map((uri: string) => ({
+    params: { uri },
+  }))
 }
 
 function resolveContentTemplate(article:Post | PhotoPost) {
