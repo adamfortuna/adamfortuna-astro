@@ -1,20 +1,60 @@
 ---
 import { Icon } from "astro-icon/components"
-import clsx from 'clsx'
-
-// const ExpandedKey = 'blog-about-expanded'
-const expanded = true
 ---
-<div class="bg-yellow-200 rounded leading-5">
-  <button
-    type="button"
-    class={clsx(
-      'p-2 w-full rounded text-ablue-700 font-bold text-xl flex items-center justify-between space-x-2 hover:bg-yellow-400 bg-yellow-300',
-      expanded ? 'border-b border-yellow-400 rounded-b-none' : '',
-    )}
-  >
-    <span>About this blog</span>
-    <Icon name={expanded ? "chevron-down-solid" : "chevron-right-solid"} class="max-w-[23px]" />
-  </button>
-  <div class={clsx('p-4 flex flex-row md:space-x-4 items-center', expanded ? '' : 'hidden')}><slot></slot></div>
-</div>
+<blog-about-callout-wrapper>
+  <div class="bg-yellow-200 rounded leading-5">
+    <button
+      type="button"
+      class="p-2 w-full rounded text-ablue-700 font-bold text-xl flex items-center justify-between space-x-2 hover:bg-yellow-400 bg-yellow-300"
+    >
+      <span>About this blog</span>
+      <Icon name="chevron-down-solid" class="icon--down max-w-[23px]" />
+      <Icon name= "chevron-right-solid" class="icon--right hidden max-w-[23px]" />
+    </button>
+    <div class="callout--content p-4 flex flex-row md:space-x-4 items-center"><slot></slot></div>
+  </div>
+</blog-about-callout-wrapper>
+
+<script>
+  // Define the behaviour for our new type of HTML element.
+  class BlogAboutCalloutWrapper extends HTMLElement {
+    connectedCallback() {
+      const LocalStorageKey = 'blog-about-expanded'
+      let expanded = localStorage.getItem(LocalStorageKey) === '0' ? false : true
+
+      const button = this.querySelector('button')
+      const iconDown = this.querySelector('.icon--down')
+      const iconRight = this.querySelector('.icon--right')
+      const content = this.querySelector('.callout--content')
+
+      function toggle() {
+        expanded = !expanded
+        if(expanded) {
+          localStorage.removeItem(LocalStorageKey)
+        } else {
+          localStorage.setItem(LocalStorageKey, '0')
+        }
+        button?.classList.toggle('border-b')
+        button?.classList.toggle('border-yellow-400')
+        button?.classList.toggle('rounded-b-none')
+        iconDown?.classList.toggle('hidden')
+        iconRight?.classList.toggle('hidden')
+        content?.classList.toggle('hidden')
+      }
+
+      if (!expanded) {
+        toggle()
+      }
+
+      // Each time the button is clicked, update the count.
+      if(button) {
+        button.addEventListener('click', () => {
+          toggle()
+        });
+      }
+    }
+  }
+
+  // Tell the browser to use our AstroHeart class for <astro-heart> elements.
+  customElements.define('blog-about-callout-wrapper', BlogAboutCalloutWrapper);
+</script>
