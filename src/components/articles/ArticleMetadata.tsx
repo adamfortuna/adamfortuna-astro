@@ -5,7 +5,7 @@ const ArticleMetadata = ({ article }: { article: Article }) => (
   <>
     <meta property="og:title" content={article.title} />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content={`${process.env.NEXT_PUBLIC_URL}/${article.slug}`} />
+    <meta property="og:url" content={`${process.env.PUBLIC_URL}/${article.slug}`} />
 
     {article.featuredImage && (
       <>

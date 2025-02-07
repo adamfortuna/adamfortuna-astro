@@ -17,7 +17,7 @@ import { Icon } from "astro-icon/components";
         <Icon name="arrow-left-solid" class="w-4 h-4 inline" />
         <span class="pl-1">Blog</span>
       </a>
-      <a href={`${String(process.env.NEXT_PUBLIC_URL)}/${article.slug}`} class="u-url">
+      <a href={`${String(process.env.PUBLIC_URL)}/${article.slug}`} class="u-url">
         <time
           class="text-sm ml-2 text-gray-500 font-semibold dt-published"
           datetime={dateFormatMicroformat(article.date)}

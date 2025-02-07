@@ -1,0 +1,37 @@
+---
+import { getProjects } from '../lib/getProjects'
+import Layout from "../layouts/Layout.astro"
+import PageFooter from "../components/PageFooter.astro"
+import Container from "../components/Container.astro"
+import ProjectListing from '../components/projects/ProjectListing'
+
+const projects = await getProjects()
+---
+
+<Layout title="Projects I've Worked On" description="A look at every project I've worked on that I can remember.">
+  <Container className="max-w-3xl">
+    <div class="prose dark:prose-invert">
+      <h1 class="font-handwriting text-6xl text-blue-700 mb-2" style={{ marginTop: '0' }}>
+        Projects
+      </h1>
+      <p>
+        I <b>love</b> building websites. Here are all the noteworthy (and not so noteworthy) things I've worked on.
+        Many were <span class="font-bold bg-blue-200 text-blue-900 px-1 py-0.5 rounded-sm">solo projects</span>,
+        while a bunch were on a{' '}
+        <span class="font-bold bg-green-200 text-green-900 px-1 py-0.5 rounded-sm">team</span> - some employed.
+      </p>
+      <p>
+        Scroll down to the bottom to see the most embarrassing projects I made in high school. 🙈 We all have to
+        start somewhere! My aim is to be <b>radically honest</b> about my <b>failures</b>, my <b>compensation 💸</b>{' '}
+        (if it was a paid job) and how I got here.
+      </p>
+      <p>
+        Icon size indicates how "important" I thought that project is (or was) in my life at the time and how
+        involved I was.
+      </p>
+    </div>
+
+    <ProjectListing projects={projects} client:load />
+  </Container>
+  <PageFooter />
+</Layout>
