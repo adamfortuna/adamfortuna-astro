@@ -52,6 +52,6 @@ function resolveContentTemplate(article:Post | PhotoPost) {
 const Template = resolveContentTemplate(article);
 ---
 
-<Layout title={article.title} description={article.excerpt}>
+<Layout title={article.title} description={article.excerpt} image={article.featuredImage?.sourceUrl}>
   <Template article={article} />
 </Layout>

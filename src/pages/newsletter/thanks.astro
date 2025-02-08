@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Container from "@/components/Container.astro"
+import { Icon } from "astro-icon/components"
+import FooterDivider from "@/components/FooterDivider.astro"
+---
+
+<Layout title="Thanks for Joining!" description="Sweet! You should expect a message soon.">
+  <Container>
+    <h1 class="md:text-center text-3xl md:text-5xl font-hardwriting font-bold text-grey-800 leading-tight">
+      Thank You!
+    </h1>
+    <p class="text-center">
+      I'll send you an email once a month with everything that's new (or whenever I remember).
+    </p>
+    <p class="text-center mt-4">
+      For even more updates, follow me on{' '}
+      <a href="https://bsky.app/profile/adamfortuna.com" class="link--blue" target="_blank" rel="noreferrer">
+        Bluesky
+      </a>
+      , or subscribe to me{' '}
+      <a href="/feed" target="_blank" class="link--blue">
+        RSS feed
+      </a>
+      .
+    </p>
+    <p class="text-center mt-4 italic">(But really, once a month is enough. 😂)</p>
+
+    <p class="text-center mt-8">
+      <a href="/blog" class="link--blue">
+        <span class="pr-1">Back to blog</span>
+        <Icon name="arrow-right-solid" class="w-4 h-4 inline" />
+      </a>
+    </p>
+  </Container>
+  <FooterDivider />
+</Layout>

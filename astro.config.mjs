@@ -13,4 +13,7 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
+  redirects: {
+    '/feed': 'https://wp.adamfortuna.com/feed'
+  }
 });

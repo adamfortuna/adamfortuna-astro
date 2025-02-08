@@ -1,0 +1,78 @@
+---
+import Layout from "@/layouts/Layout.astro"
+import Container from "@/components/Container.astro"
+import FooterDivider from "@/components/FooterDivider.astro"
+---
+
+<Layout title="Newsletter" description="Sign up to my once-in-a-while newsletter.">
+  <Container>
+    <h1 class="md:text-center text-3xl md:text-5xl font-hardwriting font-bold text-grey-800 leading-tight">
+      Newsletter
+    </h1>
+    <div>
+      <form class="space-y-8" action="https://sendy.minafi.com/subscribe" method="POST" accept-charset="utf-8">
+        <input type="hidden" name="list" value="892UVTIMgB51H8qkY76305YU2A" />
+        <input type="hidden" name="subform" value="yes" />
+        <div class="hidden">
+          <label>
+            HP <input type="text" name="hp" id="hp" />
+          </label>
+        </div>
+
+        <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
+          <div class="space-y-6 sm:space-y-5 prose">
+            <div>
+              <p class="mt-1">
+                This is a very unofficial, unprofessional newsletter. I'm not trying to start a business, there are no
+                sponsors and I'm just out to have fun with others creating cool stuff online.
+              </p>
+              <p class="mt-1">Here's what you should expect by joining this newsletter:</p>
+              <ul class="mt-2">
+                <li>I'll email you once a month with any new posts & whatever I'm up to.</li>
+                <li>I'll keep your email safe and secret, never sharing it with anyone.</li>
+              </ul>
+              <p>
+                That's it! My own email is in this same database – and you can believe I make sure it's safe. Behind
+                the scenes it uses a{' '}
+                <a href="https://wp.adamfortuna.com/sendy" target="_blank" rel="noreferrer">
+                  Sendy
+                </a>{' '}
+                server that I host myself. Your email won't be stored in any large email provider database (Mailchimp,
+                ConvertKit, etc).
+              </p>
+              <p class="italic text-sm text-gray-700">
+                Side note: I'm still setting this up, so you might not get emails for a few weeks until I can figure
+                out how to wire up my RSS feed to send out emails. 😅
+              </p>
+            </div>
+
+            <div class="space-y-4 max-w-3xl mx-auto">
+              <div>
+                <label for="name" class="form-label">
+                  First name
+                  <input type="text" name="name" id="name" auto-complete="given-name" class="form-text" />
+                </label>
+              </div>
+
+              <div>
+                <label for="email" class="form-label">
+                  Email address
+                  <input type="email" name="email" id="email" auto-complete="email" class="form-text" />
+                </label>
+              </div>
+
+              <div>
+                <span>
+                  <button type="submit" class="button" aria-label="Subscribe">
+                    <span>Subscribe</span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </Container>
+  <FooterDivider />
+</Layout>

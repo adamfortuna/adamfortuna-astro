@@ -3,9 +3,9 @@ import Container from '../components/Container.astro'
 import ArticleSidebar from '../components/articles/sidebar/index.astro'
 import PageFooter from '../components/PageFooter.astro'
 import Layout from "./Layout.astro"
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 ---
-<Layout title={title} description={description}>
+<Layout title={title} description={description} image={image}>
   <Container className="grid grid-cols-12 mx-auto md:space-x-4">
     <ArticleSidebar />
     <div class="col-span-12 md:col-span-9 xl:col-span-10 p-2 md:p-0"><slot></slot></div>

@@ -5,7 +5,7 @@ import "@fontsource-variable/eb-garamond";
 
 import "../styles/global.css";
 
-const { title, description } = Astro.props;
+const { title, description, image } = Astro.props;
 const generalSettings = {
 	title: "Adam Fortuna's Blog",
 }
@@ -20,6 +20,11 @@ const generalSettings = {
 		<meta name="generator" content={Astro.generator} />
 		<title>{`${title} | ${generalSettings.title}`}</title>
 		<meta name="description" content={description}>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="rss" href="https://adamfortuna.com/feed" type="application/rss+xml">
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={image} />
 	</head>
 	<body>
 		<slot />
