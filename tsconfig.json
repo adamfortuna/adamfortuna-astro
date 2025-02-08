@@ -7,14 +7,12 @@
   "exclude": [
     "dist"
   ],
-  "paths": {
-    "@components/*": ["src/components/*"],
-    "@layouts/*": ["src/layouts/*"],
-    "@types/*": ["src/types/*"],
-    "@/*": ["src/*"]
-  },
   "compilerOptions": {
+    "baseUrl": ".",
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
   }
 }

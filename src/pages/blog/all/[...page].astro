@@ -1,0 +1,20 @@
+---
+import BlogLayout from '@/layouts/BlogLayout.astro'
+import ArticlesList from '@/components/articles/ArticlesList.astro'
+import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
+import { getRecentPosts } from '@/lib/getRecentPosts';
+import type { PaginateFunction } from 'astro'
+
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
+  const { articles } = await getRecentPosts({ count: 1000 })
+  return paginate(articles, { pageSize: Number(import.meta.env.ARTICLES_PER_PAGE) });
+}
+
+const { page } = Astro.props;
+---
+
+<BlogLayout title="Blog - Adam Fortuna" description="Every blog post I've written across a few different sites">
+  <h1 class="font-handwriting text-6xl text-blue-700 mb-2">Blog</h1>
+  <BlogAboutCallout />
+  <ArticlesList showSeparator={true} articles={page.data} page={page.currentPage} totalPages={page.lastPage} url="/blog/all" />
+</BlogLayout>

@@ -1,8 +1,8 @@
 ---
-import BlogLayout from "../layouts/BlogLayout.astro"
-import ArticlesList from '../components/articles/ArticlesList.astro'
-import BlogAboutCallout from '../components/articles/BlogAboutCallout.astro'
-import { getRecentPosts } from '../lib/getRecentPosts'
+import BlogLayout from '@/layouts/BlogLayout.astro'
+import ArticlesList from '@/components/articles/ArticlesList.astro'
+import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
+import { getRecentPosts } from '@/lib/getRecentPosts'
 
 const PER_PAGE = Number(import.meta.env.ARTICLES_PER_PAGE)
 const { articles, totalPages } = await getRecentPosts({ count: PER_PAGE })
