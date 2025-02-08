@@ -1,0 +1,20 @@
+---
+import BlogLayout from "../../../layouts/BlogLayout.astro"
+import BlogAboutCallout from '../../../components/articles/BlogAboutCallout.astro'
+import Projects from "../../../components/articles/sidebar/Projects.astro"
+---
+
+<BlogLayout title="Blog - Adam Fortuna" description="Every blog post I've written across a few different sites">
+  <p class="font-handwriting text-3xl md:text-4xl lg:text-6xl text-blue-700 mb-2 flex flex-wrap items-baseline">
+    <span>
+      <a href="/blog" class="underline hover:no-underline">
+        Blog
+      </a>
+    </span>
+    <span class="text-2xl mx-2">/</span>
+    <span>Projects</span>
+  </p>
+  <BlogAboutCallout />
+
+  <Projects />
+</BlogLayout>

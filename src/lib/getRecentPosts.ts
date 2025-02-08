@@ -84,6 +84,9 @@ interface RecentPostType {
   articles: Article[] | PhotoPost[]
 }
 
+// Store cached posts per unique key
+let recentPostsCache: Record<string, RecentPostType> = {};
+
 export const getRecentPosts = async ({
   count,
   offset = 0,
@@ -92,25 +95,41 @@ export const getRecentPosts = async ({
   sortBy = sortByDateDesc,
   filterBy = (a: Article) => a,
 }: {
-  count: number
-  offset?: number
-  projects?: WordpressClientIdentifier[]
-  filterBy?: any
-  type?: WordpressPostType
-  sortBy?: any
+  count: number;
+  offset?: number;
+  projects?: WordpressClientIdentifier[];
+  filterBy?: any;
+  type?: WordpressPostType;
+  sortBy?: any;
 }): Promise<RecentPostType> => {
-  const finders = projects.map((p) => getRecentPostsByProject(p, type))
-  const results = await Promise.all(finders)
-  
-  const allArticles = results.map((wordpressArticles: WordpressPost[]) =>
-    wordpressArticles.map((post: WordpressPost) => parsePost(post)),
-  )
-  const flatArticles = flatten(allArticles).filter(filterBy).sort(sortBy)
-  const articles = [...flatArticles.slice(offset, offset + count)]
+  // Create a unique cache key based on function parameters
+  const cacheKey = JSON.stringify({ count, offset, type, projects });
 
-  return {
+  // Return cached result if available
+  if (recentPostsCache[cacheKey]) {
+    return recentPostsCache[cacheKey];
+  }
+
+  // Fetch posts for each project
+  const finders = projects.map((p) => getRecentPostsByProject(p, type));
+  const results = await Promise.all(finders);
+
+  // Process and filter articles
+  const allArticles = results.map((wordpressArticles: WordpressPost[]) =>
+    wordpressArticles.map((post: WordpressPost) => parsePost(post))
+  );
+  const flatArticles = flatten(allArticles).filter(filterBy).sort(sortBy);
+  const articles = [...flatArticles.slice(offset, offset + count)];
+
+  // Prepare the response
+  const response: RecentPostType = {
     articlesCount: flatArticles.length,
     articles,
     totalPages: Math.ceil(flatArticles.length / count),
-  }
-}
+  };
+
+  // Store the response in the cache
+  recentPostsCache[cacheKey] = response;
+
+  return response;
+};

@@ -26,11 +26,29 @@ export const getPostsCountByProject = async (project: WordpressClientIdentifier)
   })
 }
 
+// Store cached post counts per project set
+let postsCountCache: Record<string, number> = {};
+
 export const getPostsCount = async (
   projects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover'],
 ): Promise<number> => {
-  const finders = projects.map((p) => getPostsCountByProject(p))
-  const results = await Promise.all(finders)
+  // Create a unique cache key for the requested projects
+  const cacheKey = projects.sort().join(',');
 
-  return results.reduce((sum, current) => current + sum, 0)
-}
+  // Return cached value if available
+  if (postsCountCache[cacheKey] !== undefined) {
+    return postsCountCache[cacheKey];
+  }
+
+  // Fetch post counts for each project
+  const finders = projects.map((p) => getPostsCountByProject(p));
+  const results = await Promise.all(finders);
+
+  // Calculate total count
+  const totalPosts = results.reduce((sum, current) => sum + current, 0);
+
+  // Store the result in the cache
+  postsCountCache[cacheKey] = totalPosts;
+
+  return totalPosts;
+};

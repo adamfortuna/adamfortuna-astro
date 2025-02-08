@@ -1,0 +1,34 @@
+---
+import { getPostsCount } from "../../../../../lib/getPostsCount";
+import pagesForCount from "../../../../../lib/pagesForCount";
+import ProjectsListingPage from "../../../../../components/projects/ProjectsListingPage.astro";
+import type { WordpressClientIdentifier } from "../../../../../types";
+
+const { page, project } = Astro.params as unknown as { project: WordpressClientIdentifier; page: string };
+
+interface ProjectPaginationType {
+  params: {
+    project: WordpressClientIdentifier;
+    page: string;
+  };
+}
+
+export async function getStaticPaths() {
+  // Fetch all available projects
+  const projects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover']
+
+  let paths: ProjectPaginationType[] = [];
+
+  for (const project of projects) {
+    const postsCount = await getPostsCount([project]);
+    const projectPaths = pagesForCount(postsCount).map((pageData) => ({
+      params: { project, page: pageData.params.page },
+    }));
+    paths = [...paths, ...projectPaths];
+  }
+
+  return paths;
+}
+---
+
+<ProjectsListingPage page={Number(page)} project={project as WordpressClientIdentifier} />
