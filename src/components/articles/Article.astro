@@ -9,7 +9,7 @@ import ArticleContentHtml from './ArticleContent.astro'
 import ArticleHeader from './ArticleHeader.astro'
 import ArticleAboutAdamFooter from './ArticleAboutAdamFooter.astro'
 
-// import { Comments } from '@/components/comments/Comments.astro'
+import { Comments } from '@/components/comments/Comments'
 import PageFooter from '../PageFooter.astro'
 import BackToTop from './BackToTop.astro'
 ---
@@ -20,7 +20,7 @@ import BackToTop from './BackToTop.astro'
   <ArticleContentHtml article={article} />
   <PageFooter>
     <ArticleAboutAdamFooter />
-    <!-- <Comments article={article} /> -->
+    <Comments article={article} />
     <BackToTop />
   </PageFooter>
 </article>

@@ -8,21 +8,25 @@ const navigation = {
       name: 'Hardcover',
       href: 'https://hardcover.app/@adam',
       icon: "brands/hardcover",
+      className: "hover:mix-blend-darken",
     },
     {
       name: 'Bluesky',
       href: 'https://bsky.app/profile/adamfortuna.com',
       icon: "brands/bluesky",
+      className: "hover:mix-blend-darken",
     },
     {
       name: 'GitHub',
       href: 'https://github.com/adamfortuna',
       icon: "brands/github",
+      className: "text-gray-900 hover:text-gray-700",
     },
     {
       name: 'Minafi',
       href: 'https://minafi.com',
       icon: "brands/minafi",
+      className: "text-gray-900 hover:text-gray-700",
     },
   ],
 }
@@ -108,7 +112,7 @@ const navigation = {
           {navigation.social.map((item) => (
             <a href={item.href} class="text-green-50 hover:text-green-200">
               <span class="sr-only">{item.name}</span>
-              <Icon name={item.icon} class="h-6 w-6  fill-gray-900 hover:fill-green-800" aria-hidden="true" />
+              <Icon name={item.icon} class={`h-6 w-6 ${item.className}`} aria-hidden="true" />
             </a>
           ))}
         </div>

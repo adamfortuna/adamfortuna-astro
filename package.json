@@ -15,6 +15,7 @@
     "@fontsource/pacifico": "^5.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/pro-regular-svg-icons": "^6.7.2",
+    "@fortawesome/pro-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
@@ -29,6 +30,8 @@
     "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "string-strip-html": "^13.4.8",
     "tailwindcss": "^4.0.3"
   },
   "devDependencies": {
