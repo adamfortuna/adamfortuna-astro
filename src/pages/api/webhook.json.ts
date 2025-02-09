@@ -1,4 +1,4 @@
-export const prerender = false;
+export const prerender = false
 
 import type { WordpressClientIdentifier } from "@/types";
 import { purgeCache } from "@netlify/functions";

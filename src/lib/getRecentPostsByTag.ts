@@ -112,7 +112,7 @@ export const getRecentPostsByTag = async ({
   const cacheKey = JSON.stringify({ tag, projects: projects.sort(), count, offset })
  
   // Return cached results if available
-  if (recentPostsByTagCache[cacheKey]) {
+  if (recentPostsByTagCache[cacheKey] && import.meta.env.ENABLE_CACHE === "1") {
     return recentPostsByTagCache[cacheKey]
   }
 

@@ -36,7 +36,7 @@ export const getPostsCount = async (
   const cacheKey = projects.sort().join(',');
 
   // Return cached value if available
-  if (postsCountCache[cacheKey] !== undefined) {
+  if (postsCountCache[cacheKey] !== undefined && import.meta.env.ENABLE_CACHE === "1") {
     return postsCountCache[cacheKey];
   }
 

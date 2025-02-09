@@ -30,7 +30,7 @@ export const getTags = async () => {
   const cacheKey = projects.sort().join(',')
 
   // Return cached result if available
-  if (tagsCache[cacheKey]) {
+  if (tagsCache[cacheKey] && import.meta.env.ENABLE_CACHE === "1") {
     return tagsCache[cacheKey]
   }
 

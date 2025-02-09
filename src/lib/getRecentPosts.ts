@@ -106,7 +106,7 @@ export const getRecentPosts = async ({
   const cacheKey = JSON.stringify({ count, offset, type, projects });
 
   // Return cached result if available
-  if (recentPostsCache[cacheKey]) {
+  if (recentPostsCache[cacheKey] && import.meta.env.ENABLE_CACHE === "1") {
     return recentPostsCache[cacheKey];
   }
 
