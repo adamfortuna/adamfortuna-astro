@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import react from '@astrojs/react';
-import netlify from '@astrojs/netlify';
+import netlify from '@astrojs/netlify/functions';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,5 +21,7 @@ export default defineConfig({
     '/feed': 'https://wp.adamfortuna.com/feed'
   },
 
-  adapter: netlify()
+  adapter: netlify({
+    edgeMiddleware: true,
+  })
 });
