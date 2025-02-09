@@ -47,7 +47,7 @@ export const getAllUris = async ({
   const cacheKey = projects.sort().join(',');
 
   // Return cached result if it exists
-  if (allUrisCache[cacheKey] && import.meta.env.ENABLE_CACHE === "1") {
+  if (allUrisCache[cacheKey] && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
     return allUrisCache[cacheKey];
   }
 
