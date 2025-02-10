@@ -249,7 +249,7 @@ export const parseProject = (project: WordpressProject) => {
     description: project.excerpt,
     salary: projectInfo.compensation,
     role: projectInfo.role,
-    employed: projectInfo.employed,
+    employed: projectInfo.employed === "yes",
     years_active: projectInfo.yearsActive,
     category: projectInfo.category,
     size: projectInfo.size,

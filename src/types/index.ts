@@ -184,7 +184,7 @@ export interface WordpressProjectAcf {
   compensation: string
   dateEnded: string
   dateStarted: string
-  employed: boolean
+  employed: "yes" | "no"
   employer: string
   link1: string
   link1Text: string

@@ -49,7 +49,7 @@ const ProjectTimeline = ({ project }: { project: Project }) => {
             <li>
               <ProjectCategory category={project.category} />
             </li>
-            {project.employed && (
+            {project.employed && project.role && (
               <li>
                 <b>Role:</b> {project.role}
               </li>
