@@ -1,9 +1,15 @@
-import { useMemo, useRef } from 'react'
-import { gsap } from 'gsap'
+import { useEffect, useRef, useState } from 'react'
 
 export const useSelector = () => {
   const ref = useRef(null)
-  const q = useMemo(() => gsap.utils.selector(ref), [ref])
+  const [q, setQ] = useState<ReturnType<typeof import('gsap').gsap.utils.selector> | null>(null)
+
+  useEffect(() => {
+    import('gsap').then(({ gsap }) => {
+      setQ(() => gsap.utils.selector(ref))
+    })
+  }, [])
+
   return {
     q,
     ref,

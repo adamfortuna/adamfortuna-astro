@@ -33,9 +33,9 @@ export const findRecentPostsByTag = `
   }
 `
 
-export const getRecentPostsByProjectAndTag = async (project: WordpressClientIdentifier, tag: string) => {
+export const getRecentPostsByProjectAndTag = async (project: WordpressClientIdentifier, tag: string): Promise<WordpressPost[]> => {
   try {
-    return getClientForProject(project)({
+    const result = await getClientForProject(project)({
       query: findRecentPostsByTag,
       variables: {
         where: {
@@ -44,21 +44,20 @@ export const getRecentPostsByProjectAndTag = async (project: WordpressClientIden
           categoryName: 'Canonical',
         },
       },
-    }).then((result) => {
-      console.log("DONE: getRecentPostsByProjectAndTag project:", project, "tag", tag)
-      if (!result.data.posts?.nodes) {
-        return []
-      }
-      return result.data.posts.nodes.map((p: WordpressPost) => {
-        return {
-          ...p,
-          project,
-        }
-      }) as WordpressPost[]
     })
+    console.log("DONE: getRecentPostsByProjectAndTag project:", project, "tag:", tag)
+    if (!result.data.posts?.nodes) {
+      return []
+    }
+    return result.data.posts.nodes.map((p: WordpressPost) => {
+      return {
+        ...p,
+        project,
+      }
+    }) as WordpressPost[]
   } catch(e) {
-    console.log("getRecentPostsByProjectAndTag project:", project, "tag:", tag, "error:", e)
-    throw(e)
+    console.warn("WARN: getRecentPostsByProjectAndTag failed, returning empty array. project:", project, "tag:", tag, "error:", e)
+    return []
   }
 }
 

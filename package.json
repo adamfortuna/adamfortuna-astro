@@ -9,11 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^6.1.0",
+    "@astrojs/netlify": "^6.6.3",
     "@astrojs/react": "^4.2.0",
     "@fontsource-variable/eb-garamond": "^5.1.2",
     "@fontsource-variable/inter": "^5.1.1",
     "@fontsource/pacifico": "^5.1.1",
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/pro-regular-svg-icons": "^6.7.2",
     "@fortawesome/pro-solid-svg-icons": "^6.7.2",
@@ -27,7 +28,7 @@
     "astro-icon": "^1.1.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.1.0",
-    "gsap": "^3.11.0",
+    "gsap": "^3.14.2",
     "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -37,5 +38,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.15"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

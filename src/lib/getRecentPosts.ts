@@ -57,25 +57,31 @@ export const findWordPressRecentPhotoPosts = `
 `
 
 export const getRecentPostsByProject = async (project: WordpressClientIdentifier, type: WordpressPostType) => {
-  const query = type === 'photos' ? findWordPressRecentPhotoPosts : findWordPressRecentPosts
-  // const parent = type === 'photos' ? { parent: 0 } : {}
+  try {
 
-  const result = await getClientForProject(project)({
-    query,
-    variables: {
-      where: {
-        authorName: 'adamfortuna',
-        categoryName: 'Canonical',
+    const query = type === 'photos' ? findWordPressRecentPhotoPosts : findWordPressRecentPosts
+    // const parent = type === 'photos' ? { parent: 0 } : {}
+    console.log("Fetching from", project)
+    const result = await getClientForProject(project)({
+      query,
+      variables: {
+        where: {
+          authorName: 'adamfortuna',
+          categoryName: 'Canonical',
+        },
       },
-    },
-  })
+    })
 
-  return result.data.posts.nodes.map((p: WordpressPost) => {
-    return {
-      ...p,
-      project,
-    }
-  }) as WordpressPost[]
+    return result.data.posts.nodes.map((p: WordpressPost) => {
+      return {
+        ...p,
+        project,
+      }
+    }) as WordpressPost[]
+  } catch(e) {
+    console.log(`Error fetching recent posts for ${project}`, e);
+    throw(e);
+  }
 }
 
 interface RecentPostType {
