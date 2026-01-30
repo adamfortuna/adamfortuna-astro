@@ -1,7 +1,7 @@
 export const prerender = false
 
 import type { WordpressClientIdentifier } from "@/types";
-import { purgeCache } from "@netlify/functions";
+import { purgeCache } from "../../lib/cache";
 
 function sourceToProject(sourceUrl: string): WordpressClientIdentifier | null {
   if(sourceUrl === "https://adamfortuna.com/") {
@@ -15,9 +15,21 @@ function sourceToProject(sourceUrl: string): WordpressClientIdentifier | null {
   }
 }
 
+/**
+ * Determine content type from WordPress webhook payload
+ */
+function getContentType(body: any): 'lain' | 'post' | 'page' | 'photo' | 'project' {
+  const postType = body.post_type || body.post?.post_type || 'post';
+  if (postType === 'lain') return 'lain';
+  if (postType === 'photos' || postType === 'photoblog') return 'photo';
+  if (postType === 'project') return 'project';
+  if (postType === 'page') return 'page';
+  return 'post';
+}
+
 export async function POST({ request }: { request: Request }) {
   try {    
-    // See below for information on webhook security
+    // Verify webhook secret
     if (request.headers.get("x-wordpress-webhook-secret") !== import.meta.env.WORDPRESS_WEBHOOK_SECRET) {
       return new Response("Unauthorized", { status: 401 });
     }
@@ -33,21 +45,34 @@ export async function POST({ request }: { request: Request }) {
       return new Response("No Project", { status: 401 });
     }
 
+    const contentType = getContentType(body);
     const postTags = Object.keys(body.taxonomies?.post_tag || {});
-    const tags = [
-      `post-id-${post_id}`,
-      `blog/projects/${project}`,
-      'blog',
-      'blog/all',
-      ...postTags
-    ]
-    await purgeCache({
-      siteID: import.meta.env.NETLIFY_SITE_ID,
-      tags,
-      token: import.meta.env.NETLIFY_TOKEN
-    });
+    
+    // Build cache tags based on content type
+    let tags: string[] = [];
+    
+    if (contentType === 'lain') {
+      // Lain posts have their own cache tags
+      tags = [
+        `lain-post-${post_id}`,
+        'lain',
+        'lain-index',
+        ...postTags,
+      ];
+    } else {
+      // Regular blog posts
+      tags = [
+        `post-id-${post_id}`,
+        `blog/projects/${project}`,
+        'blog',
+        'blog/all',
+        ...postTags,
+      ];
+    }
+    
+    await purgeCache({ tags });
   
-    return new Response(`Revalidated entry with id ${post_id}`, { status: 200 });
+    return new Response(`Revalidated ${contentType} with id ${post_id}. Tags: ${tags.join(', ')}`, { status: 200 });
   } catch(e) {
     return new Response(`Something went wrong: ${e}`, { status: 500 });
   }

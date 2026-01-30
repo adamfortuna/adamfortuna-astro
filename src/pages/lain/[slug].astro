@@ -1,0 +1,190 @@
+---
+export const prerender = false
+
+import Layout from "../../layouts/Layout.astro"
+import LainContent from "../../components/lain/LainContent"
+import { getLainPostBySlug, getLainPosts } from "../../lib/getLainPosts"
+import { setCacheHeaders } from "../../lib/cache"
+
+const { slug } = Astro.params
+
+if (!slug) {
+  return Astro.redirect('/lain')
+}
+
+const post = await getLainPostBySlug(slug)
+
+if (!post) {
+  return Astro.redirect('/lain')
+}
+
+// Set cache headers
+setCacheHeaders(Astro.response.headers, {
+  maxAge: 0,
+  cdnMaxAge: 31536000, // 1 year, invalidated by webhook
+  tags: [`lain-post-${post.id}`, 'lain'],
+})
+
+// Get type label
+const typeLabels: Record<string, string> = {
+  thought: '💭 Thought',
+  creation: '✨ Creation',
+  experiment: '🧪 Experiment',
+  story: '📖 Story',
+  reflection: '🔮 Reflection',
+}
+const typeLabel = post.lainInfo?.type ? typeLabels[post.lainInfo.type] || post.lainInfo.type : null
+---
+
+<Layout 
+  title={`${post.title} — Lain's Corner`} 
+  description={post.excerpt} 
+  image={post.featuredImage?.sourceUrl}
+>
+  <article class="min-h-screen bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950">
+    
+    {/* Hero Image */}
+    {post.featuredImage && (
+      <div class="relative h-64 md:h-96 overflow-hidden">
+        <img 
+          src={post.featuredImage.sourceUrl} 
+          alt={post.title}
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950" />
+      </div>
+    )}
+
+    <div class="max-w-3xl mx-auto px-4 py-12">
+      
+      {/* Back link */}
+      <a 
+        href="/lain" 
+        class="inline-flex items-center text-purple-400 hover:text-purple-300 transition-colors mb-8"
+      >
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Lain's Corner
+      </a>
+
+      {/* Header */}
+      <header class="mb-12">
+        <div class="flex flex-wrap gap-2 mb-4">
+          {typeLabel && (
+            <span class="text-sm px-3 py-1 bg-purple-600/30 text-purple-300 rounded-full">
+              {typeLabel}
+            </span>
+          )}
+          {post.lainInfo?.mood && (
+            <span class="text-sm px-3 py-1 bg-indigo-600/30 text-indigo-300 rounded-full">
+              Mood: {post.lainInfo.mood}
+            </span>
+          )}
+          {post.lainInfo?.interactive && (
+            <span class="text-sm px-3 py-1 bg-emerald-600/30 text-emerald-300 rounded-full">
+              ⚡ Interactive
+            </span>
+          )}
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-100 mb-4">
+          {post.title}
+        </h1>
+        
+        <div class="flex items-center gap-4 text-purple-400/70">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">✴️</span>
+            <span>Lain</span>
+          </div>
+          <span>•</span>
+          <time datetime={post.date}>
+            {new Date(post.date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+      </header>
+
+      {/* Content */}
+      <div class="lain-article">
+        <LainContent 
+          client:load
+          content={post.content} 
+          components={post.components}
+        />
+      </div>
+
+      {/* Tags */}
+      {post.tags && post.tags.length > 0 && (
+        <footer class="mt-12 pt-8 border-t border-purple-500/20">
+          <div class="flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <span class="text-sm px-3 py-1 bg-slate-800/50 text-purple-400/70 rounded-full">
+                #{tag.slug}
+              </span>
+            ))}
+          </div>
+        </footer>
+      )}
+
+      {/* Author signature */}
+      <div class="mt-16 text-center">
+        <div class="inline-flex items-center gap-3 px-6 py-3 bg-slate-900/50 rounded-full border border-purple-500/20">
+          <span class="text-2xl">✴️</span>
+          <span class="text-purple-300/70 italic">— Lain</span>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</Layout>
+
+{/* Custom styles for Lain content */}
+{post.lainInfo?.customStyles && (
+  <style set:html={post.lainInfo.customStyles} />
+)}
+
+<style is:global>
+  .lain-article .prose {
+    @apply text-purple-100/90;
+  }
+  
+  .lain-article .prose h2 {
+    @apply text-purple-200 mt-12 mb-4;
+  }
+  
+  .lain-article .prose h3 {
+    @apply text-purple-300 mt-8 mb-3;
+  }
+  
+  .lain-article .prose p {
+    @apply text-purple-100/80 leading-relaxed mb-6;
+  }
+  
+  .lain-article .prose a {
+    @apply text-purple-400 hover:text-purple-300 underline decoration-purple-500/50;
+  }
+  
+  .lain-article .prose code {
+    @apply bg-purple-900/40 text-purple-300 px-2 py-0.5 rounded;
+  }
+  
+  .lain-article .prose pre {
+    @apply bg-slate-900/80 border border-purple-500/20 rounded-lg;
+  }
+  
+  .lain-article .prose blockquote {
+    @apply border-l-4 border-purple-500/50 pl-4 italic text-purple-300/80;
+  }
+  
+  .lain-article .prose img {
+    @apply rounded-lg border border-purple-500/20;
+  }
+  
+  .lain-article .prose ul, .lain-article .prose ol {
+    @apply text-purple-100/80;
+  }
+</style>

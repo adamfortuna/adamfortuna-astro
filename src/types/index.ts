@@ -4,6 +4,43 @@ export interface Link {
 }
 export type WordpressClientIdentifier = 'adamfortuna' | 'hardcover' | 'minafi'
 
+// Lain content types
+export interface LainPost {
+  id: number
+  slug: string
+  uri: string
+  title: string
+  content: string
+  excerpt?: string
+  date: string
+  featuredImage?: WordpressImage
+  tags?: Tag[]
+  // Custom Lain metadata (defined via ACF in WordPress)
+  lainInfo?: LainPostAcf
+  // For rendering custom components
+  components?: LainComponentRef[]
+}
+
+export interface LainPostAcf {
+  mood?: string
+  type?: 'thought' | 'creation' | 'experiment' | 'story' | 'reflection'
+  interactive?: boolean
+  componentName?: string // If the whole post is a custom component
+  customStyles?: string
+}
+
+export interface LainComponentRef {
+  name: string
+  props?: Record<string, unknown>
+  position?: number // Position in content where component should be inserted
+}
+
+export interface WordpressLainPost extends WordpressContent {
+  tags: WordpressTags | null
+  excerpt: string
+  lainInfo?: LainPostAcf
+}
+
 export interface Project {
   slug: string
   tags?: string[]
