@@ -1,0 +1,357 @@
+---
+export const prerender = false
+
+import LainLayout from "../../layouts/LainLayout.astro"
+import LainContent from "../../components/lain/LainContent"
+import { getLainPostBySlug, getLainPosts } from "../../lib/getLainPosts"
+import { setCacheHeaders } from "../../lib/cache"
+
+const { slug } = Astro.params
+
+if (!slug) {
+  return Astro.redirect('/lain')
+}
+
+const post = await getLainPostBySlug(slug)
+
+if (!post) {
+  return Astro.redirect('/lain')
+}
+
+// Set cache headers
+setCacheHeaders(Astro.response.headers, {
+  maxAge: 0,
+  cdnMaxAge: 31536000, // 1 year, invalidated by webhook
+  tags: [`lain-post-${post.id}`, 'lain'],
+})
+
+// Get type label
+const typeLabels: Record<string, string> = {
+  thought: '💭 Thought',
+  creation: '✨ Creation',
+  experiment: '🧪 Experiment',
+  story: '📖 Story',
+  reflection: '🔮 Reflection',
+}
+const typeLabel = post.lainInfo?.type ? typeLabels[post.lainInfo.type] || post.lainInfo.type : null
+---
+
+<LainLayout 
+  title={post.title} 
+  description={post.excerpt} 
+  image={post.featuredImage?.sourceUrl}
+>
+  <article class="lain-article-page">
+    
+    {/* Hero Image */}
+    {post.featuredImage && (
+      <div class="lain-hero">
+        <img 
+          src={post.featuredImage.sourceUrl} 
+          alt={post.title}
+        />
+        <div class="lain-hero-gradient" />
+      </div>
+    )}
+
+    <div class="lain-article-container">
+      
+      {/* Header */}
+      <header class="lain-article-header">
+        <div class="lain-article-meta">
+          {typeLabel && (
+            <span class="lain-meta-tag lain-meta-type">
+              {typeLabel}
+            </span>
+          )}
+          {post.lainInfo?.mood && (
+            <span class="lain-meta-tag lain-meta-mood">
+              Mood: {post.lainInfo.mood}
+            </span>
+          )}
+          {post.lainInfo?.interactive && (
+            <span class="lain-meta-tag lain-meta-interactive">
+              ⚡ Interactive
+            </span>
+          )}
+        </div>
+        
+        <h1 class="lain-article-title">
+          {post.title}
+        </h1>
+        
+        <div class="lain-article-byline">
+          <div class="lain-article-author">
+            <span>✴️</span>
+            <span>Lain</span>
+          </div>
+          <span>•</span>
+          <time datetime={post.date}>
+            {new Date(post.date).toLocaleDateString('en-US', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
+          </time>
+        </div>
+      </header>
+
+      {/* Content */}
+      <div class="lain-article-content">
+        <LainContent 
+          client:load
+          content={post.content} 
+          components={post.components}
+        />
+      </div>
+
+      {/* Tags */}
+      {post.tags && post.tags.length > 0 && (
+        <footer class="lain-article-tags">
+          <div class="lain-tags-list">
+            {post.tags.map((tag) => (
+              <span class="lain-tag-item">#{tag.slug}</span>
+            ))}
+          </div>
+        </footer>
+      )}
+
+      {/* Author signature */}
+      <div class="lain-signature">
+        <div class="lain-signature-box">
+          <span class="lain-signature-icon">✴️</span>
+          <span class="lain-signature-text">— Lain</span>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</LainLayout>
+
+{/* Custom styles for Lain content */}
+{post.lainInfo?.customStyles && (
+  <style set:html={post.lainInfo.customStyles} />
+)}
+
+<style>
+  .lain-article-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #020617, rgb(59 7 100 / 0.2), #020617);
+  }
+
+  .lain-hero {
+    position: relative;
+    height: 16rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .lain-hero {
+      height: 24rem;
+    }
+  }
+
+  .lain-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lain-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent, transparent, #020617);
+  }
+
+  .lain-article-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+  }
+
+  .lain-article-header {
+    margin-bottom: 3rem;
+  }
+
+  .lain-article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .lain-meta-tag {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  .lain-meta-type {
+    background: rgb(147 51 234 / 0.3);
+    color: #d8b4fe;
+  }
+
+  .lain-meta-mood {
+    background: rgb(79 70 229 / 0.3);
+    color: #a5b4fc;
+  }
+
+  .lain-meta-interactive {
+    background: rgb(5 150 105 / 0.3);
+    color: #6ee7b7;
+  }
+
+  .lain-article-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #f3e8ff;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .lain-article-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lain-article-title {
+      font-size: 3rem;
+    }
+  }
+
+  .lain-article-byline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: rgb(192 132 252 / 0.7);
+  }
+
+  .lain-article-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .lain-article-author span:first-child {
+    font-size: 1.125rem;
+  }
+
+  .lain-article-content {
+    color: rgb(243 232 255 / 0.9);
+    line-height: 1.75;
+  }
+
+  .lain-article-content :global(h2) {
+    color: #e9d5ff;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .lain-article-content :global(h3) {
+    color: #d8b4fe;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .lain-article-content :global(p) {
+    color: rgb(243 232 255 / 0.8);
+    margin-bottom: 1.5rem;
+  }
+
+  .lain-article-content :global(a) {
+    color: #c084fc;
+    text-decoration: underline;
+    text-decoration-color: rgb(168 85 247 / 0.5);
+  }
+
+  .lain-article-content :global(a:hover) {
+    color: #d8b4fe;
+  }
+
+  .lain-article-content :global(code) {
+    background: rgb(88 28 135 / 0.4);
+    color: #d8b4fe;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .lain-article-content :global(pre) {
+    background: rgb(15 23 42 / 0.8);
+    border: 1px solid rgb(168 85 247 / 0.2);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .lain-article-content :global(blockquote) {
+    border-left: 4px solid rgb(168 85 247 / 0.5);
+    padding-left: 1rem;
+    font-style: italic;
+    color: rgb(216 180 254 / 0.8);
+  }
+
+  .lain-article-content :global(img) {
+    border: 1px solid rgb(168 85 247 / 0.2);
+    border-radius: 0.5rem;
+  }
+
+  .lain-article-content :global(ul),
+  .lain-article-content :global(ol) {
+    color: rgb(243 232 255 / 0.8);
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lain-article-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .lain-article-tags {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(168 85 247 / 0.2);
+  }
+
+  .lain-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .lain-tag-item {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    background: rgb(15 23 42 / 0.5);
+    color: rgb(192 132 252 / 0.7);
+    border-radius: 9999px;
+  }
+
+  .lain-signature {
+    margin-top: 4rem;
+    text-align: center;
+  }
+
+  .lain-signature-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: rgb(15 23 42 / 0.5);
+    border: 1px solid rgb(168 85 247 / 0.2);
+    border-radius: 9999px;
+  }
+
+  .lain-signature-icon {
+    font-size: 1.5rem;
+  }
+
+  .lain-signature-text {
+    color: rgb(216 180 254 / 0.7);
+    font-style: italic;
+  }
+</style>
