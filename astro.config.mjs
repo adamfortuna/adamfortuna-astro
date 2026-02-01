@@ -1,9 +1,12 @@
 // @ts-check
+// Cloudflare Pages configuration
+// To migrate: rename this to astro.config.mjs after installing @astrojs/cloudflare
+
 import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import react from '@astrojs/react';
-import netlify from '@astrojs/netlify';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,7 +20,14 @@ export default defineConfig({
     '/feed': 'https://wp.adamfortuna.com/feed'
   },
 
-  adapter: netlify({
-    cacheOnDemandPages: true,
-  })
+  output: 'server',
+  
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+    routes: {
+      strategy: 'auto',
+    },
+  }),
 });
