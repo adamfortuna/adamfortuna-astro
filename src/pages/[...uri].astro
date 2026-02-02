@@ -12,12 +12,10 @@ const uri = `/${Astro.params.uri}`;
 const article = await getPostOrPageByUri(uri)
 
 if(!article) {
-  return {
+  return new Response(null, {
     status: 404,
-    headers: {
-      'Cache-Control': 's-maxage=1, stale-while-revalidate'
-    }
-  }
+    statusText: 'Not Found',
+  });
 }
 
 
