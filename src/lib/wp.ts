@@ -1,5 +1,7 @@
+import { getEnv } from '../middleware';
+
 export async function navQuery(){
-  const siteNavQueryRes = await fetch(import.meta.env.WORDPRESS_API_URL, {
+  const siteNavQueryRes = await fetch(getEnv('WORDPRESS_API_URL') || '', {
       method: 'post', 
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -31,7 +33,7 @@ export async function navQuery(){
 }
 
 export async function homePagePostsQuery(){
-  const response = await fetch(import.meta.env.WORDPRESS_API_URL, {
+  const response = await fetch(getEnv('WORDPRESS_API_URL') || '', {
       method: 'post', 
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -72,7 +74,7 @@ export async function homePagePostsQuery(){
 
 
 export async function getNodeByURI(uri){
-  const response = await fetch(import.meta.env.WORDPRESS_API_URL, {
+  const response = await fetch(getEnv('WORDPRESS_API_URL') || '', {
       method: 'post', 
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
@@ -155,7 +157,7 @@ export async function getNodeByURI(uri){
 }
 
 export async function getAllUris(){
-const response = await fetch(import.meta.env.WORDPRESS_API_URL, {
+const response = await fetch(getEnv('WORDPRESS_API_URL') || '', {
     method: 'post', 
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({

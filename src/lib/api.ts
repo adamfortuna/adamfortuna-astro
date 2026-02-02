@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
+import { getEnv } from '../middleware';
 import type {
   Author,
   Article,
@@ -287,27 +288,39 @@ export const fetchClient = ({
 }
 
 export const adamfortunaClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+  const token = getEnv('WP_ADAMFORTUNA_TOKEN');
+  if (!token) {
+    console.error('WP_ADAMFORTUNA_TOKEN is not set');
+  }
   return fetchClient({
     url: 'https://wp.adamfortuna.com/graphql',
-    auth: `Basic ${String(import.meta.env.WP_ADAMFORTUNA_TOKEN)}`,
+    auth: `Basic ${token}`,
     query,
     variables,
   })
 }
 
 export const hardcoverClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+  const token = getEnv('WP_HARDCOVER_TOKEN');
+  if (!token) {
+    console.error('WP_HARDCOVER_TOKEN is not set');
+  }
   return fetchClient({
     url: 'https://wp.hardcover.app/graphql',
-    auth: `Basic ${String(import.meta.env.WP_HARDCOVER_TOKEN)}`,
+    auth: `Basic ${token}`,
     query,
     variables,
   })
 }
 
 export const minafiClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+  const token = getEnv('WP_MINAFI_TOKEN');
+  if (!token) {
+    console.error('WP_MINAFI_TOKEN is not set');
+  }
   return fetchClient({
     url: 'https://wp.minafi.com/graphql',
-    auth: `Basic ${String(import.meta.env.WP_MINAFI_TOKEN)}`,
+    auth: `Basic ${token}`,
     query,
     variables,
   })

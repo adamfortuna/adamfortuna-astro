@@ -2,6 +2,7 @@
  * Cache management utilities
  * Supports both Netlify and Cloudflare cache purging
  */
+import { getEnv } from '../middleware';
 
 type CacheProvider = 'netlify' | 'cloudflare';
 
@@ -25,7 +26,7 @@ export async function purgeCache({ tags, provider }: PurgeCacheOptions): Promise
 }
 
 function detectProvider(): CacheProvider {
-  if (import.meta.env.CLOUDFLARE_ZONE_ID) {
+  if (getEnv('CLOUDFLARE_ZONE_ID')) {
     return 'cloudflare';
   }
   return 'netlify';
@@ -34,17 +35,17 @@ function detectProvider(): CacheProvider {
 async function purgeNetlifyCache(tags: string[]): Promise<void> {
   // Dynamic import to avoid issues when not on Netlify
   const { purgeCache: netlifyPurge } = await import('@netlify/functions');
-  
+
   await netlifyPurge({
-    siteID: import.meta.env.NETLIFY_SITE_ID,
+    siteID: getEnv('NETLIFY_SITE_ID'),
     tags,
-    token: import.meta.env.NETLIFY_TOKEN,
+    token: getEnv('NETLIFY_TOKEN'),
   });
 }
 
 async function purgeCloudflareCache(tags: string[]): Promise<void> {
-  const zoneId = import.meta.env.CLOUDFLARE_ZONE_ID;
-  const apiToken = import.meta.env.CLOUDFLARE_API_TOKEN;
+  const zoneId = getEnv('CLOUDFLARE_ZONE_ID');
+  const apiToken = getEnv('CLOUDFLARE_API_TOKEN');
   
   if (!zoneId || !apiToken) {
     console.error('Cloudflare cache purge: Missing CLOUDFLARE_ZONE_ID or CLOUDFLARE_API_TOKEN');

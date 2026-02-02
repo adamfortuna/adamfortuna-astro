@@ -2,6 +2,7 @@ export const prerender = false
 
 import type { WordpressClientIdentifier } from "@/types";
 import { purgeCache } from "../../lib/cache";
+import { getEnv } from "../../middleware";
 
 function sourceToProject(sourceUrl: string): WordpressClientIdentifier | null {
   if(sourceUrl === "https://adamfortuna.com/") {
@@ -30,7 +31,7 @@ function getContentType(body: any): 'lain' | 'post' | 'page' | 'photo' | 'projec
 export async function POST({ request }: { request: Request }) {
   try {    
     // Verify webhook secret
-    if (request.headers.get("x-wordpress-webhook-secret") !== import.meta.env.WORDPRESS_WEBHOOK_SECRET) {
+    if (request.headers.get("x-wordpress-webhook-secret") !== getEnv('WORDPRESS_WEBHOOK_SECRET')) {
       return new Response("Unauthorized", { status: 401 });
     }
 
