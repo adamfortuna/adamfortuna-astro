@@ -1,12 +1,13 @@
 ---
-// export const prerender = false
+export const prerender = false
 
 import BlogLayout from '@/layouts/BlogLayout.astro'
 import ArticlesList from '@/components/articles/ArticlesList.astro'
 import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
 import { getRecentPosts } from '@/lib/getRecentPosts'
+import { getEnv } from '@/middleware'
 
-const PER_PAGE = Number(import.meta.env.ARTICLES_PER_PAGE)
+const PER_PAGE = Number(getEnv('ARTICLES_PER_PAGE')) || 25
 const { articles, totalPages } = await getRecentPosts({ count: PER_PAGE })
 
 // The browser should always check freshness

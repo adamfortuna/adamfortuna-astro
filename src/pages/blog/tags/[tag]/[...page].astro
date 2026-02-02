@@ -1,42 +1,33 @@
 ---
-import type { PaginateFunction } from 'astro'
+export const prerender = false
+
 import BlogLayout from '@/layouts/BlogLayout.astro'
 import ArticlesList from '@/components/articles/ArticlesList.astro'
 import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
 import { getTag, getRecentPostsByTag } from '@/lib/getRecentPostsByTag'
-import type { PostsWithTag} from '@/lib/getRecentPostsByTag'
-import { getTags } from '@/lib/getTags'
+import { getEnv } from '@/middleware'
 
-
-export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  const ARTICLES_PER_PAGE = Number(import.meta.env.ARTICLES_PER_PAGE);
-  const tags = await getTags();
-
-  let results: PostsWithTag[] = [];
-
-  // Sequentially process tags to fetch recent posts
-  for (const tag of tags) {
-    const postsWithTag = await getRecentPostsByTag({ count: 1000, tag: tag.slug });
-    if (postsWithTag && postsWithTag.tag) {
-      results.push(postsWithTag as PostsWithTag);
-    }
-  }
-
-  const paginated = results.flatMap(({ articles, tag }) => {
-    return paginate(articles, {
-      params: { tag: tag?.slug},
-      pageSize: ARTICLES_PER_PAGE,
-    });
-  });
-  return paginated;
-}
-const { page } = Astro.props;
 const { tag } = Astro.params
+const pageParam = Astro.params.page;
+const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+const pageSize = Number(getEnv('ARTICLES_PER_PAGE')) || 25;
+const offset = (currentPage - 1) * pageSize;
 
 const foundTag = await getTag(tag)
 if(!foundTag) {
-  throw new Error("No tag provided")
+  return new Response(null, { status: 404, statusText: 'Tag not found' });
 }
+
+const result = await getRecentPostsByTag({ count: pageSize, offset, tag: tag || '' });
+const articles = result?.articles || [];
+const totalCount = result?.articlesCount || 0;
+const totalPages = Math.ceil(totalCount / pageSize);
+
+const page = {
+  data: articles,
+  currentPage,
+  lastPage: totalPages,
+};
 
 // The browser should always check freshness
 Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");

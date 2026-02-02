@@ -1,29 +1,14 @@
 ---
-import type { PaginateFunction } from 'astro'
+export const prerender = false
+
 import BlogLayout from '@/layouts/BlogLayout.astro'
 import ArticlesList from '@/components/articles/ArticlesList.astro'
 import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
 import { getRecentPosts } from '@/lib/getRecentPosts'
 import type { WordpressClientIdentifier } from "@/types"
+import { getEnv } from '@/middleware'
 
-
-export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  const ARTICLES_PER_PAGE = Number(import.meta.env.ARTICLES_PER_PAGE)
-  const projects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover']
-  const finders = projects.map((p) => getRecentPosts({ count: 1000, projects: [p] }))
-  const results = await Promise.all(finders)
-
-
-  return results.flatMap(({articles}) => {
-    const project = articles[0].project
-    return paginate(articles, {
-      params: { project },
-      pageSize: ARTICLES_PER_PAGE
-    });
-  });
-}
-
-const titleize = (category: WordpressClientIdentifier) => {
+const titleize = (category: WordpressClientIdentifier | undefined) => {
   switch (category) {
     case 'minafi':
       return 'Minafi'
@@ -34,8 +19,30 @@ const titleize = (category: WordpressClientIdentifier) => {
   }
 }
 
-const { page } = Astro.props;
-const project = page.data[0].project
+const projectParam = Astro.params.project as WordpressClientIdentifier;
+const validProjects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover'];
+if (!validProjects.includes(projectParam)) {
+  return new Response(null, { status: 404, statusText: 'Project not found' });
+}
+
+const pageParam = Astro.params.page;
+const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+const pageSize = Number(getEnv('ARTICLES_PER_PAGE')) || 25;
+const offset = (currentPage - 1) * pageSize;
+
+const { articles, totalPages } = await getRecentPosts({
+  count: pageSize,
+  offset,
+  projects: [projectParam]
+});
+
+const page = {
+  data: articles,
+  currentPage,
+  lastPage: totalPages,
+};
+
+const project = projectParam;
 const projectTitle = titleize(project)
 
 // The browser should always check freshness

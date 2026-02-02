@@ -1,16 +1,25 @@
 ---
+export const prerender = false
+
 import BlogLayout from '@/layouts/BlogLayout.astro'
 import ArticlesList from '@/components/articles/ArticlesList.astro'
 import BlogAboutCallout from '@/components/articles/BlogAboutCallout.astro'
 import { getRecentPosts } from '@/lib/getRecentPosts';
-import type { PaginateFunction } from 'astro'
+import { getEnv } from '@/middleware'
 
-export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
-  const { articles } = await getRecentPosts({ count: 1000 })
-  return paginate(articles, { pageSize: Number(import.meta.env.ARTICLES_PER_PAGE) });
-}
+// Parse page number from URL params
+const pageParam = Astro.params.page;
+const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+const pageSize = Number(getEnv('ARTICLES_PER_PAGE')) || 25;
+const offset = (currentPage - 1) * pageSize;
 
-const { page } = Astro.props;
+const { articles, totalPages } = await getRecentPosts({ count: pageSize, offset });
+
+const page = {
+  data: articles,
+  currentPage,
+  lastPage: totalPages,
+};
 
 // The browser should always check freshness
 Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
