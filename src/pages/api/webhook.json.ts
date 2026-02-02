@@ -28,10 +28,23 @@ function getContentType(body: any): 'lain' | 'post' | 'page' | 'photo' | 'projec
   return 'post';
 }
 
-export async function POST({ request }: { request: Request }) {
-  try {    
-    // Verify webhook secret
-    if (request.headers.get("x-wordpress-webhook-secret") !== getEnv('WORDPRESS_WEBHOOK_SECRET')) {
+export async function POST(context: { request: Request; locals: any }) {
+  try {
+    const { request, locals } = context;
+
+    // Verify webhook secret - try multiple ways to get the env var
+    const headerSecret = request.headers.get("x-wordpress-webhook-secret");
+    const runtimeEnv = locals?.runtime?.env;
+    const envSecret = runtimeEnv?.WORDPRESS_WEBHOOK_SECRET || getEnv('WORDPRESS_WEBHOOK_SECRET');
+
+    console.log('Webhook auth check:', {
+      headerPresent: !!headerSecret,
+      envPresent: !!envSecret,
+      runtimeEnvAvailable: !!runtimeEnv,
+      match: headerSecret === envSecret
+    });
+
+    if (headerSecret !== envSecret) {
       return new Response("Unauthorized", { status: 401 });
     }
 
