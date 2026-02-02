@@ -87,31 +87,36 @@ query GetWordPressPost($uri: String!) {
 `
 
 export const getPostOrPageByUri = async (uri: string): Promise<null | Post | PhotoPost> => {
-  const result = await adamfortunaClient({
-    query: findWordpressPost,
-    variables: {
-      uri,
-    },
-  })
-
-  if (!result.data?.post && !result.data?.page) {
-    return null
-  }
-
-  if (result.data.post) {
-    return parsePost(
-      {
-        ...result.data.post,
-        project: 'adamfortuna',
+  try {
+    const result = await adamfortunaClient({
+      query: findWordpressPost,
+      variables: {
+        uri,
       },
-      true,
-    )
-  }
-  if (result.data.page) {
-    return parsePage({
-      ...result.data.page,
-      project: 'adamfortuna',
     })
+
+    if (!result?.data?.post && !result?.data?.page) {
+      return null
+    }
+
+    if (result.data.post) {
+      return parsePost(
+        {
+          ...result.data.post,
+          project: 'adamfortuna',
+        },
+        true,
+      )
+    }
+    if (result.data.page) {
+      return parsePage({
+        ...result.data.page,
+        project: 'adamfortuna',
+      })
+    }
+    return null
+  } catch (e) {
+    console.log(`Error fetching post/page for ${uri}`, e);
+    return null;
   }
-  return null
 }

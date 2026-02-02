@@ -15,9 +15,17 @@ export const findWordPressTags = `
 `
 
 export const getTagsByProject = async (project: WordpressClientIdentifier) => {
-  return getClientForProject(project)({ query: findWordPressTags }).then((result) => {
-    return parseTags(result.data.tags.nodes)
-  })
+  try {
+    const result = await getClientForProject(project)({ query: findWordPressTags });
+    if (!result?.data?.tags?.nodes) {
+      console.log(`No tags data returned for ${project}, skipping`);
+      return [];
+    }
+    return parseTags(result.data.tags.nodes);
+  } catch (e) {
+    console.log(`Error fetching tags for ${project}`, e);
+    return [];
+  }
 }
 
 // Cache for getTags

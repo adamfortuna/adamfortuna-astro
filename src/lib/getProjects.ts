@@ -52,9 +52,19 @@ query GetProjects {
 `
 
 export const getProjects = async (): Promise<Project[]> => {
-  const result = await getClientForProject('adamfortuna')({
-    query: findProjects,
-  })
+  try {
+    const result = await getClientForProject('adamfortuna')({
+      query: findProjects,
+    })
 
-  return result.data.projects.nodes.map((node: any) => parseProject(node))
+    if (!result?.data?.projects?.nodes) {
+      console.log('No projects data returned, skipping');
+      return [];
+    }
+
+    return result.data.projects.nodes.map((node: any) => parseProject(node))
+  } catch (e) {
+    console.log('Error fetching projects', e);
+    return [];
+  }
 }

@@ -12,18 +12,22 @@ query GetPostsCountByProject($count: Int, $where: RootQueryToPostConnectionWhere
 `
 
 export const getPostsCountByProject = async (project: WordpressClientIdentifier): Promise<number> => {
-  return getClientForProject(project)({
-    query: findPostsCount,
-    variables: {
-      count: 1000, // If there are more posts than this we're in trouble
-      where: {
-        authorName: 'adamfortuna',
-        categoryName: 'Canonical',
+  try {
+    const result = await getClientForProject(project)({
+      query: findPostsCount,
+      variables: {
+        count: 1000, // If there are more posts than this we're in trouble
+        where: {
+          authorName: 'adamfortuna',
+          categoryName: 'Canonical',
+        },
       },
-    },
-  }).then((result) => {
-    return result.data.posts.nodes.length
-  })
+    });
+    return result?.data?.posts?.nodes?.length ?? 0;
+  } catch (e) {
+    console.log(`Error fetching posts count for ${project}`, e);
+    return 0;
+  }
 }
 
 // Store cached post counts per project set

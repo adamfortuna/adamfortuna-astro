@@ -19,20 +19,30 @@ export const findWordPressArticles = `
 `
 
 export const getUrisByProject = async (project: WordpressClientIdentifier) => {
-  const result = await getClientForProject(project)({
-    query: findWordPressArticles,
-    variables: {
-      where: {
-        authorName: 'adamfortuna',
-        categoryName: 'Canonical',
+  try {
+    const result = await getClientForProject(project)({
+      query: findWordPressArticles,
+      variables: {
+        where: {
+          authorName: 'adamfortuna',
+          categoryName: 'Canonical',
+        },
       },
-    },
-  })
+    })
 
-  return [
-    ...result.data.posts.nodes.map(({uri}:{uri: string}) => uri),
-    ...result.data.pages.nodes.map(({uri}:{uri: string}) => uri),
-  ]
+    if (!result?.data) {
+      console.log(`No data returned for ${project} URIs, skipping`);
+      return [];
+    }
+
+    const posts = result.data.posts?.nodes?.map(({uri}:{uri: string}) => uri) ?? [];
+    const pages = result.data.pages?.nodes?.map(({uri}:{uri: string}) => uri) ?? [];
+
+    return [...posts, ...pages];
+  } catch (e) {
+    console.log(`Error fetching URIs for ${project}`, e);
+    return [];
+  }
 }
 
 // Store cached URIs per project key
