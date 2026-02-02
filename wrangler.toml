@@ -4,6 +4,7 @@
 name = "adamfortuna-com"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
 
 # Environment variables (set these in Cloudflare dashboard or via wrangler secret)
 # Required:
@@ -13,9 +14,6 @@ compatibility_flags = ["nodejs_compat"]
 # - WORDPRESS_WEBHOOK_SECRET
 # - CLOUDFLARE_ZONE_ID (for cache purging)
 # - CLOUDFLARE_API_TOKEN (for cache purging)
-
-[build]
-command = "npm run build"
 
 # For local development
 [dev]
