@@ -1,6 +1,5 @@
 // @ts-check
 // Cloudflare Pages configuration
-// To migrate: rename this to astro.config.mjs after installing @astrojs/cloudflare
 
 import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
@@ -29,5 +28,6 @@ export default defineConfig({
     routes: {
       strategy: 'auto',
     },
+    imageService: 'passthrough',
   }),
 });
