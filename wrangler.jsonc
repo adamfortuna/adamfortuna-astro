@@ -5,6 +5,7 @@
   "name": "adamfortuna-com",
   "compatibility_date": "2026-02-01",
   "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
 
   // Environment variables (set these in Cloudflare dashboard or via wrangler secret)
   // Required:
@@ -22,9 +23,5 @@
   // For local development
   "dev": {
     "port": 4321
-  },
-
-  "assets": {
-    "directory": "./dist"
   }
 }
