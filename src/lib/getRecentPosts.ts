@@ -58,9 +58,7 @@ export const findWordPressRecentPhotoPosts = `
 
 export const getRecentPostsByProject = async (project: WordpressClientIdentifier, type: WordpressPostType) => {
   try {
-
     const query = type === 'photos' ? findWordPressRecentPhotoPosts : findWordPressRecentPosts
-    // const parent = type === 'photos' ? { parent: 0 } : {}
     console.log("Fetching from", project)
     const result = await getClientForProject(project)({
       query,
@@ -72,6 +70,12 @@ export const getRecentPostsByProject = async (project: WordpressClientIdentifier
       },
     })
 
+    // Handle missing or failed API responses gracefully
+    if (!result?.data?.posts?.nodes) {
+      console.log(`No posts data returned for ${project}, skipping`);
+      return [] as WordpressPost[];
+    }
+
     return result.data.posts.nodes.map((p: WordpressPost) => {
       return {
         ...p,
@@ -80,7 +84,8 @@ export const getRecentPostsByProject = async (project: WordpressClientIdentifier
     }) as WordpressPost[]
   } catch(e) {
     console.log(`Error fetching recent posts for ${project}`, e);
-    throw(e);
+    // Return empty array instead of throwing to allow other projects to still load
+    return [] as WordpressPost[];
   }
 }
 
