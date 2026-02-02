@@ -15,13 +15,4 @@
   // - WORDPRESS_WEBHOOK_SECRET
   // - CLOUDFLARE_ZONE_ID (for cache purging)
   // - CLOUDFLARE_API_TOKEN (for cache purging)
-
-  "build": {
-    "command": "npm run build"
-  },
-
-  // For local development
-  "dev": {
-    "port": 4321
-  }
 }
