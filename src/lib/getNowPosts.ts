@@ -22,40 +22,26 @@ export const findAllNows = `
   }
 `
 
-export interface NowPostsResult {
-  posts: NowPost[]
-  error: string | null
-}
-
-export const getNowPosts = async (): Promise<NowPostsResult> => {
+export const getNowPosts = async (): Promise<NowPost[]> => {
   try {
     const result = await adamfortunaClient({
       query: findAllNows,
     })
 
-    if (result?.errors) {
-      const msg = result.errors.map((e: any) => e.message).join('; ')
-      console.log('GraphQL errors fetching nows:', msg)
-      return { posts: [], error: `GraphQL error: ${msg}` }
-    }
-
     if (!result?.data?.nows?.nodes) {
-      console.log('No nows data returned. Full response:', JSON.stringify(result?.data))
-      return { posts: [], error: `No "nows" field in response. Available fields: ${Object.keys(result?.data || {}).join(', ')}` }
+      console.log('No nows data returned:', result?.errors)
+      return []
     }
 
-    return {
-      posts: result.data.nows.nodes.map((node: any) => ({
-        id: node.databaseId,
-        slug: node.slug,
-        title: node.title,
-        date: node.date,
-        content: node.content,
-      })),
-      error: null,
-    }
+    return result.data.nows.nodes.map((node: any) => ({
+      id: node.databaseId,
+      slug: node.slug,
+      title: node.title,
+      date: node.date,
+      content: node.content,
+    }))
   } catch (e) {
     console.log('Error fetching nows', e)
-    return { posts: [], error: `Fetch error: ${e}` }
+    return []
   }
 }
