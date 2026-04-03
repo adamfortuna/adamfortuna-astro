@@ -3,6 +3,19 @@ import clsx from 'clsx'
 import Comment from './Comment'
 import { CommentForm } from './CommentForm'
 
+function formatCommentDate(dateStr: string) {
+  const date = new Date(dateStr)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }) + ' at ' + date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).toLowerCase()
+}
+
 interface CommentCommentProps {
   article: Article
   comment: CommentType
@@ -39,8 +52,8 @@ export const CommentComment = ({
         className={clsx(
           'bg-white',
           comment.root
-            ? 'shadow-lg rounded-lg p-4 pr-2 my-2 md:my-6 md:p-6'
-            : 'border-grey-100 border-t my-2 pt-4 pl-4 md:px-6 pb-0',
+            ? 'p-4 pr-2 my-2 md:shadow-lg md:rounded-lg md:my-6 md:p-6'
+            : 'border-gray-100 border-t my-2 pt-4 pl-4 md:px-6 pb-0',
           isPending && 'ring-2 ring-blue-300 ring-offset-2',
         )}
       >
@@ -77,7 +90,7 @@ export const CommentComment = ({
             </p>
             <p>
               <a href={`#comment-${comment.id}`} className="text-grey-700 font-400 no-underline hover:underline">
-                {comment.date.toString()}
+                {formatCommentDate(comment.date)}
               </a>
             </p>
           </div>

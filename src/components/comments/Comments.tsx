@@ -52,22 +52,10 @@ export const Comments = ({ article }: { article: Article }) => {
       <div className="mx-auto">
         {totalCount > 0 || comments.length > 0 ? (
           <div>
-            <div className="mx-auto px-3 md:max-w-3xl md:px-0 flex justify-between flex-row items-baseline">
+            <div className="mx-auto px-3 md:max-w-3xl md:px-0">
               <h2 className="font-handwriting text-4xl text-blue-700 mb-2">
                 <span className="text-5xl">{totalCount}</span> {pluralize('Comment', totalCount)}
               </h2>
-              {article.allowPings ? (
-                <a
-                  href="https://wp.adamfortuna.com/wp-json/webmention/1.0/endpoint"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:no-underline text-gray-700 text-sm hidden md:inline-block"
-                >
-                  Add a webmention
-                </a>
-              ) : (
-                false
-              )}
             </div>
 
             <WebmentionSummary comments={comments} />
@@ -90,31 +78,12 @@ export const Comments = ({ article }: { article: Article }) => {
             </div>
           </div>
         ) : (
-          <>
-            {article.allowPings ? (
-              <div className="bg-white relative md:max-w-3xl mx-auto shadow-lg lg:rounded-lg py-2 px-2 my-2 md:my-2 md:p-2 md:pb-4 flex flex-row justify-center items-center space-x-6">
-                <p className="mx-auto px-3 md:max-w-3xl md:px-0 pt-1">
-                  Did you link to this article?{' '}
-                  <a
-                    href="https://wp.adamfortuna.com/wp-json/webmention/1.0/endpoint"
-                    target="_blank"
-                    rel="nofollow noreferrer"
-                    className="underline hover:no-underline link--blue font-semibold"
-                  >
-                    Add it here
-                  </a>
-                  <span className="hidden md:inline"> and I'll include it</span>
-                </p>
-              </div>
-            ) : (
-              false
-            )}
-          </>
+          false
         )}
 
         {article.allowComments && (
-          <div className="max-w-3xl mx-auto mt-8 mb-4">
-            <div className="bg-white shadow-lg rounded-lg p-4 md:p-6">
+          <div className="max-w-3xl mx-auto mt-8 pb-8">
+            <div className="bg-white p-4 md:shadow-lg md:rounded-lg md:p-6">
               <h3 className="font-handwriting text-3xl text-blue-700 mb-4">Leave a Comment</h3>
               <CommentForm
                 postId={article.id}
