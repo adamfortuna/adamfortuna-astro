@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRefresh } from '@fortawesome/pro-solid-svg-icons'
+import { faRefresh } from '@fortawesome/free-solid-svg-icons'
 import clsx from 'clsx'
 
 type Props = {

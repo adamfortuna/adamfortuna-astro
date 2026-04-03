@@ -2,7 +2,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquareUpRight } from '@fortawesome/pro-regular-svg-icons'
+import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 export type LinkThemeProps = {
@@ -85,7 +85,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, React.PropsWithChildren<
           <a ref={ref} href={href} className={newClassName} {...props}>
             {props.children}
             <FontAwesomeIcon
-              icon={faSquareUpRight}
+              icon={faUpRightFromSquare}
               className="ml-2 hidden sm:inline-block text-blue-600 dark:text-sky-100"
             />
           </a>
