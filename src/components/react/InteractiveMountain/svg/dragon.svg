@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60">
+  <!-- Tail -->
+  <path class="animal__tail" d="M5,30 Q0,25 5,22 Q10,20 15,22 Q20,24 18,28 Q15,32 10,32Z" fill="#78AB5F"/>
+  <polygon class="animal__tail-tip" points="0,25 5,22 3,28" fill="#274928"/>
+  <!-- Tail mid section -->
+  <path class="animal__tail-mid" d="M15,22 Q25,18 30,22 Q28,28 20,28 Q15,28 15,22Z" fill="#78AB5F"/>
+  <!-- Back leg -->
+  <path class="animal__leg-back" d="M35,40 L33,52 L37,52 L38,40Z" fill="#274928"/>
+  <!-- Front leg -->
+  <path class="animal__leg-front" d="M60,40 L58,52 L62,52 L63,40Z" fill="#274928"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="50" cy="35" rx="22" ry="10" fill="#78AB5F"/>
+  <!-- Belly -->
+  <ellipse class="animal__belly" cx="52" cy="39" rx="14" ry="5" fill="#9FCA75"/>
+  <!-- Wing back -->
+  <path class="animal__wing-back" d="M35,30 Q30,10 50,5 Q45,18 40,28Z" fill="#4FACB4"/>
+  <!-- Wing front -->
+  <path class="animal__wing-front" d="M50,28 Q55,8 75,3 Q68,16 58,26Z" fill="#4FACB4"/>
+  <!-- Wing membrane lines -->
+  <line class="animal__wing-detail" x1="38" y1="28" x2="42" y2="8" stroke="#274928" stroke-width="0.8" opacity="0.4"/>
+  <line class="animal__wing-detail" x1="54" y1="26" x2="65" y2="6" stroke="#274928" stroke-width="0.8" opacity="0.4"/>
+  <!-- Neck -->
+  <path class="animal__neck" d="M65,30 Q72,22 78,18 Q80,24 73,32Z" fill="#78AB5F"/>
+  <!-- Head -->
+  <ellipse class="animal__head" cx="82" cy="16" rx="8" ry="5.5" fill="#78AB5F"/>
+  <!-- Snout -->
+  <path class="animal__snout" d="M88,15 L96,14 L88,18Z" fill="#9FCA75"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="85" cy="14" r="1.5" fill="#FCE1A8"/>
+  <circle class="animal__pupil" cx="85.5" cy="14" r="0.8" fill="#274928"/>
+  <!-- Horns -->
+  <path class="animal__horn-left" d="M78,12 L75,6 L79,10" fill="#274928"/>
+  <path class="animal__horn-right" d="M82,11 L81,5 L84,9" fill="#274928"/>
+  <!-- Nostril smoke -->
+  <circle class="animal__smoke" cx="95" cy="13" r="1" fill="#9FCA75" opacity="0.5"/>
+  <!-- Spines -->
+  <polygon class="animal__spine" points="68,26 70,22 72,26" fill="#274928"/>
+  <polygon class="animal__spine" points="63,28 65,24 67,28" fill="#274928"/>
+  <polygon class="animal__spine" points="58,29 60,25 62,29" fill="#274928"/>
+  <!-- Claws -->
+  <polygon class="animal__claw" points="33,52 31,54 35,53" fill="#274928"/>
+  <polygon class="animal__claw" points="58,52 56,54 60,53" fill="#274928"/>
+</svg>

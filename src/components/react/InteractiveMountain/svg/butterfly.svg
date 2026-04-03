@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 30">
+  <!-- Upper wings -->
+  <ellipse class="animal__wing-upper-right" cx="24" cy="9" rx="9" ry="7" fill="#62C2CD"/>
+  <ellipse class="animal__wing-upper-left" cx="10" cy="9" rx="9" ry="7" fill="#62C2CD"/>
+  <!-- Lower wings -->
+  <ellipse class="animal__wing-lower-right" cx="23" cy="20" rx="7" ry="5.5" fill="#4FACB4"/>
+  <ellipse class="animal__wing-lower-left" cx="11" cy="20" rx="7" ry="5.5" fill="#4FACB4"/>
+  <!-- Wing spots -->
+  <circle class="animal__spot" cx="24" cy="9" r="3" fill="#4FACB4"/>
+  <circle class="animal__spot" cx="10" cy="9" r="3" fill="#4FACB4"/>
+  <!-- Body -->
+  <rect class="animal__body" x="16" y="4" width="2.5" height="22" rx="1.25" fill="#274928"/>
+  <!-- Antennae -->
+  <line class="animal__antenna" x1="17" y1="4" x2="12" y2="0.5" stroke="#274928" stroke-width="1" stroke-linecap="round"/>
+  <line class="animal__antenna" x1="17.5" y1="4" x2="23" y2="0.5" stroke="#274928" stroke-width="1" stroke-linecap="round"/>
+</svg>

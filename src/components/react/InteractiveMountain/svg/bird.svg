@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 25">
+  <!-- Tail -->
+  <polygon class="animal__tail" points="3,13 0,9 0,16" fill="#78AB5F"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="15" cy="13" rx="12" ry="5.5" fill="#274928"/>
+  <!-- Wing upper -->
+  <path class="animal__wing-upper" d="M12,10 Q18,0 28,2 Q20,8 12,10Z" fill="#78AB5F"/>
+  <!-- Wing lower -->
+  <path class="animal__wing-lower" d="M12,10 Q16,3 25,5 Q18,9 12,10Z" fill="#9FCA75"/>
+  <!-- Head -->
+  <circle class="animal__head" cx="26" cy="11" r="4" fill="#274928"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="28" cy="10" r="1" fill="#FCE1A8"/>
+  <!-- Beak -->
+  <polygon class="animal__beak" points="30,11 35,10.5 30,12" fill="#FCE1A8"/>
+  <!-- Belly highlight -->
+  <ellipse class="animal__belly" cx="16" cy="15" rx="8" ry="2.5" fill="#78AB5F"/>
+</svg>

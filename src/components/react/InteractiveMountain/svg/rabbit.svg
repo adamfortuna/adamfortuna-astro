@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 30">
+  <!-- Tail -->
+  <circle class="animal__tail" cx="5" cy="18" r="2.5" fill="#C4B5A2"/>
+  <!-- Back leg -->
+  <ellipse class="animal__leg-back" cx="10" cy="24" rx="5" ry="4" fill="#9A8B78"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="15" cy="18" rx="10" ry="7" fill="#9A8B78"/>
+  <!-- Belly -->
+  <ellipse class="animal__belly" cx="17" cy="20" rx="6" ry="4" fill="#C4B5A2"/>
+  <!-- Front leg -->
+  <ellipse class="animal__leg-front" cx="22" cy="25" rx="2.5" ry="4" fill="#9A8B78"/>
+  <!-- Head -->
+  <circle class="animal__head" cx="24" cy="12" r="5.5" fill="#9A8B78"/>
+  <!-- Cheek -->
+  <circle class="animal__cheek" cx="26" cy="14" r="2.5" fill="#C4B5A2"/>
+  <!-- Ear left -->
+  <ellipse class="animal__ear-left" cx="21" cy="3" rx="2" ry="6" fill="#9A8B78"/>
+  <ellipse class="animal__ear-inner-left" cx="21" cy="3" rx="1" ry="4.5" fill="#C4B5A2"/>
+  <!-- Ear right -->
+  <ellipse class="animal__ear-right" cx="26" cy="2.5" rx="2" ry="6.5" fill="#9A8B78"/>
+  <ellipse class="animal__ear-inner-right" cx="26" cy="2.5" rx="1" ry="5" fill="#C4B5A2"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="26" cy="11" r="1.2" fill="#1A311E"/>
+  <!-- Nose -->
+  <circle class="animal__nose" cx="29" cy="13" r="0.8" fill="#1A311E"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 45">
+  <!-- Tail -->
+  <path class="animal__tail" d="M5,16 Q2,13 3,10 Q5,12 6,15Z" fill="#A68B6B"/>
+  <!-- Back legs -->
+  <rect class="animal__leg-back-1" x="10" y="30" width="3.5" height="12" rx="1.5" fill="#8B6C4A"/>
+  <rect class="animal__leg-back-2" x="15" y="30" width="3.5" height="12" rx="1.5" fill="#A68B6B"/>
+  <!-- Front legs -->
+  <rect class="animal__leg-front-1" x="30" y="30" width="3.5" height="12" rx="1.5" fill="#8B6C4A"/>
+  <rect class="animal__leg-front-2" x="34.5" y="30" width="3.5" height="12" rx="1.5" fill="#A68B6B"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="23" cy="24" rx="16" ry="9" fill="#8B6C4A"/>
+  <!-- Belly -->
+  <ellipse class="animal__belly" cx="24" cy="28" rx="10" ry="4.5" fill="#A68B6B"/>
+  <!-- Neck -->
+  <path class="animal__neck" d="M34,20 Q38,14 40,8 Q43,14 39,22Z" fill="#8B6C4A"/>
+  <!-- Head -->
+  <ellipse class="animal__head" cx="42" cy="8" rx="6" ry="4.5" fill="#8B6C4A"/>
+  <!-- Snout -->
+  <ellipse class="animal__snout" cx="46" cy="9" rx="3" ry="2.5" fill="#A68B6B"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="44" cy="7" r="1" fill="#1A311E"/>
+  <!-- Ear -->
+  <ellipse class="animal__ear" cx="39" cy="4" rx="2" ry="3" fill="#A68B6B" transform="rotate(-20 39 4)"/>
+  <!-- Antler left -->
+  <path class="animal__antler-left" d="M40,4 L38,0 L36,2 M38,0 L40,-2" stroke="#A68B6B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Antler right -->
+  <path class="animal__antler-right" d="M42,3 L43,0 L45,1 M43,0 L42,-2" stroke="#A68B6B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Hooves -->
+  <rect class="animal__hoof" x="10" y="41" width="3.5" height="2" rx="1" fill="#1A311E"/>
+  <rect class="animal__hoof" x="15" y="41" width="3.5" height="2" rx="1" fill="#1A311E"/>
+  <rect class="animal__hoof" x="30" y="41" width="3.5" height="2" rx="1" fill="#1A311E"/>
+  <rect class="animal__hoof" x="34.5" y="41" width="3.5" height="2" rx="1" fill="#1A311E"/>
+</svg>

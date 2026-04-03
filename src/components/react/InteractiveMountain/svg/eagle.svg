@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 35">
+  <!-- Tail feathers -->
+  <polygon class="animal__tail" points="0,16 5,13 7,18 5,20" fill="#8B6C4A"/>
+  <!-- Wing upper (back) -->
+  <path class="animal__wing-upper" d="M15,15 Q25,0 50,2 Q40,10 30,14Z" fill="#8B6C4A"/>
+  <!-- Wing lower (back) -->
+  <path class="animal__wing-lower" d="M15,18 Q22,28 45,32 Q35,24 25,20Z" fill="#8B6C4A"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="30" cy="17" rx="18" ry="5.5" fill="#4A3728"/>
+  <!-- Wing feather details upper -->
+  <path class="animal__feather" d="M20,12 Q30,3 45,4 Q35,9 25,13Z" fill="#4A3728" opacity="0.5"/>
+  <!-- Wing feather details lower -->
+  <path class="animal__feather" d="M18,20 Q25,26 40,29 Q30,23 22,19Z" fill="#4A3728" opacity="0.5"/>
+  <!-- Head -->
+  <circle class="animal__head" cx="50" cy="14" r="5" fill="#FCE1A8"/>
+  <!-- Beak -->
+  <polygon class="animal__beak" points="55,13 62,14.5 55,16" fill="#E8A455"/>
+  <line class="animal__beak-line" x1="55" y1="14.5" x2="61" y2="14.5" stroke="#4A3728" stroke-width="0.7"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="52" cy="13" r="1.2" fill="#4A3728"/>
+  <!-- Crown feathers -->
+  <path class="animal__crown" d="M48,10 Q47,8 48,7 M50,10 Q50,7 51,6" stroke="#4A3728" stroke-width="1" fill="none" stroke-linecap="round"/>
+</svg>

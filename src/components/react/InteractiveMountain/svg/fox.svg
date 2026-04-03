@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 35">
+  <!-- Tail -->
+  <path class="animal__tail" d="M2,14 Q0,10 4,8 Q8,6 10,10 Q12,14 8,18 Q4,20 2,14Z" fill="#C66B2B"/>
+  <path class="animal__tail-tip" d="M2,14 Q0,10 4,8 Q5,10 3,13Z" fill="#E8A455"/>
+  <!-- Back legs -->
+  <rect class="animal__leg-back-1" x="14" y="25" width="3" height="8" rx="1.2" fill="#274928"/>
+  <rect class="animal__leg-back-2" x="18" y="25" width="3" height="8" rx="1.2" fill="#274928"/>
+  <!-- Front legs -->
+  <rect class="animal__leg-front-1" x="33" y="25" width="3" height="8" rx="1.2" fill="#274928"/>
+  <rect class="animal__leg-front-2" x="37" y="25" width="3" height="8" rx="1.2" fill="#274928"/>
+  <!-- Body -->
+  <ellipse class="animal__body" cx="26" cy="20" rx="15" ry="7" fill="#C66B2B"/>
+  <!-- Belly -->
+  <ellipse class="animal__belly" cx="28" cy="23" rx="9" ry="3.5" fill="#E8A455"/>
+  <!-- Head -->
+  <path class="animal__head" d="M36,10 Q40,6 44,10 Q48,14 44,18 Q40,20 36,18 Q34,14 36,10Z" fill="#C66B2B"/>
+  <!-- Snout -->
+  <path class="animal__snout" d="M44,14 L50,15 L44,17Z" fill="#E8A455"/>
+  <!-- Nose -->
+  <circle class="animal__nose" cx="49" cy="15" r="1" fill="#274928"/>
+  <!-- Eye -->
+  <circle class="animal__eye" cx="42" cy="12" r="1.2" fill="#274928"/>
+  <!-- Ear left -->
+  <polygon class="animal__ear-left" points="37,10 35,3 39,8" fill="#C66B2B"/>
+  <polygon class="animal__ear-inner-left" points="37,9 36,5 38.5,8" fill="#274928"/>
+  <!-- Ear right -->
+  <polygon class="animal__ear-right" points="42,9 41,2 44,7" fill="#C66B2B"/>
+  <polygon class="animal__ear-inner-right" points="42,8 41.5,4 43.5,7" fill="#274928"/>
+</svg>
