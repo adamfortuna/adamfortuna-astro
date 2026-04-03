@@ -20,7 +20,7 @@ import BackToTop from './BackToTop.astro'
   <ArticleContentHtml article={article} />
   <PageFooter>
     <ArticleAboutAdamFooter />
-    <Comments article={article} />
+    <Comments article={article} client:visible />
     <BackToTop />
   </PageFooter>
 </article>
