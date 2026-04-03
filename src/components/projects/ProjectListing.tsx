@@ -5,7 +5,7 @@ import type { Project } from '../../types'
 import { ProjectsTimeline } from './ProjectsTimeline'
 import { ProjectTags } from './ProjectTags'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/pro-regular-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 
 type SortType = 'date_started' | 'date_ended' | 'technology' | 'project'
 interface Sorters {

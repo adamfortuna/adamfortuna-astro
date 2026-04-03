@@ -7,7 +7,7 @@ import type { LinkThemeProps } from '../layout/Link'
 import type { Link as LinkType } from '../../types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faLink, faHardDrive } from '@fortawesome/pro-regular-svg-icons'
+import { faLink, faHardDrive } from '@fortawesome/free-solid-svg-icons'
 
 
 export interface ProjectLinksProps {

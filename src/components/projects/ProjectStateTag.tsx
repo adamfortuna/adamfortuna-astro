@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faLightbulbOn,
+  faLightbulb,
   faLaptopCode,
-  faRocketLaunch,
+  faRocket,
   faHandHoldingDollar,
-  faPersonToDoor,
-} from '@fortawesome/pro-regular-svg-icons'
+  faDoorOpen,
+} from '@fortawesome/free-solid-svg-icons'
 
 export interface ProjectStateTagProps {
   state: 'idea' | 'development' | 'live' | 'retired' | 'transferred' | 'left'
@@ -14,11 +14,11 @@ export interface ProjectStateTagProps {
 }
 
 const iconMap = {
-  idea: faLightbulbOn,
+  idea: faLightbulb,
   development: faLaptopCode,
-  live: faRocketLaunch,
-  left: faPersonToDoor,
-  retired: faRocketLaunch,
+  live: faRocket,
+  left: faDoorOpen,
+  retired: faRocket,
   transferred: faHandHoldingDollar,
 }
 
