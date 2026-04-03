@@ -7,7 +7,7 @@ import Container from '../components/Container.astro'
 import { NowTimeline } from '../components/now/NowTimeline'
 import { getNowPosts } from '../lib/getNowPosts'
 
-const posts = await getNowPosts()
+const { posts, error } = await getNowPosts()
 
 // Get date from URL param, or default to most recent
 const url = new URL(Astro.request.url)
@@ -44,6 +44,13 @@ function formatPublishDate(dateStr: string) {
   )}
 
   <Container className="max-w-3xl">
+    {error ? (
+      <div class="px-3 md:px-0 bg-red-50 border border-red-200 rounded-md p-4 mb-4">
+        <p class="text-red-700 text-sm font-medium">Debug: {error}</p>
+        <p class="text-red-500 text-xs mt-1">This message is temporary for debugging. Remove once the query works.</p>
+      </div>
+    ) : null}
+
     {selectedPost ? (
       <div class="px-3 md:px-0">
         <p class="text-sm text-gray-500 mb-6">
