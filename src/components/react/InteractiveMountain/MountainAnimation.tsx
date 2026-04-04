@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 const CLASS_PREFIX = ''
 
-export default function MountainAnimation({ children }: {children: React.ReactElement }) {
+export default function MountainAnimation({ children }: {children: React.ReactNode }) {
   useEffect(() => {
     let gsap: typeof import('gsap').gsap
 
@@ -89,7 +89,6 @@ export default function MountainAnimation({ children }: {children: React.ReactEl
           repeatDelay: 4,
           stagger: 0.1,
           transformOrigin: '100% 50%',
-          skewType: 'simple',
           skewX: -5,
         })
 
@@ -101,7 +100,6 @@ export default function MountainAnimation({ children }: {children: React.ReactEl
             yoyo: true,
             repeatDelay: 4,
             transformOrigin: '100% 50%',
-            skewType: 'simple',
             skewX: -15,
           },
           '>',

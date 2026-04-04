@@ -5,12 +5,12 @@ interface AnimalChartProps {
   maxCount: number
 }
 
-// Lazy-load SVG components for chart icons
-const svgComponents: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {}
-const svgModules = import.meta.glob('./svg/*.svg', { eager: true }) as Record<string, { default: React.ComponentType<React.SVGProps<SVGSVGElement>> }>
-for (const [path, mod] of Object.entries(svgModules)) {
+// Load SVG files as raw strings for inline rendering
+const svgStrings: Record<string, string> = {}
+const svgModules = import.meta.glob('./svg/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+for (const [path, raw] of Object.entries(svgModules)) {
   const name = path.replace('./svg/', '').replace('.svg', '')
-  svgComponents[name] = mod.default
+  svgStrings[name] = raw
 }
 
 const BAR_MAX_WIDTH = 100
@@ -23,7 +23,7 @@ export function AnimalChart({ visibleAnimals, maxCount }: AnimalChartProps) {
       <div className="bg-white/50 backdrop-blur-sm rounded-xl px-3 py-3 shadow-sm">
         <ul className="space-y-2">
           {visibleAnimals.map((animal) => {
-            const SvgIcon = svgComponents[animal.svgName]
+            const svgMarkup = svgStrings[animal.svgName]
             return (
               <li
                 key={animal.name}
@@ -35,7 +35,21 @@ export function AnimalChart({ visibleAnimals, maxCount }: AnimalChartProps) {
                     transform: animal.animating ? 'scale(1.2)' : 'scale(1)',
                   }}
                 >
-                  {SvgIcon && <SvgIcon style={{ height: '100%', width: 'auto' }} />}
+                  {svgMarkup && (
+                    <span
+                      style={{ width: 24, height: 24, display: 'inline-block' }}
+                      ref={(node) => {
+                        if (node) {
+                          const svg = node.querySelector('svg')
+                          if (svg) {
+                            svg.style.width = '100%'
+                            svg.style.height = '100%'
+                          }
+                        }
+                      }}
+                      dangerouslySetInnerHTML={{ __html: svgMarkup }}
+                    />
+                  )}
                 </span>
                 <div
                   className="h-3.5 rounded transition-all duration-700 ease-out"
