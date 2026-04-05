@@ -1,4 +1,5 @@
 import { defineMiddleware } from 'astro:middleware';
+import { setKVNamespace } from './lib/graphqlCache';
 
 // Global store for Cloudflare runtime env (set per-request)
 let runtimeEnv: Record<string, string> = {};
@@ -13,6 +14,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const runtime = (context.locals as any).runtime;
   if (runtime?.env) {
     runtimeEnv = runtime.env;
+
+    // Expose KV namespace for GraphQL caching
+    if (runtime.env.GRAPHQL_CACHE) {
+      setKVNamespace(runtime.env.GRAPHQL_CACHE);
+    }
   }
 
   try {

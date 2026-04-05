@@ -89,21 +89,21 @@ export function setCacheHeaders(headers: Headers, options: {
   staleWhileRevalidate?: boolean;
 }) {
   const { maxAge = 0, cdnMaxAge = 31536000, tags = [], staleWhileRevalidate = true } = options;
-  
-  // Browser cache control
-  headers.set('Cache-Control', `public, max-age=${maxAge}${staleWhileRevalidate ? ', must-revalidate' : ''}`);
-  
-  // CDN cache control (works for both Netlify and Cloudflare)
+
+  // Browser cache: short TTL so users see fresh content soon after webhook purge
+  // CDN cache: long TTL via s-maxage, purged by webhook
+  const cacheControl = `public, max-age=${maxAge}, s-maxage=${cdnMaxAge}${staleWhileRevalidate ? ', must-revalidate' : ''}`;
+  headers.set('Cache-Control', cacheControl);
+
+  // CDN-Cache-Control for platforms that support it
   headers.set('CDN-Cache-Control', `s-maxage=${cdnMaxAge}`);
-  
-  // Netlify-specific
+
+  // Netlify-specific (kept for compatibility)
   headers.set('Netlify-CDN-Cache-Control', `s-maxage=${cdnMaxAge}`);
-  
+
   // Cache tags
   if (tags.length > 0) {
-    // Netlify format
     headers.set('Netlify-Cache-Tag', tags.join(','));
-    // Cloudflare format
     headers.set('Cache-Tag', tags.join(','));
   }
 }

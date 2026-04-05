@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { getEnv } from '../middleware';
+import { getCachedResponse, setCachedResponse } from './graphqlCache';
 import type {
   Author,
   Article,
@@ -263,7 +264,7 @@ export const parseProject = (project: WordpressProject) => {
   } as Project
 }
 
-export const fetchClient = ({
+export const fetchClient = async ({
   url,
   auth,
   query,
@@ -274,7 +275,14 @@ export const fetchClient = ({
   query: string
   variables?: any
 }) => {
-  return fetch(url, {
+  // Check KV cache first
+  const cacheKeyInput = url + query;
+  const cached = await getCachedResponse(cacheKeyInput, variables);
+  if (cached) {
+    return cached;
+  }
+
+  const result = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -284,7 +292,15 @@ export const fetchClient = ({
       query,
       variables,
     }),
-  }).then((res) => res.json())
+  }).then((res) => res.json());
+
+  // Cache successful responses (those with data and no errors)
+  if (result?.data && !result?.errors) {
+    // Don't await - let it happen in the background
+    setCachedResponse(cacheKeyInput, variables, result).catch(() => {});
+  }
+
+  return result;
 }
 
 export const adamfortunaClient = ({ query, variables = {} }: { query: string; variables?: any }) => {

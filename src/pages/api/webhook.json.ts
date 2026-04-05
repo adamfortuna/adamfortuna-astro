@@ -2,6 +2,7 @@ export const prerender = false
 
 import type { WordpressClientIdentifier } from "@/types";
 import { purgeCache } from "../../lib/cache";
+import { clearCache as clearGraphQLCache } from "../../lib/graphqlCache";
 import { getEnv } from "../../middleware";
 
 function sourceToProject(sourceUrl: string): WordpressClientIdentifier | null {
@@ -84,9 +85,13 @@ export async function POST(context: { request: Request; locals: any }) {
       ];
     }
     
+    // Clear KV-cached GraphQL responses
+    const kvCleared = await clearGraphQLCache();
+
+    // Purge CDN cache
     await purgeCache({ tags });
-  
-    return new Response(`Revalidated ${contentType} with id ${post_id}. Tags: ${tags.join(', ')}`, { status: 200 });
+
+    return new Response(`Revalidated ${contentType} with id ${post_id}. Tags: ${tags.join(', ')}. KV entries cleared: ${kvCleared}`, { status: 200 });
   } catch(e) {
     return new Response(`Something went wrong: ${e}`, { status: 500 });
   }

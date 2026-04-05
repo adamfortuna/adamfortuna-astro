@@ -15,6 +15,13 @@ pages_build_output_dir = "./dist"
 # - CLOUDFLARE_ZONE_ID (for cache purging)
 # - CLOUDFLARE_API_TOKEN (for cache purging)
 
+# KV namespace for caching GraphQL responses
+# Create with: npx wrangler kv namespace create GRAPHQL_CACHE
+# Then replace the id below with the one from the output
+[[kv_namespaces]]
+binding = "GRAPHQL_CACHE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
 # For local development
 [dev]
 port = 4321
