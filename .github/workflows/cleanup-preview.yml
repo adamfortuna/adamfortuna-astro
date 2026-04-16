@@ -1,0 +1,48 @@
+name: Cleanup Cloudflare Pages preview
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch name to clean up"
+        required: true
+
+jobs:
+  delete-previews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete preview deployments for branch
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_PROJECT: adamfortuna-com
+          BRANCH: ${{ github.event.pull_request.head.ref || inputs.branch }}
+        run: |
+          set -euo pipefail
+          if [ -z "$BRANCH" ]; then
+            echo "No branch name resolved; nothing to do."
+            exit 0
+          fi
+          echo "Cleaning previews for branch: $BRANCH"
+          page=1
+          deleted=0
+          while :; do
+            resp=$(curl -sS -H "Authorization: Bearer $CF_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/$CF_PROJECT/deployments?env=preview&per_page=25&page=$page")
+            count=$(echo "$resp" | jq '.result | length')
+            if [ "$count" -eq 0 ]; then
+              break
+            fi
+            ids=$(echo "$resp" | jq -r --arg b "$BRANCH" \
+              '.result[] | select(.deployment_trigger.metadata.branch == $b) | .id')
+            for id in $ids; do
+              echo "DELETE $id"
+              curl -sS -X DELETE -H "Authorization: Bearer $CF_API_TOKEN" \
+                "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/$CF_PROJECT/deployments/$id?force=true" > /dev/null
+              deleted=$((deleted + 1))
+            done
+            page=$((page + 1))
+          done
+          echo "Deleted $deleted deployment(s)."
