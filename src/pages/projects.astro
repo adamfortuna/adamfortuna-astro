@@ -1,4 +1,6 @@
 ---
+export const prerender = false
+
 import { getProjects } from '../lib/getProjects'
 import Layout from "../layouts/Layout.astro"
 import PageFooter from "../components/PageFooter.astro"
@@ -6,6 +8,10 @@ import Container from "../components/Container.astro"
 import ProjectListing from '../components/projects/ProjectListing'
 
 const projects = await getProjects()
+
+Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
+Astro.response.headers.set("netlify-cdn-cache-control", "s-maxage=31536000");
+Astro.response.headers.set("netlify-cache-tag", "projects");
 ---
 
 <Layout title="Projects I've Worked On" description="A look at every project I've worked on that I can remember.">

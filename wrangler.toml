@@ -15,6 +15,12 @@ pages_build_output_dir = "./dist"
 # - CLOUDFLARE_ZONE_ID (for cache purging)
 # - CLOUDFLARE_API_TOKEN (for cache purging)
 
+# KV namespace for edge + GraphQL response caching.
+# Reads/writes are wrapped by src/lib/kvCache.ts and src/lib/cacheVersion.ts.
+[[kv_namespaces]]
+binding = "CACHE"
+id = "66917697ced04bc4b450f8daaf208bbe"
+
 # For local development
 [dev]
 port = 4321

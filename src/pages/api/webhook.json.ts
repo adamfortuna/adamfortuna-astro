@@ -73,6 +73,13 @@ export async function POST(context: { request: Request; locals: any }) {
         'lain-index',
         ...postTags,
       ];
+    } else if (contentType === 'project') {
+      // Portfolio projects — /projects page is keyed on the `projects` tag.
+      tags = [
+        `project-${post_id}`,
+        'projects',
+        ...postTags,
+      ];
     } else {
       // Regular blog posts
       tags = [

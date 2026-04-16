@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { getEnv } from '../middleware';
+import { kvGetJSON, kvPutJSON, queryCacheKey } from './kvCache';
 import type {
   Author,
   Article,
@@ -263,7 +264,7 @@ export const parseProject = (project: WordpressProject) => {
   } as Project
 }
 
-export const fetchClient = ({
+export const fetchClient = async ({
   url,
   auth,
   query,
@@ -274,17 +275,25 @@ export const fetchClient = ({
   query: string
   variables?: any
 }) => {
-  return fetch(url, {
+  const key = await queryCacheKey(url, query, variables);
+  const cached = await kvGetJSON<any>(key);
+  if (cached) return cached;
+
+  const res = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: auth,
     },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  }).then((res) => res.json())
+    body: JSON.stringify({ query, variables }),
+  });
+  const json = await res.json();
+
+  // Only cache successful responses — GraphQL errors land in json.errors
+  if (res.ok && !(json as any)?.errors) {
+    await kvPutJSON(key, json);
+  }
+  return json;
 }
 
 export const adamfortunaClient = ({ query, variables = {} }: { query: string; variables?: any }) => {

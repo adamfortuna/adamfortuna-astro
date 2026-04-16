@@ -1,86 +1,51 @@
 /**
- * Cache management utilities
- * Supports both Netlify and Cloudflare cache purging
+ * Cache management utilities.
+ *
+ * Content invalidation is done by bumping per-tag versions stored in KV
+ * (see src/lib/cacheVersion.ts). Cache keys in both the edge HTML cache
+ * (src/lib/edgeCache.ts) and the GraphQL response cache
+ * (src/lib/kvCache.ts) embed the current version, so bumping a tag
+ * effectively invalidates every key that depended on it — without needing
+ * enterprise tag-based purging or tracking the full URL/query list.
+ *
+ * `setCacheHeaders` is kept for the Netlify deployment path which uses
+ * its native CDN cache tags.
  */
+import { bumpVersions } from './cacheVersion';
 import { getEnv } from '../middleware';
-
-type CacheProvider = 'netlify' | 'cloudflare';
 
 interface PurgeCacheOptions {
   tags: string[];
-  provider?: CacheProvider;
 }
 
 /**
- * Purge cache by tags
- * Auto-detects provider based on environment variables
+ * Invalidate caches for the given tags by bumping their version numbers
+ * in KV. Also triggers the Netlify tag purge when running on Netlify for
+ * backwards compatibility with the legacy deployment.
  */
-export async function purgeCache({ tags, provider }: PurgeCacheOptions): Promise<void> {
-  const detectedProvider = provider || detectProvider();
-  
-  if (detectedProvider === 'cloudflare') {
-    await purgeCloudflareCache(tags);
-  } else {
-    await purgeNetlifyCache(tags);
-  }
-}
+export async function purgeCache({ tags }: PurgeCacheOptions): Promise<void> {
+  // Primary path: version bump in KV. Works across edge + GraphQL caches.
+  await bumpVersions(tags);
 
-function detectProvider(): CacheProvider {
-  if (getEnv('CLOUDFLARE_ZONE_ID')) {
-    return 'cloudflare';
-  }
-  return 'netlify';
-}
-
-async function purgeNetlifyCache(tags: string[]): Promise<void> {
-  // Dynamic import to avoid issues when not on Netlify
-  const { purgeCache: netlifyPurge } = await import('@netlify/functions');
-
-  await netlifyPurge({
-    siteID: getEnv('NETLIFY_SITE_ID'),
-    tags,
-    token: getEnv('NETLIFY_TOKEN'),
-  });
-}
-
-async function purgeCloudflareCache(tags: string[]): Promise<void> {
-  const zoneId = getEnv('CLOUDFLARE_ZONE_ID');
-  const apiToken = getEnv('CLOUDFLARE_API_TOKEN');
-  
-  if (!zoneId || !apiToken) {
-    console.error('Cloudflare cache purge: Missing CLOUDFLARE_ZONE_ID or CLOUDFLARE_API_TOKEN');
-    return;
-  }
-
-  // Cloudflare cache purge by Cache-Tag header
-  // Requires Enterprise plan for tag-based purging, otherwise purge by URL
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/zones/${zoneId}/purge_cache`,
-    {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // For Enterprise: use tags
-        // tags: tags,
-        // For non-Enterprise: purge everything (or maintain URL list)
-        purge_everything: true,
-      }),
+  // Netlify backwards-compat: if the Netlify env vars are present, also
+  // trigger their native tag purge. No-op on Cloudflare.
+  if (getEnv('NETLIFY_SITE_ID') && getEnv('NETLIFY_TOKEN')) {
+    try {
+      const { purgeCache: netlifyPurge } = await import('@netlify/functions');
+      await netlifyPurge({
+        siteID: getEnv('NETLIFY_SITE_ID'),
+        tags,
+        token: getEnv('NETLIFY_TOKEN'),
+      });
+    } catch (e) {
+      console.error('Netlify cache purge failed:', e);
     }
-  );
-
-  if (!response.ok) {
-    const error = await response.text();
-    console.error('Cloudflare cache purge failed:', error);
-    throw new Error(`Cache purge failed: ${error}`);
   }
 }
 
 /**
- * Set cache headers for a response
- * Works across both Netlify and Cloudflare
+ * Set cache headers for a response. Used by the Netlify deployment path;
+ * on Cloudflare the edge cache middleware handles this automatically.
  */
 export function setCacheHeaders(headers: Headers, options: {
   maxAge?: number;
@@ -89,21 +54,13 @@ export function setCacheHeaders(headers: Headers, options: {
   staleWhileRevalidate?: boolean;
 }) {
   const { maxAge = 0, cdnMaxAge = 31536000, tags = [], staleWhileRevalidate = true } = options;
-  
-  // Browser cache control
+
   headers.set('Cache-Control', `public, max-age=${maxAge}${staleWhileRevalidate ? ', must-revalidate' : ''}`);
-  
-  // CDN cache control (works for both Netlify and Cloudflare)
   headers.set('CDN-Cache-Control', `s-maxage=${cdnMaxAge}`);
-  
-  // Netlify-specific
   headers.set('Netlify-CDN-Cache-Control', `s-maxage=${cdnMaxAge}`);
-  
-  // Cache tags
+
   if (tags.length > 0) {
-    // Netlify format
     headers.set('Netlify-Cache-Tag', tags.join(','));
-    // Cloudflare format
     headers.set('Cache-Tag', tags.join(','));
   }
 }
