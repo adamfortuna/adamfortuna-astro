@@ -12,6 +12,16 @@ import ArticleAboutAdamFooter from './ArticleAboutAdamFooter.astro'
 import { Comments } from '@/components/comments/Comments'
 import PageFooter from '../PageFooter.astro'
 import BackToTop from './BackToTop.astro'
+
+// Only pass the fields the island needs — passing the whole article would
+// serialize the full post content into the island's props, doubling the
+// page weight on long posts.
+const commentsArticle = {
+  id: article.id,
+  commentCount: 'commentCount' in article ? article.commentCount : 0,
+  comments: 'comments' in article ? article.comments : [],
+  allowComments: article.allowComments,
+}
 ---
 
 
@@ -20,7 +30,7 @@ import BackToTop from './BackToTop.astro'
   <ArticleContentHtml article={article} />
   <PageFooter>
     <ArticleAboutAdamFooter />
-    <Comments article={article} client:visible />
+    <Comments article={commentsArticle} client:visible />
     <BackToTop />
   </PageFooter>
 </article>

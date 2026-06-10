@@ -4,7 +4,6 @@ export const prerender = false
 import LainLayout from "../../layouts/LainLayout.astro"
 import LainContent from "../../components/lain/LainContent"
 import { getLainPostBySlug, getLainPosts } from "../../lib/getLainPosts"
-import { setCacheHeaders } from "../../lib/cache"
 
 const { slug } = Astro.params
 
@@ -18,12 +17,9 @@ if (!post) {
   return Astro.redirect('/lain')
 }
 
-// Set cache headers
-setCacheHeaders(Astro.response.headers, {
-  maxAge: 0,
-  cdnMaxAge: 31536000, // 1 year, invalidated by webhook
-  tags: [`lain-post-${post.id}`, 'lain'],
-})
+// Edge caching is handled by the middleware (src/lib/edgeCache.ts);
+// the browser should always revalidate.
+Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
 
 // Get type label
 const typeLabels: Record<string, string> = {

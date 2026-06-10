@@ -1,5 +1,11 @@
-import { useRef, useEffect, useCallback } from 'react'
-import type { NowPost } from '@/lib/getNowPosts'
+import { useRef, useEffect } from 'react'
+
+// Only the fields the timeline renders — these props are serialized into
+// the page HTML for hydration, so the full post content stays out.
+export interface NowTimelineEntry {
+  id: number
+  date: string
+}
 
 function formatShortDate(dateStr: string) {
   const date = new Date(dateStr)
@@ -16,7 +22,7 @@ function toDateParam(dateStr: string) {
 }
 
 interface NowTimelineProps {
-  posts: NowPost[]
+  posts: NowTimelineEntry[]
   selectedDate: string | null
 }
 

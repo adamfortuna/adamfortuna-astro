@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRefresh } from '@fortawesome/free-solid-svg-icons'
+import { FaIcon } from './FaIcon'
 import clsx from 'clsx'
 
 type Props = {
@@ -23,12 +22,7 @@ const variants = {
 const LoadingSpinner = ({ size = 'md', variant = 'none', className, ...rest }: Props) => {
   const finalClassName = clsx('animate-spin', sizes[size], variants[variant], className)
 
-  const props = {
-    className: finalClassName,
-    ...rest,
-  }
-
-  return <FontAwesomeIcon icon={faRefresh} {...props} />
+  return <FaIcon name="refresh" className={finalClassName} {...rest} />
 }
 
 export default LoadingSpinner

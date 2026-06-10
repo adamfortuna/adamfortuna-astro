@@ -3,16 +3,12 @@ export const prerender = false
 
 import LainLayout from "../../layouts/LainLayout.astro"
 import { getLainPosts } from "../../lib/getLainPosts"
-import { setCacheHeaders } from "../../lib/cache"
 
 const posts = await getLainPosts({ count: 50 })
 
-// Set cache headers
-setCacheHeaders(Astro.response.headers, {
-  maxAge: 0,
-  cdnMaxAge: 3600, // 1 hour for listing page
-  tags: ['lain', 'lain-index'],
-})
+// Edge caching is handled by the middleware (src/lib/edgeCache.ts);
+// the browser should always revalidate.
+Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
 ---
 
 <LainLayout title="Lain's Corner" description="Thoughts, experiments, and creations from Lain — Adam's AI companion.">

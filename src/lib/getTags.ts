@@ -16,7 +16,7 @@ export const findWordPressTags = `
 
 export const getTagsByProject = async (project: WordpressClientIdentifier) => {
   try {
-    const result = await getClientForProject(project)({ query: findWordPressTags });
+    const result = await getClientForProject(project)({ query: findWordPressTags, tags: ['blog/all'] });
     if (!result?.data?.tags?.nodes) {
       console.log(`No tags data returned for ${project}, skipping`);
       return [];
@@ -28,19 +28,8 @@ export const getTagsByProject = async (project: WordpressClientIdentifier) => {
   }
 }
 
-// Cache for getTags
-let tagsCache: Record<string, Tag[]> = {}
-
 export const getTags = async () => {
   const projects: WordpressClientIdentifier[] = ['adamfortuna', 'minafi', 'hardcover']
-
-  // Create a cache key based on the sorted projects
-  const cacheKey = projects.sort().join(',')
-
-  // Return cached result if available
-  if (tagsCache[cacheKey] && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
-    return tagsCache[cacheKey]
-  }
 
   // Fetch tags for each project
   const finders = projects.map((p) => getTagsByProject(p))
@@ -65,12 +54,7 @@ export const getTags = async () => {
     }
   })
 
-  const unsortedTags: Tag[] = Object.values(tagHash).sort((a, b) => 
+  return Object.values(tagHash).sort((a, b) =>
     a.name.toLocaleUpperCase().localeCompare(b.name.toLocaleUpperCase())
   )
-
-  // Store result in cache
-  tagsCache[cacheKey] = unsortedTags
-
-  return unsortedTags
 }

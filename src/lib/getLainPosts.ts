@@ -159,35 +159,24 @@ function parseShortcodeAttributes(str: string): Record<string, string> {
   return attrs
 }
 
-// Cache for Lain posts
-let lainPostsCache: LainPost[] | null = null
-
-export const getLainPosts = async ({ 
+export const getLainPosts = async ({
   count = 100,
-  useCache = true,
-}: { 
+}: {
   count?: number
-  useCache?: boolean 
 } = {}): Promise<LainPost[]> => {
-  if (useCache && lainPostsCache && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
-    return lainPostsCache
-  }
-  
   try {
     const result = await adamfortunaClient({
       query: findLainPosts,
       variables: { first: count },
+      tags: ['lain'],
     })
-    
+
     if (!result.data?.lainPosts?.nodes) {
       console.log('No Lain posts found or query error:', result.errors)
       return []
     }
-    
-    const posts = result.data.lainPosts.nodes.map(parseLainPost)
-    lainPostsCache = posts
-    
-    return posts
+
+    return result.data.lainPosts.nodes.map(parseLainPost)
   } catch (error) {
     console.error('Error fetching Lain posts:', error)
     return []
@@ -199,6 +188,7 @@ export const getLainPostBySlug = async (slug: string): Promise<LainPost | null> 
     const result = await adamfortunaClient({
       query: findLainPostBySlug,
       variables: { slug },
+      tags: ['lain'],
     })
     
     if (!result.data?.lainPost) {

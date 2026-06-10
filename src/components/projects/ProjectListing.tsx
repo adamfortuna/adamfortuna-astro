@@ -4,8 +4,7 @@ import sortBy from 'lodash/sortBy'
 import type { Project } from '../../types'
 import { ProjectsTimeline } from './ProjectsTimeline'
 import { ProjectTags } from './ProjectTags'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FaIcon } from '../layout/FaIcon'
 
 type SortType = 'date_started' | 'date_ended' | 'technology' | 'project'
 interface Sorters {
@@ -71,7 +70,7 @@ const ProjectListing = ({ projects }: { projects: Project[] }) => {
                 )}
               >
                 {sortedBy === sortButton.sortBy && (
-                  <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-green-500 dark:text-sky-900" />
+                  <FaIcon name="check" className="h-4 w-4 text-green-500 dark:text-sky-900" />
                 )}
                 <span>{sortButton.name}</span>
               </button>

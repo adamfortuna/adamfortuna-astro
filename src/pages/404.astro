@@ -1,0 +1,22 @@
+---
+export const prerender = false
+
+import Layout from '../layouts/Layout.astro'
+import Container from '../components/Container.astro'
+import PageFooter from '../components/PageFooter.astro'
+---
+
+<Layout title="Page Not Found" description="This page doesn't exist (or maybe it moved).">
+  <Container className="max-w-3xl py-16 text-center">
+    <p class="font-handwriting text-8xl text-blue-700 mb-6">404</p>
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">This page wandered off the trail.</h1>
+    <p class="text-lg text-gray-600 mb-8">
+      The page you're looking for doesn't exist — it may have moved, or the link might be broken.
+    </p>
+    <p class="space-x-4">
+      <a href="/" class="link--blue text-lg">Go home</a>
+      <a href="/blog" class="link--blue text-lg">Browse the blog</a>
+    </p>
+  </Container>
+  <PageFooter />
+</Layout>

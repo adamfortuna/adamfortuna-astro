@@ -10,6 +10,9 @@ import { getEnv } from '@/middleware'
 const { tag } = Astro.params
 const pageParam = Astro.params.page;
 const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+if (!Number.isInteger(currentPage) || currentPage < 1) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
 const pageSize = Number(getEnv('ARTICLES_PER_PAGE')) || 25;
 const offset = (currentPage - 1) * pageSize;
 
@@ -29,14 +32,9 @@ const page = {
   lastPage: totalPages,
 };
 
-// The browser should always check freshness
+// The browser should always check freshness; edge caching is handled by
+// the middleware (src/lib/edgeCache.ts).
 Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
-
-// The CDN should cache for a year, but revalidate if the cache tag changes
-Astro.response.headers.set("netlify-cdn-cache-control", "s-maxage=31536000");
-
-// Tag the page with the content type
-Astro.response.headers.set("netlify-cache-tag", `blog/tags/${tag}`);
 ---
 
 <BlogLayout title={`Tag: ${foundTag.name} - Adam Fortuna`} description={`Every blog post tagged with ${foundTag.name}`}>

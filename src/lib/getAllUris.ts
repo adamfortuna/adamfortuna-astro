@@ -28,6 +28,7 @@ export const getUrisByProject = async (project: WordpressClientIdentifier) => {
           categoryName: 'Canonical',
         },
       },
+      tags: ['blog/all'],
     })
 
     if (!result?.data) {
@@ -45,28 +46,12 @@ export const getUrisByProject = async (project: WordpressClientIdentifier) => {
   }
 }
 
-// Store cached URIs per project key
-let allUrisCache: Record<string, string[]> = {};
-
 export const getAllUris = async ({
   projects = ['adamfortuna', 'minafi', 'hardcover'],
 }: {
   projects?: WordpressClientIdentifier[];
 }): Promise<string[]> => {
-  // Create a cache key by joining project names
-  const cacheKey = projects.sort().join(',');
-
-  // Return cached result if it exists
-  if (allUrisCache[cacheKey] && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
-    return allUrisCache[cacheKey];
-  }
-
-  // Fetch URIs for each project
   const finders = projects.map((p) => getUrisByProject(p));
   const results = await Promise.all(finders);
-
-  // Store the result in the cache
-  allUrisCache[cacheKey] = flatten(results);
-
-  return allUrisCache[cacheKey];
+  return flatten(results);
 };

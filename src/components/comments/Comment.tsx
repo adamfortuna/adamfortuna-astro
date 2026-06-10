@@ -1,9 +1,10 @@
-import type { Article, Comment as CommentType } from '@/types'
+import type { Comment as CommentType } from '@/types'
+import type { CommentsArticle } from './Comments'
 import { Webmention } from './types/Webmention'
 import { CommentComment } from './CommentComment'
 
 interface CommentProps {
-  article: Article
+  article: CommentsArticle
   comment: CommentType
   depth?: number
   maxDepth?: number

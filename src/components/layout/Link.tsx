@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, jsx-a11y/anchor-has-content */
 import React from 'react'
 import clsx from 'clsx'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { FaIcon } from './FaIcon'
 
 
 export type LinkThemeProps = {
@@ -84,9 +83,9 @@ export const Link = React.forwardRef<HTMLAnchorElement, React.PropsWithChildren<
         return (
           <a ref={ref} href={href} className={newClassName} {...props}>
             {props.children}
-            <FontAwesomeIcon
-              icon={faUpRightFromSquare}
-              className="ml-2 hidden sm:inline-block text-blue-600 dark:text-sky-100"
+            <FaIcon
+              name="up-right-from-square"
+              className="ml-2 w-[1em] h-[1em] hidden sm:inline-block text-blue-600 dark:text-sky-100"
             />
           </a>
         )

@@ -1,4 +1,5 @@
-import type { Article, Comment as CommentType } from '@/types'
+import type { Comment as CommentType } from '@/types'
+import type { CommentsArticle } from './Comments'
 import clsx from 'clsx'
 import Comment from './Comment'
 import { CommentForm } from './CommentForm'
@@ -17,7 +18,7 @@ function formatCommentDate(dateStr: string) {
 }
 
 interface CommentCommentProps {
-  article: Article
+  article: CommentsArticle
   comment: CommentType
   depth?: number
   maxDepth?: number

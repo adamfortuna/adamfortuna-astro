@@ -1,11 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faLightbulb,
-  faLaptopCode,
-  faRocket,
-  faHandHoldingDollar,
-  faDoorOpen,
-} from '@fortawesome/free-solid-svg-icons'
+import { FaIcon, type FaIconName } from '../layout/FaIcon'
 
 export interface ProjectStateTagProps {
   state: 'idea' | 'development' | 'live' | 'retired' | 'transferred' | 'left'
@@ -13,13 +6,13 @@ export interface ProjectStateTagProps {
   children: any
 }
 
-const iconMap = {
-  idea: faLightbulb,
-  development: faLaptopCode,
-  live: faRocket,
-  left: faDoorOpen,
-  retired: faRocket,
-  transferred: faHandHoldingDollar,
+const iconMap: Record<ProjectStateTagProps['state'], FaIconName> = {
+  idea: 'lightbulb',
+  development: 'laptop-code',
+  live: 'rocket',
+  left: 'door-open',
+  retired: 'rocket',
+  transferred: 'hand-holding-dollar',
 }
 
 const classMap = {
@@ -43,7 +36,7 @@ const iconClassMap = {
 export const ProjectStateTag = ({ state, className = '', children }: ProjectStateTagProps) => {
   return (
     <span className={`px-1 py-0.5 rounded-sm font-semibold ${className} ${classMap[state]}`}>
-      <FontAwesomeIcon icon={iconMap[state]} className={`w-4 h-4 hidden sm:inline-block mr-2 ${iconClassMap[state]}`} />
+      <FaIcon name={iconMap[state]} className={`w-4 h-4 hidden sm:inline-block mr-2 ${iconClassMap[state]}`} />
       {children}
     </span>
   )

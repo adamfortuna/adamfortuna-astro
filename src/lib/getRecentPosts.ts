@@ -68,6 +68,7 @@ export const getRecentPostsByProject = async (project: WordpressClientIdentifier
           categoryName: 'Canonical',
         },
       },
+      tags: ['blog/all'],
     })
 
     // Handle missing or failed API responses gracefully
@@ -95,9 +96,6 @@ interface RecentPostType {
   articles: Article[] | PhotoPost[]
 }
 
-// Store cached posts per unique key
-let recentPostsCache: Record<string, RecentPostType> = {};
-
 export const getRecentPosts = async ({
   count,
   offset = 0,
@@ -113,15 +111,8 @@ export const getRecentPosts = async ({
   type?: WordpressPostType;
   sortBy?: any;
 }): Promise<RecentPostType> => {
-  // Create a unique cache key based on function parameters
-  const cacheKey = JSON.stringify({ count, offset, type, projects });
-
-  // Return cached result if available
-  if (recentPostsCache[cacheKey] && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
-    return recentPostsCache[cacheKey];
-  }
-
-  // Fetch posts for each project
+  // Fetch posts for each project. Responses are cached in KV (see
+  // fetchClient), so no extra in-memory caching is needed here.
   const finders = projects.map((p) => getRecentPostsByProject(p, type));
   const results = await Promise.all(finders);
 
@@ -132,15 +123,9 @@ export const getRecentPosts = async ({
   const flatArticles = flatten(allArticles).filter(filterBy).sort(sortBy);
   const articles = [...flatArticles.slice(offset, offset + count)];
 
-  // Prepare the response
-  const response: RecentPostType = {
+  return {
     articlesCount: flatArticles.length,
     articles,
     totalPages: Math.ceil(flatArticles.length / count),
   };
-
-  // Store the response in the cache
-  recentPostsCache[cacheKey] = response;
-
-  return response;
 };

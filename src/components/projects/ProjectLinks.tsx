@@ -5,9 +5,7 @@ import sortBy from 'lodash/sortBy'
 import { Link } from '../layout/Link'
 import type { LinkThemeProps } from '../layout/Link'
 import type { Link as LinkType } from '../../types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faLink, faHardDrive } from '@fortawesome/free-solid-svg-icons'
+import { FaIcon, type FaIconName } from '../layout/FaIcon'
 
 
 export interface ProjectLinksProps {
@@ -15,14 +13,14 @@ export interface ProjectLinksProps {
   size?: LinkThemeProps['size']
 }
 
-const lookupIcon = (link: LinkType) => {
+const lookupIcon = (link: LinkType): FaIconName => {
   if (link.url.indexOf('https://github.com') !== -1) {
-    return faGithub
+    return 'github'
   }
   if (link.url.indexOf('https://web.archive.org') !== -1) {
-    return faHardDrive
+    return 'hard-drive'
   }
-  return faLink
+  return 'link'
 }
 
 const ProjectLink = ({ link, size }: { link: LinkType; size: LinkThemeProps['size'] }) => {
@@ -38,7 +36,7 @@ const ProjectLink = ({ link, size }: { link: LinkType; size: LinkThemeProps['siz
         variant="button"
         className="flex space-x-2 items-center"
       >
-        <FontAwesomeIcon icon={icon} className="h-4 w-4 text-sky-800 dark:text-sky-100 group-hover:text-black" />
+        <FaIcon name={icon} className="h-4 w-4 text-sky-800 dark:text-sky-100 group-hover:text-black" />
         <span>{link.title}</span>
       </Link>
     </li>

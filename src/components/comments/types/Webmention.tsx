@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element, react/no-danger */
 import { useMemo } from 'react'
-import { Comment as CommentType } from '@/types'
+import type { Comment as CommentType } from '@/types'
 import clsx from 'clsx'
 import { stripHtml } from 'string-strip-html'
 import { dateFullLong } from '@/lib/dateService'

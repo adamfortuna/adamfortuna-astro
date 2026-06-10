@@ -55,6 +55,7 @@ export const getProjects = async (): Promise<Project[]> => {
   try {
     const result = await getClientForProject('adamfortuna')({
       query: findProjects,
+      tags: ['projects'],
     })
 
     if (!result?.data?.projects?.nodes) {

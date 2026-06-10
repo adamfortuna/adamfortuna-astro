@@ -5,8 +5,6 @@ import Layout from "../layouts/Layout.astro"
 import Article from "../components/articles/Article.astro";
 
 import { getPostOrPageByUri } from '../lib/getPostOrPageByUri'
-import type { PhotoPost, Post } from "../types";
-import { getAllUris } from "../lib/getAllUris";
 
 const uri = `/${Astro.params.uri}`;
 const article = await getPostOrPageByUri(uri)
@@ -18,49 +16,11 @@ if(!article) {
   });
 }
 
-
-export async function getStaticPaths() {
-  const uris = await getAllUris({ projects: ['adamfortuna'] })
-
-  return uris.map((uri: string) => ({
-    params: { uri },
-  }))
-}
-
-function resolveContentTemplate(article:Post | PhotoPost) {
-  let template;
-  switch (article.__typename) {
-    case "Post":
-      template = Article;
-      break;
-    case "Page":
-      template = Article;
-      break;
-    // case "Category":
-    //   template = Archive;
-    //   break;
-    // case "Tag":
-    //   template = Archive;
-    //   break;
-    default:
-      template = Article;
-  }
-
-  return template;
-}
-
-const Template = resolveContentTemplate(article);
-
-// The browser should always check freshness
+// The browser should always check freshness; edge caching is handled by
+// the middleware (src/lib/edgeCache.ts).
 Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
-
-// The CDN should cache for a year, but revalidate if the cache tag changes
-Astro.response.headers.set("netlify-cdn-cache-control", "s-maxage=31536000");
-
-// Tag the page with the book ID
-Astro.response.headers.set("netlify-cache-tag", `post-id-${article.id}`);
 ---
 
-<Layout title={article.title} description={article.excerpt} image={article.featuredImage?.sourceUrl}>
-  <Template article={article} />
+<Layout title={article.title} description={article.excerpt} image={article.featuredImage?.sourceUrl} ogType="article">
+  <Article article={article} />
 </Layout>

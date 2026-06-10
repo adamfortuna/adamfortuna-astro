@@ -9,9 +9,9 @@ import ProjectListing from '../components/projects/ProjectListing'
 
 const projects = await getProjects()
 
+// The browser should always check freshness; edge caching is handled by
+// the middleware (src/lib/edgeCache.ts).
 Astro.response.headers.set("cache-control", "public, max-age=0, must-revalidate");
-Astro.response.headers.set("netlify-cdn-cache-control", "s-maxage=31536000");
-Astro.response.headers.set("netlify-cache-tag", "projects");
 ---
 
 <Layout title="Projects I've Worked On" description="A look at every project I've worked on that I can remember.">
@@ -37,7 +37,7 @@ Astro.response.headers.set("netlify-cache-tag", "projects");
       </p>
     </div>
 
-    <ProjectListing projects={projects} client:load />
+    <ProjectListing projects={projects} client:idle />
   </Container>
   <PageFooter />
 </Layout>

@@ -1,17 +1,18 @@
 ---
 import Container from "./Container.astro"
-import InteractiveMountain from './react/InteractiveMountain/index.tsx'
 import { Icon } from 'astro-icon/components'
-import Mountains from './react/InteractiveMountain/mountains.svg'
+import Mountains from '../assets/mountains.svg'
 ---
 <div class="relative h-screen">
-  <InteractiveMountain client:load>
-    <Mountains class="w-full h-full" />
-  </InteractiveMountain>
+  <div class="mountain-animation">
+    <div class="absolute w-screen h-screen overflow-hidden">
+      <Mountains class="w-full h-full" />
+    </div>
+  </div>
   <Container className="relative pt-20 pb-4 sm:pb-16 md:pt-32 lg:pt-48 text-black max-w-4xl lg:max-w-5xl xl:max-w-6xl px-4 lg:px-0 lg:mx-auto">
     <p class="font-display text-5xl font-medium tracking-tight sm:text-7xl relative space-x-4">
       <span class="font-handwriting">Hey hey!</span>
-      <span class="animate-waving-hand inline-block">👋</span>
+      <span class="motion-safe:animate-waving-hand inline-block">👋</span>
     </p>
     <p class="mt-10 max-w-xl text-2xl leading-10">
       I'm <span class="font-bold">Adam Fortuna,</span> a full-stack product developer living in Salt Lake City,
@@ -78,3 +79,76 @@ import Mountains from './react/InteractiveMountain/mountains.svg'
     </div>
   </Container>
 </div>
+
+<script>
+  // Decorative background animation. GSAP is loaded lazily once the browser
+  // is idle so it never competes with the initial render, and skipped
+  // entirely for users who prefer reduced motion.
+  async function startBackgroundAnimations() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const { gsap } = await import('gsap')
+
+    gsap.timeline().to('.mountain__clouds', {
+      y: '-=10',
+      duration: 3.5,
+      yoyo: true,
+      repeat: -1,
+    })
+
+    gsap
+      .timeline({ defaults: { ease: 'linear' } })
+      .to('.mountain__cloud1', { x: 760, duration: 50 })
+      .fromTo(
+        '.mountain__cloud1',
+        { x: -200 },
+        { x: 760, duration: 70, repeat: -1, immediateRender: false },
+      )
+
+    gsap.timeline().to('.mountain__cloud2', {
+      y: '-=10',
+      duration: 4.5,
+      yoyo: true,
+      repeat: -1,
+    })
+
+    gsap
+      .timeline({ defaults: { ease: 'linear' } })
+      .to('.mountain__cloud3', { x: 760, duration: 30 })
+      .fromTo(
+        '.mountain__cloud3',
+        { x: -200 },
+        { x: 760, duration: 90, repeat: -1, immediateRender: false },
+      )
+
+    gsap
+      .timeline()
+      .to('.mountain__tree', {
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        repeatDelay: 4,
+        stagger: 0.1,
+        transformOrigin: '100% 50%',
+        skewX: -5,
+      })
+      .to(
+        '.mountain__bottom-left',
+        {
+          duration: 1,
+          repeat: -1,
+          yoyo: true,
+          repeatDelay: 4,
+          transformOrigin: '100% 50%',
+          skewX: -15,
+        },
+        '>',
+      )
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => startBackgroundAnimations(), { timeout: 3000 })
+  } else {
+    setTimeout(() => startBackgroundAnimations(), 1000)
+  }
+</script>

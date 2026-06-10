@@ -21,6 +21,8 @@ if (typeof MessageChannel === 'undefined') {
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://adamfortuna.com',
+
   vite: {
     plugins: [tailwindcss()],
     build: {

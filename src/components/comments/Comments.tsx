@@ -1,9 +1,18 @@
 import { useState, useCallback } from 'react'
 import pluralize from '@/lib/pluralize'
-import type { Article, Comment as CommentType } from '@/types'
+import type { Comment as CommentType } from '@/types'
 import Comment from './Comment'
 import { WebmentionSummary } from './WebmentionSummary'
 import { CommentForm } from './CommentForm'
+
+// The subset of an article the comments island needs. Keeping this narrow
+// matters: these props are serialized into the page HTML for hydration.
+export interface CommentsArticle {
+  id: number
+  commentCount?: number | null
+  comments?: CommentType[] | null
+  allowComments?: boolean
+}
 
 const MAX_REPLY_DEPTH = 5
 
@@ -19,7 +28,7 @@ function insertReply(comments: CommentType[], parentId: number, newComment: Comm
   })
 }
 
-export const Comments = ({ article }: { article: Article }) => {
+export const Comments = ({ article }: { article: CommentsArticle }) => {
   const [comments, setComments] = useState<CommentType[]>(article.comments || [])
   const [replyingTo, setReplyingTo] = useState<number | null>(null)
   const [pendingCommentIds, setPendingCommentIds] = useState<Set<number>>(new Set())

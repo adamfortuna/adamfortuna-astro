@@ -70,11 +70,6 @@
   @apply mx-auto;
 }
 
-input.dropdown-checkbox[type=checkbox]:checked ~ ul {
-  visibility: visible;
-  opacity: 1;
-}
-
 .is-layout-constrained {
   @apply max-w-3xl;
 }

@@ -37,10 +37,16 @@ export async function queryCacheKey(
   url: string,
   query: string,
   variables: unknown,
+  tags?: string[],
 ): Promise<string> {
-  const version = await getVersion('global');
+  // When tags are provided the key only rotates when one of those tags is
+  // bumped by the webhook. Untagged queries fall back to the global version,
+  // which is bumped on every webhook, so they can never serve stale data.
+  const tagList = tags && tags.length > 0 ? [...tags].sort() : ['global'];
+  const versions = await Promise.all(tagList.map((t) => getVersion(t)));
+  const versionPart = tagList.map((t, i) => `${t}=${versions[i]}`).join(',');
   const hash = await sha256(
-    `${url}|${query}|${JSON.stringify(variables ?? {})}|v=${version}`,
+    `${url}|${query}|${JSON.stringify(variables ?? {})}|v=${versionPart}`,
   );
   return `q:${hash}`;
 }

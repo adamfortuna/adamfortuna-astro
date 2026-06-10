@@ -44,6 +44,7 @@ export const getRecentPostsByProjectAndTag = async (project: WordpressClientIden
           categoryName: 'Canonical',
         },
       },
+      tags: ['blog/all'],
     })
     console.log("DONE: getRecentPostsByProjectAndTag project:", project, "tag:", tag)
     if (!result.data.posts?.nodes) {
@@ -61,20 +62,13 @@ export const getRecentPostsByProjectAndTag = async (project: WordpressClientIden
   }
 }
 
-// Cache for tags
-let tagCache: Record<string, any> = {}
-
 export const getTag = async (tag: string):Promise<Tag | null> => {
-  if (tagCache[tag]) {
-    return tagCache[tag]
-  }
-
   try {
     const result = await adamfortunaClient({
       query: findTagInfo,
       variables: { tag },
+      tags: ['blog/all'],
     })
-    tagCache[tag] = result.data.tag // Store in cache
     return result.data.tag
   } catch {
     return null
@@ -93,9 +87,6 @@ export interface PostsWithOptionalTag{
   tag: Tag | null
 }
 
-// Cache for recent posts by tag
-let recentPostsByTagCache: Record<string, PostsWithOptionalTag> = {}
-
 export const getRecentPostsByTag = async ({
   count,
   offset = 0,
@@ -106,26 +97,16 @@ export const getRecentPostsByTag = async ({
   tag: string
   offset?: number
   projects?: WordpressClientIdentifier[]
-}) => {
-  // Generate cache key
-  const cacheKey = JSON.stringify({ tag, projects: projects.sort(), count, offset })
- 
-  // Return cached results if available
-  if (recentPostsByTagCache[cacheKey] && (import.meta.env.ENABLE_CACHE === "1" || import.meta.env.BUILDING)) {
-    return recentPostsByTagCache[cacheKey]
-  }
-
+}): Promise<PostsWithOptionalTag> => {
   const foundTag = await getTag(tag)
   if (!foundTag) {
-    recentPostsByTagCache[cacheKey] = {
+    return {
       articles: [],
       articlesCount: 0,
       tag: null,
     };
-    return recentPostsByTagCache[cacheKey];
   }
 
-  console.log("STARTED getRecentPostsByTag tag:", tag)
   const finders = projects.map((p) => getRecentPostsByProjectAndTag(p, tag))
   const results = await Promise.all(finders)
 
@@ -134,14 +115,9 @@ export const getRecentPostsByTag = async ({
   )
   const articles = flatten(allArticles).sort(sortByDateDesc) as Article[]
 
-  const response = {
+  return {
     articles: [...articles.slice(offset, offset + count)],
     articlesCount: articles.length,
     tag: foundTag,
   }
-
-  // Store in cache
-  recentPostsByTagCache[cacheKey] = response
-
-  return response
 }

@@ -49,12 +49,20 @@ function isHtml(response: Response): boolean {
   return ct.includes('text/html');
 }
 
+// Analytics/tracking params don't change the rendered page; keeping them in
+// the cache key would store a separate copy of the page per campaign link.
+const TRACKING_PARAM =
+  /^(utm_.+|fbclid|gclid|msclkid|twclid|mc_cid|mc_eid|igshid|ref|ref_src)$/i;
+
 async function buildCacheKey(
   request: Request,
   tags: string[],
 ): Promise<Request> {
   const versions = await getVersions(tags);
   const url = new URL(request.url);
+  for (const key of [...url.searchParams.keys()]) {
+    if (TRACKING_PARAM.test(key)) url.searchParams.delete(key);
+  }
   url.searchParams.set('__v', versionToken(versions));
   return new Request(url.toString(), { method: 'GET' });
 }

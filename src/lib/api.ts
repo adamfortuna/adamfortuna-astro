@@ -264,30 +264,52 @@ export const parseProject = (project: WordpressProject) => {
   } as Project
 }
 
+export interface ClientOptions {
+  query: string
+  variables?: any
+  /**
+   * Cache tags for the KV response cache. When provided, the cached
+   * response is only invalidated when one of these tags is bumped by the
+   * WordPress webhook; otherwise the global version is used.
+   */
+  tags?: string[]
+}
+
 export const fetchClient = async ({
   url,
   auth,
   query,
   variables = {},
-}: {
+  tags,
+}: ClientOptions & {
   url: string
   auth: string
-  query: string
-  variables?: any
 }) => {
-  const key = await queryCacheKey(url, query, variables);
+  const doFetch = async () => {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: auth,
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+    const json = await res.json();
+    return { res, json };
+  };
+
+  // Mutations must never be served from or written to the cache —
+  // a cached mutation response would silently skip the actual write.
+  if (/^\s*mutation\b/.test(query)) {
+    const { json } = await doFetch();
+    return json;
+  }
+
+  const key = await queryCacheKey(url, query, variables, tags);
   const cached = await kvGetJSON<any>(key);
   if (cached) return cached;
 
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: auth,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  const json = await res.json();
+  const { res, json } = await doFetch();
 
   // Only cache successful responses — GraphQL errors land in json.errors
   if (res.ok && !(json as any)?.errors) {
@@ -296,7 +318,7 @@ export const fetchClient = async ({
   return json;
 }
 
-export const adamfortunaClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+export const adamfortunaClient = ({ query, variables = {}, tags }: ClientOptions) => {
   const token = getEnv('WP_ADAMFORTUNA_TOKEN');
   if (!token) {
     console.error('WP_ADAMFORTUNA_TOKEN is not set');
@@ -306,10 +328,11 @@ export const adamfortunaClient = ({ query, variables = {} }: { query: string; va
     auth: `Basic ${token}`,
     query,
     variables,
+    tags,
   })
 }
 
-export const hardcoverClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+export const hardcoverClient = ({ query, variables = {}, tags }: ClientOptions) => {
   const token = getEnv('WP_HARDCOVER_TOKEN');
   if (!token) {
     console.error('WP_HARDCOVER_TOKEN is not set');
@@ -319,10 +342,11 @@ export const hardcoverClient = ({ query, variables = {} }: { query: string; vari
     auth: `Basic ${token}`,
     query,
     variables,
+    tags,
   })
 }
 
-export const minafiClient = ({ query, variables = {} }: { query: string; variables?: any }) => {
+export const minafiClient = ({ query, variables = {}, tags }: ClientOptions) => {
   const token = getEnv('WP_MINAFI_TOKEN');
   if (!token) {
     console.error('WP_MINAFI_TOKEN is not set');
@@ -332,6 +356,7 @@ export const minafiClient = ({ query, variables = {} }: { query: string; variabl
     auth: `Basic ${token}`,
     query,
     variables,
+    tags,
   })
 }
 

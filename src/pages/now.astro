@@ -39,7 +39,7 @@ function formatPublishDate(dateStr: string) {
 
   {posts.length > 1 && (
     <div class="bg-sky-100 rounded-lg mx-2 md:mx-auto md:max-w-3xl mb-6">
-      <NowTimeline posts={posts} selectedDate={selectedDate} client:load />
+      <NowTimeline posts={posts.map((p) => ({ id: p.id, date: p.date }))} selectedDate={selectedDate} client:idle />
     </div>
   )}
 
