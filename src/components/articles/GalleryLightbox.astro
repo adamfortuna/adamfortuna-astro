@@ -1,0 +1,149 @@
+---
+/**
+ * GalleryLightbox
+ *
+ * Progressive enhancement for native WordPress gallery blocks
+ * (`figure.wp-block-gallery`). With JS off, galleries render as the normal
+ * WordPress grid. With JS on, this upgrades them into a PhotoSwipe lightbox
+ * with next/prev, keyboard arrows, swipe and pinch-zoom.
+ *
+ * PhotoSwipe (and its CSS) is only fetched when a gallery is present on the
+ * page, so non-gallery posts pay nothing for it.
+ */
+---
+
+<script>
+  import type PhotoSwipeLightbox from 'photoswipe/lightbox'
+
+  /**
+   * Pick the largest image URL + its width from an <img>'s srcset.
+   * Falls back to currentSrc/src when there is no srcset.
+   */
+  function largestFromSrcset(img: HTMLImageElement): { url: string; width: number } {
+    const srcset = img.getAttribute('srcset')
+    let best = { url: img.currentSrc || img.src, width: 0 }
+    if (srcset) {
+      for (const part of srcset.split(',')) {
+        const [url, descriptor] = part.trim().split(/\s+/)
+        const width = descriptor?.endsWith('w') ? parseInt(descriptor) : 0
+        if (url && width >= best.width) best = { url, width }
+      }
+    }
+    return best
+  }
+
+  /**
+   * Best-effort intrinsic aspect ratio for an image, preferring the decoded
+   * natural size, then the HTML width/height attributes, then a 3:2 default.
+   */
+  function aspectRatio(img: HTMLImageElement): number {
+    if (img.naturalWidth && img.naturalHeight) return img.naturalHeight / img.naturalWidth
+    const w = parseInt(img.getAttribute('width') || '0')
+    const h = parseInt(img.getAttribute('height') || '0')
+    if (w && h) return h / w
+    return 2 / 3
+  }
+
+  /**
+   * Ensure every image in a gallery is wrapped in an <a> that PhotoSwipe can
+   * open: href -> full-size image, plus data-pswp-width/height.
+   */
+  function prepareGallery(gallery: HTMLElement) {
+    const images = gallery.querySelectorAll<HTMLImageElement>('img')
+    images.forEach((img) => {
+      const { url, width: srcsetWidth } = largestFromSrcset(img)
+      // Prefer an existing "Link to Media File" anchor's href (the true
+      // original) for the displayed image, but keep srcset width for sizing.
+      const existingAnchor = img.closest('a')
+      const href = existingAnchor?.getAttribute('href') || url
+
+      const ratio = aspectRatio(img)
+      const pswpWidth = srcsetWidth || img.naturalWidth || parseInt(img.getAttribute('width') || '0') || 1600
+      const pswpHeight = Math.round(pswpWidth * ratio)
+
+      let anchor = existingAnchor
+      if (!anchor) {
+        anchor = document.createElement('a')
+        img.replaceWith(anchor)
+        anchor.appendChild(img)
+      }
+      anchor.setAttribute('href', href)
+      anchor.setAttribute('data-pswp-width', String(pswpWidth))
+      anchor.setAttribute('data-pswp-height', String(pswpHeight))
+      anchor.setAttribute('target', '_blank')
+      anchor.setAttribute('rel', 'noreferrer')
+
+      // Caption from the image's <figcaption>, if any.
+      const caption = img.closest('figure')?.querySelector('figcaption')?.textContent?.trim()
+      if (caption) anchor.setAttribute('data-pswp-caption', caption)
+    })
+  }
+
+  async function initGalleries() {
+    const galleries = document.querySelectorAll<HTMLElement>('.wp-block-gallery')
+    if (galleries.length === 0) return
+
+    // Dynamic imports keep PhotoSwipe off pages with no galleries.
+    const [{ default: PhotoSwipeLightboxCtor }] = await Promise.all([
+      import('photoswipe/lightbox'),
+      import('photoswipe/style.css'),
+    ])
+
+    galleries.forEach((gallery) => prepareGallery(gallery))
+
+    const lightbox: PhotoSwipeLightbox = new PhotoSwipeLightboxCtor({
+      gallery: '.wp-block-gallery',
+      children: 'a',
+      pswpModule: () => import('photoswipe'),
+      bgOpacity: 0.92,
+    })
+
+    // Render captions below the image.
+    lightbox.on('uiRegister', () => {
+      lightbox.pswp?.ui?.registerElement({
+        name: 'caption',
+        order: 9,
+        isButton: false,
+        appendTo: 'root',
+        html: '',
+        onInit: (el) => {
+          el.className = 'pswp__custom-caption'
+          lightbox.pswp?.on('change', () => {
+            const slideEl = lightbox.pswp?.currSlide?.data.element
+            const caption = slideEl?.getAttribute('data-pswp-caption') || ''
+            el.innerHTML = caption
+            el.style.display = caption ? 'block' : 'none'
+          })
+        },
+      })
+    })
+
+    lightbox.init()
+  }
+
+  initGalleries()
+</script>
+
+<style is:global>
+  /* Caption styling to match the site's muted text. */
+  .pswp__custom-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    margin: 0 auto;
+    max-width: 48rem;
+    padding: 0 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: #e2e8f0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Hint that gallery images are now interactive. */
+  .wp-block-gallery a[data-pswp-width] {
+    cursor: zoom-in;
+    display: block;
+  }
+</style>

@@ -8,6 +8,7 @@ const { article } = Astro.props;
 import ArticleContentHtml from './ArticleContent.astro'
 import ArticleHeader from './ArticleHeader.astro'
 import ArticleAboutAdamFooter from './ArticleAboutAdamFooter.astro'
+import GalleryLightbox from './GalleryLightbox.astro'
 
 import { Comments } from '@/components/comments/Comments'
 import PageFooter from '../PageFooter.astro'
@@ -28,6 +29,7 @@ const commentsArticle = {
 <article class="h-entry">
   <ArticleHeader article={article} />
   <ArticleContentHtml article={article} />
+  <GalleryLightbox />
   <PageFooter>
     <ArticleAboutAdamFooter />
     <Comments article={commentsArticle} client:visible />
