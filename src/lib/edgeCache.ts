@@ -64,6 +64,9 @@ async function buildCacheKey(
     if (TRACKING_PARAM.test(key)) url.searchParams.delete(key);
   }
   url.searchParams.set('__v', versionToken(versions));
+  // Scope the entry to this deployment so a new build never serves HTML that
+  // references the previous build's hashed /_astro assets.
+  url.searchParams.set('__b', __BUILD_ID__);
   return new Request(url.toString(), { method: 'GET' });
 }
 
