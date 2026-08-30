@@ -12,7 +12,6 @@ const STATIC_PATHS = [
   '/blog/projects',
   '/projects',
   '/now',
-  '/newsletter',
   '/lain',
 ]
 

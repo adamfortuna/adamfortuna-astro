@@ -40,50 +40,11 @@ const navigation = {
   <Ground class="w-full" />
 
   <div class="relative z-10 bg-[#78ab5e]" style={{ marginTop: '-1px' }}>
-    <div class="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
+    <div class="mx-auto max-w-7xl px-6 pt-8 pb-8 lg:px-8">
       <div class="md:flex md:items-center md:justify-between">
         <div>
-          <div class="mb-4">
-            <h3 class="text-sm font-semibold leading-6 text-gray-900">Subscribe to new posts</h3>
-            <p class="text-sm leading-6 text-gray-800">Twice a month on average. Seriously, that's it.</p>
-          </div>
-          <form
-            class="mt-6 sm:flex sm:max-w-md lg:mt-0"
-            action="https://sendy.minafi.com/subscribe"
-            method="POST"
-            accept-charset="utf-8"
-          >
-            <input type="hidden" name="list" value="892UVTIMgB51H8qkY76305YU2A" />
-            <input type="hidden" name="subform" value="yes" />
-            <div class="hidden">
-              <label html-for="hp">
-                HP <input type="text" name="hp" id="hp" />
-              </label>
-            </div>
-            <label html-for="email" class="sr-only">
-              Email address
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              auto-complete="email"
-              required
-              class="w-full min-w-0 appearance-none rounded-md border-transparent bg-[#9fca75] px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] text-base leading-7 text-gray-900 placeholder-[#274928] shadow-xs  sm:w-56 sm:text-sm sm:leading-6"
-              placeholder="Enter your email"
-            />
-            <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
-              <button
-                type="submit"
-                class="flex w-full items-center justify-center rounded-md bg-[#f3ce84] py-1.5 px-3 text-base font-semibold leading-7 text-yellow-800 shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:text-sm sm:leading-6"
-              >
-                Subscribe
-              </button>
-            </div>
-          </form>
-
           <a
-            class="mt-8 flex w-full items-center justify-center rounded-md bg-[#f3ce84] py-1.5 px-3 text-base font-semibold leading-7 text-yellow-800 shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:text-sm sm:leading-6 space-x-4"
+            class="flex w-full sm:max-w-xs items-center justify-center rounded-md bg-[#f3ce84] py-1.5 px-3 text-base font-semibold leading-7 text-yellow-800 shadow-xs hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:text-sm sm:leading-6 space-x-4"
             href="/feed"
             target="_blank"
             rel="noreferrer"
