@@ -1,0 +1,21 @@
+---
+/**
+ * Renders a repo component referenced from WordPress content.
+ * See src/lib/articleEmbeds.ts for the marker syntax and registry.
+ */
+import type { ArticleEmbedName } from '@/lib/articleEmbeds'
+import CodeTimeline from '@/components/timeline/CodeTimeline'
+
+interface Props {
+  name: ArticleEmbedName
+  props?: Record<string, string>
+}
+
+const { name, props = {} } = Astro.props
+
+// Pass "now" from the server so the static render and the hydrated island
+// agree on where today falls on the axis.
+const today = new Date().toISOString().slice(0, 10)
+---
+
+{name === 'CodeTimeline' && <CodeTimeline today={today} client:visible />}

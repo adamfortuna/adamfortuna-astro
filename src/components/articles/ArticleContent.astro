@@ -1,9 +1,20 @@
 ---
 import type { Page, Post } from '../../types'
+import { splitArticleContent } from '@/lib/articleEmbeds'
+import ArticleEmbed from './ArticleEmbed.astro'
+
 interface Props {
   article: Page | Post;
 }
 const { article } = Astro.props;
+
+// Posts can embed repo components (e.g. <CodeTimeline />); split the HTML
+// around those markers and render islands in between.
+const parts = splitArticleContent(article.content)
 ---
 
-<article class="e-content prose dark:prose-invert mx-auto" set:html={article.content} />
+<article class="e-content prose dark:prose-invert mx-auto">
+  {parts.map((part) =>
+    part.type === 'html' ? <Fragment set:html={part.html} /> : <ArticleEmbed name={part.name} props={part.props} />
+  )}
+</article>
