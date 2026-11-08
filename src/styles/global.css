@@ -77,3 +77,28 @@
 .link--footer {
   @apply flex-shrink border-2 border-transparent rounded-lg hover:text-green-900 hover:border-green-900 p-1
 }
+
+/* CodeTimeline lane colors (src/components/timeline/CodeTimeline.tsx).
+   Validated as a categorical set for both surfaces. */
+.code-timeline {
+  --ct-blue: #2a78d6;
+  --ct-orange: #eb6834;
+  --ct-aqua: #1baf7a;
+  --ct-yellow: #eda100;
+  --ct-magenta: #e87ba4;
+  --ct-violet: #6250d6;
+  --ct-blue-ink: #ffffff;
+  --ct-orange-ink: #ffffff;
+  --ct-aqua-ink: #ffffff;
+  --ct-yellow-ink: #0b0b0b;
+  --ct-magenta-ink: #ffffff;
+  --ct-violet-ink: #ffffff;
+}
+.dark .code-timeline {
+  --ct-blue: #3987e5;
+  --ct-orange: #d95926;
+  --ct-aqua: #199e70;
+  --ct-yellow: #c98500;
+  --ct-magenta: #d55181;
+  --ct-violet: #9085e9;
+}

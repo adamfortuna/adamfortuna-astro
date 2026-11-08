@@ -1,0 +1,96 @@
+{
+  "start": "1987",
+  "lanes": [
+    {
+      "id": "os",
+      "name": "Operating system",
+      "short": "OS",
+      "color": "blue",
+      "items": [
+        { "name": "Mac OS", "start": "1987", "end": "1998", "note": "At my dad's house" },
+        { "name": "DOS", "start": "1993", "end": "2000", "note": "At my mom's house" },
+        { "name": "Windows 98", "start": "1998", "end": "2000", "note": "My own first personal computer" },
+        { "name": "Windows 2000", "start": "2000", "end": "2005" },
+        { "name": "Windows Vista", "start": "2006", "end": "2007" },
+        { "name": "macOS", "start": "2007", "end": "now" }
+      ]
+    },
+    {
+      "id": "editor",
+      "name": "Editor",
+      "short": "Editor",
+      "color": "orange",
+      "items": [
+        { "name": "FrontPage", "start": "1998", "end": "2000" },
+        { "name": "Notepad++", "start": "1999", "end": "2004" },
+        { "name": "Eclipse", "start": "2004", "end": "2008" },
+        { "name": "TextMate", "start": "2007", "end": "2013" },
+        { "name": "Vim", "start": "2012", "end": "2012" },
+        { "name": "Sublime Text 2", "start": "2013", "end": "2017" },
+        { "name": "Visual Studio Code", "start": "2017", "end": "now" },
+        { "name": "RubyMine", "start": "2025", "end": "2026-05" },
+        { "name": "Conductor", "start": "2026-05", "end": "2026-11" },
+        { "name": "Orca", "start": "2026-11", "end": "now" }
+      ]
+    },
+    {
+      "id": "languages",
+      "name": "Programming languages",
+      "short": "Languages",
+      "color": "aqua",
+      "items": [
+        { "name": "KAREL the Robot", "start": "1996", "end": "1997" },
+        { "name": "Chipmunk Basic", "start": "1997", "end": "1997" },
+        { "name": "Pascal", "start": "1998", "end": "1998" },
+        { "name": "Fortran", "start": "1998", "end": "1998" },
+        { "name": "HTML", "start": "1998", "end": "now" },
+        { "name": "C", "start": "1999", "end": "1999" },
+        { "name": "C++", "start": "1999", "end": "2001" },
+        { "name": "Tcl/Tk", "start": "1999", "end": "2001", "note": "IRC programming" },
+        { "name": "PHP", "start": "2000", "end": "2005" },
+        { "name": "CSS", "start": "2001", "end": "now" },
+        { "name": "Ruby", "start": "2005", "end": "now" },
+        { "name": "JavaScript", "start": "2007", "end": "now" },
+        { "name": "Java", "start": "2007", "end": "2008" },
+        { "name": "Flex", "start": "2007", "end": "2008" },
+        { "name": "ActionScript", "start": "2007", "end": "2008" },
+        { "name": "TypeScript", "start": "2021", "end": "now" }
+      ]
+    },
+    {
+      "id": "location",
+      "name": "Where I write code",
+      "short": "Where",
+      "color": "yellow",
+      "items": [
+        { "name": "Personal computer", "start": "1998", "end": "now" },
+        { "name": "Cloud computer", "start": "2026", "end": "now" }
+      ]
+    },
+    {
+      "id": "deployment",
+      "name": "Deployment",
+      "short": "Deploy",
+      "color": "magenta",
+      "items": [
+        { "name": "Local only", "start": "1998", "end": "2000" },
+        { "name": "HTML hosting", "start": "1999", "end": "2001" },
+        { "name": "PHP hosting", "start": "2001", "end": "2005" },
+        { "name": "Windows NT Server", "start": "2006", "end": "2008" },
+        { "name": "Heroku", "start": "2009", "end": "now" },
+        { "name": "DigitalOcean", "start": "2024", "end": "now" },
+        { "name": "Kubernetes", "start": "2025", "end": "now" }
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "AI tools",
+      "short": "AI",
+      "color": "violet",
+      "items": [
+        { "name": "Claude", "start": "2025-07", "end": "now" },
+        { "name": "Codex", "start": "2026-10", "end": "now" }
+      ]
+    }
+  ]
+}
